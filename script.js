@@ -262,7 +262,7 @@
   }
 
   function observeReveal(){
-    var els = $$('.masonry-item:not(.visible),.equip-card:not(.visible),.timeline-item:not(.visible),.skill-item:not(.visible),.roast-card:not(.visible),.academy-card:not(.visible),.section-header:not(.visible),.profile-text-col:not(.visible),.profile-photo-col:not(.visible),.showcase-card:not(.visible)');
+    var els = $$('.masonry-item:not(.visible),.equip-card:not(.visible),.timeline-item:not(.visible),.roast-card:not(.visible),.academy-card:not(.visible),.section-header:not(.visible),.profile-text-col:not(.visible),.profile-photo-col:not(.visible),.showcase-card:not(.visible)');
     if(!els.length) return;
     if(!('IntersectionObserver' in window)){
       els.forEach(function(el){el.classList.add('visible')});
@@ -280,7 +280,7 @@
   }
 
   function initBarFills(){
-    var fills = $$('.equip-fill[data-width],.skill-fill[data-width]');
+    var fills = $$('.equip-fill[data-width]');
     if(!fills.length) return;
     if(!('IntersectionObserver' in window)){
       fills.forEach(function(f){f.style.width=f.getAttribute('data-width')+'%'});
@@ -295,6 +295,371 @@
       });
     },{threshold:.3});
     fills.forEach(function(f){obs.observe(f)});
+  }
+
+  function initSkillTree(){
+    var container = $('#skill-tree');
+    if(!container) return;
+
+    var treeData = [
+      {icon:'🔭',label:'仪器操作',pct:68,note:'凑合能用，偶尔翻车',subs:[
+        {icon:'🎯',label:'全站仪',pct:65,note:'对中整平40→15分钟',leaves:['对中整平','坐标测量','后方交会']},
+        {icon:'📡',label:'RTK',pct:80,note:'有信号就行',leaves:['基站架设','移动站','坐标转换']},
+        {icon:'📏',label:'水准仪',pct:55,note:'闭合差没合格过',leaves:['读数','记录','计算闭合差']}
+      ]},
+      {icon:'📐',label:'测量技术',pct:55,note:'理论懂一半，实操看运气',subs:[
+        {icon:'🗺',label:'控制测量',pct:50,note:'会布但点不能用',leaves:['导线测量','三角测量','GPS控制网']},
+        {icon:'⛰',label:'水准测量',pct:45,note:'手冻僵了记错读数',leaves:['二等水准','四等水准','高程计算']},
+        {icon:'📐',label:'地形测绘',pct:42,note:'地物符号认不全',leaves:['碎部测量','特征点','比例尺']}
+      ]},
+      {icon:'💻',label:'内业处理',pct:42,note:'画图靠猜，平差靠蒙',subs:[
+        {icon:'🗺',label:'CASS画图',pct:40,note:'等高线像心电图',leaves:['等高线','地物绘制','图幅整饰']},
+        {icon:'📊',label:'数据平差',pct:35,note:'Excel凑合用',leaves:['条件平差','间接平差','精度评定']},
+        {icon:'🖱',label:'CAD制图',pct:45,note:'基本操作会',leaves:['图层管理','标注','出图']}
+      ]},
+      {icon:'🏃',label:'体力活',pct:92,note:'唯一的强项，不吹',subs:[
+        {icon:'⛰',label:'跑外业',pct:95,note:'扛仪器爬山不带喘',leaves:['上山','下山','翻墙']},
+        {icon:'❄',label:'抗冻能力',pct:88,note:'零下15度还在测',leaves:['冬训','毅力','硬抗']},
+        {icon:'☀',label:'抗晒能力',pct:90,note:'38度依然在线',leaves:['夏天外业','防晒','中暑预防']}
+      ]},
+      {icon:'🐟',label:'摸鱼艺术',pct:95,note:'树荫下蹲着，手机一掏',subs:[
+        {icon:'📶',label:'找信号',pct:98,note:'RTK没信号就是休息',leaves:['切换基站','重启设备','等待搜星']},
+        {icon:'😴',label:'偷懒术',pct:95,note:'完美伪装观测中',leaves:['装调仪器','看手机','树荫蹲']},
+        {icon:'📝',label:'编数据',pct:60,note:'偶尔合理修正',leaves:['凑闭合差','美化数据','截图存档']}
+      ]}
+    ];
+
+    function svgEl(tag,attr){
+      var el=document.createElementNS('http://www.w3.org/2000/svg',tag);
+      if(attr){for(var k in attr)el.setAttribute(k,attr[k])}
+      return el;
+    }
+
+    function ringSVG(size,pct,cls){
+      var r=size/2-2;
+      var circ=2*Math.PI*r;
+      var off=circ*(1-pct/100);
+      var svg=svgEl('svg',{viewBox:'0 0 '+size+' '+size});
+      var c=svgEl('circle',{cx:size/2,cy:size/2,r:r,'stroke-dasharray':circ,'stroke-dashoffset':circ});
+      if(cls) c.className.baseVal=cls;
+      c.style.setProperty('--'+cls+'-offset',off);
+      svg.appendChild(c);
+      return svg;
+    }
+
+    function spawnParticles(el,count){
+      var rect=el.getBoundingClientRect();
+      var pRect=container.getBoundingClientRect();
+      for(var i=0;i<count;i++){
+        var p=document.createElement('div');
+        p.className='tree-particle';
+        var s=2+Math.random()*4;
+        p.style.width=s+'px';
+        p.style.height=s+'px';
+        p.style.background=Math.random()>.5?'var(--accent)':'var(--gold)';
+        p.style.left=(rect.left-pRect.left+rect.width/2+(Math.random()-.5)*60)+'px';
+        p.style.top=(rect.top-pRect.top+rect.height/2+(Math.random()-.5)*60)+'px';
+        container.appendChild(p);
+        (function(pEl){
+          var angle=Math.random()*Math.PI*2;
+          var dist=30+Math.random()*60;
+          var dx=Math.cos(angle)*dist;
+          var dy=Math.sin(angle)*dist;
+          pEl.style.opacity='0.8';
+          pEl.style.transition='all '+(0.6+Math.random()*0.6)+'s ease-out';
+          requestAnimationFrame(function(){
+            pEl.style.transform='translate('+dx+'px,'+dy+'px) scale(0)';
+            pEl.style.opacity='0';
+          });
+          setTimeout(function(){if(pEl.parentNode)pEl.parentNode.removeChild(pEl)},1400);
+        })(p);
+      }
+    }
+
+    function buildSubNodes(subs,parentEl){
+      var wrap=document.createElement('div');
+      wrap.className='tree-sub-wrap';
+      subs.forEach(function(s,idx){
+        var col=document.createElement('div');
+        col.className='tree-sub-col';
+        col.style.transitionDelay=(idx*0.08)+'s';
+
+        var stem=document.createElement('div');
+        stem.className='tree-sub-stem';
+        col.appendChild(stem);
+
+        var node=document.createElement('div');
+        node.className='tree-snode';
+
+        var ringW=52;
+        var r=ringW/2-2;
+        var circ=2*Math.PI*r;
+        var off=circ*(1-s.pct/100);
+        var ring=document.createElement('div');
+        ring.className='tree-snode-ring';
+        var svg=svgEl('svg',{viewBox:'0 0 '+ringW+' '+ringW});
+        var c=svgEl('circle',{cx:ringW/2,cy:ringW/2,r:r,'stroke-dasharray':circ,'stroke-dashoffset':circ});
+        c.style.setProperty('--s-dash-offset',off);
+        ring.appendChild(svg);
+        svg.appendChild(c);
+
+        var inner=document.createElement('div');
+        inner.className='tree-snode-inner';
+        inner.textContent=s.icon;
+
+        ring.appendChild(inner);
+        node.appendChild(ring);
+
+        var lbl=document.createElement('div');
+        lbl.className='tree-snode-label';
+        lbl.textContent=s.label;
+        node.appendChild(lbl);
+
+        var pctEl=document.createElement('div');
+        pctEl.className='tree-snode-pct';
+        pctEl.textContent=s.pct+'%';
+        node.appendChild(pctEl);
+
+        if(s.note){
+          var note=document.createElement('div');
+          note.className='tree-snode-label';
+          note.style.fontSize='.62rem';
+          note.style.color='var(--txt3)';
+          note.style.maxWidth='120px';
+          note.style.margin='3px auto 0';
+          note.style.lineHeight='1.3';
+          note.textContent=s.note;
+          node.appendChild(note);
+        }
+
+        col.appendChild(node);
+
+        var leafWrap=document.createElement('div');
+        leafWrap.className='tree-leaf-skills';
+        if(s.leaves){
+          s.leaves.forEach(function(l){
+            var tag=document.createElement('span');
+            tag.className='tree-leaf-tag';
+            tag.textContent=l;
+            leafWrap.appendChild(tag);
+          });
+        }
+        col.appendChild(leafWrap);
+
+        node.addEventListener('mouseenter',function(){
+          leafWrap.classList.add('visible');
+          var circle=c;
+          if(!circle.classList.contains('animated')){
+            circle.classList.add('animated');
+            spawnParticles(node,6);
+          }
+        });
+        node.addEventListener('mouseleave',function(){
+          setTimeout(function(){if(!col.matches(':hover'))leafWrap.classList.remove('visible')},200);
+        });
+        col.addEventListener('mouseleave',function(){
+          leafWrap.classList.remove('visible');
+        });
+
+        wrap.appendChild(col);
+      });
+      parentEl.appendChild(wrap);
+      return wrap;
+    }
+
+    function buildBranch(b,idx){
+      var col=document.createElement('div');
+      col.className='tree-branch-col';
+      col.style.transitionDelay=(idx*0.1)+'s';
+
+      var stem=document.createElement('div');
+      stem.className='tree-branch-stem';
+      col.appendChild(stem);
+
+      var glow=document.createElement('div');
+      glow.className='tree-branch-stem-glow';
+      col.appendChild(glow);
+
+      var node=document.createElement('div');
+      node.className='tree-bnode';
+
+      var ringW=72;
+      var r=ringW/2-2;
+      var circ=2*Math.PI*r;
+      var off=circ*(1-b.pct/100);
+      var ring=document.createElement('div');
+      ring.className='tree-bnode-ring';
+      var svg=svgEl('svg',{viewBox:'0 0 '+ringW+' '+ringW});
+      var c=svgEl('circle',{cx:ringW/2,cy:ringW/2,r:r,'stroke-dasharray':circ,'stroke-dashoffset':circ});
+      c.style.setProperty('--b-dash-offset',off);
+      ring.appendChild(svg);
+      svg.appendChild(c);
+
+      var inner=document.createElement('div');
+      inner.className='tree-bnode-inner';
+      inner.textContent=b.icon;
+      ring.appendChild(inner);
+      node.appendChild(ring);
+
+      var lbl=document.createElement('div');
+      lbl.className='tree-bnode-label';
+      lbl.textContent=b.label;
+      node.appendChild(lbl);
+
+      var pctEl=document.createElement('div');
+      pctEl.className='tree-bnode-pct';
+      pctEl.textContent=b.pct+'%';
+      node.appendChild(pctEl);
+
+      if(b.note){
+        var note=document.createElement('div');
+        note.className='tree-bnode-note';
+        note.textContent=b.note;
+        node.appendChild(note);
+      }
+
+      col.appendChild(node);
+
+      var subWrap=buildSubNodes(b.subs,col);
+
+      var expandTimer=null;
+      node.addEventListener('mouseenter',function(){
+        expandTimer=setTimeout(function(){
+          subWrap.classList.add('expanded');
+          var subCols=subWrap.querySelectorAll('.tree-sub-col');
+          subCols.forEach(function(sc,i){
+            setTimeout(function(){sc.classList.add('visible')},i*100+100);
+          });
+          var subRings=subWrap.querySelectorAll('.tree-snode-ring circle');
+          subRings.forEach(function(sr,i){
+            setTimeout(function(){sr.classList.add('animated')},i*100+300);
+          });
+          if(!c.classList.contains('animated')){
+            c.classList.add('animated');
+            spawnParticles(node,10);
+          }
+        },200);
+      });
+      node.addEventListener('mouseleave',function(){
+        clearTimeout(expandTimer);
+      });
+      col.addEventListener('mouseleave',function(){
+        subWrap.classList.remove('expanded');
+        subWrap.querySelectorAll('.tree-sub-col').forEach(function(sc){
+          sc.classList.remove('visible');
+        });
+      });
+
+      return col;
+    }
+
+    var layer=document.createElement('div');
+    layer.className='tree-layer';
+
+    var rootNode=document.createElement('div');
+    rootNode.className='tree-root-node';
+
+    var rootRingW=100;
+    var rootR=rootRingW/2-2;
+    var rootCirc=2*Math.PI*rootR;
+    var rootOff=rootCirc*(1-60/100);
+    var rootRing=document.createElement('div');
+    rootRing.className='tree-root-ring';
+    var rsvg=svgEl('svg',{viewBox:'0 0 '+rootRingW+' '+rootRingW});
+    var rc=svgEl('circle',{cx:rootRingW/2,cy:rootRingW/2,r:rootR,'stroke-dasharray':rootCirc,'stroke-dashoffset':rootCirc});
+    rootRing.appendChild(rsvg);
+    rsvg.appendChild(rc);
+
+    var rootInner=document.createElement('div');
+    rootInner.className='tree-root-inner';
+    rootInner.textContent='⛏';
+    rootRing.appendChild(rootInner);
+    rootNode.appendChild(rootRing);
+
+    var rootLabel=document.createElement('div');
+    rootLabel.className='tree-root-label';
+    rootLabel.textContent='测绘技能树';
+    rootNode.appendChild(rootLabel);
+
+    var rootNote=document.createElement('div');
+    rootNote.className='tree-root-note';
+    rootNote.textContent='总体半吊子水平 · 悬停展开各分支';
+    rootNode.appendChild(rootNote);
+
+    layer.appendChild(rootNode);
+
+    var trunkWrap=document.createElement('div');
+    trunkWrap.className='tree-trunk-wrap';
+    var trunkLine=document.createElement('div');
+    trunkLine.className='tree-trunk-line';
+    trunkWrap.appendChild(trunkLine);
+    var trunkPulse=document.createElement('div');
+    trunkPulse.className='tree-trunk-pulse';
+    trunkWrap.appendChild(trunkPulse);
+    layer.appendChild(trunkWrap);
+
+    var branchesWrap=document.createElement('div');
+    branchesWrap.className='tree-branches-wrap';
+
+    treeData.forEach(function(b,idx){
+      branchesWrap.appendChild(buildBranch(b,idx));
+    });
+    layer.appendChild(branchesWrap);
+
+    container.appendChild(layer);
+
+    var rootExpanded=false;
+    function expandRoot(){
+      if(rootExpanded) return;
+      rootExpanded=true;
+      trunkLine.classList.add('grown');
+      setTimeout(function(){
+        branchesWrap.classList.add('expanded');
+        var cols=branchesWrap.querySelectorAll('.tree-branch-col');
+        cols.forEach(function(c,i){
+          setTimeout(function(){c.classList.add('visible')},i*120+200);
+        });
+        var branchCircles=branchesWrap.querySelectorAll('.tree-bnode-ring circle');
+        branchCircles.forEach(function(c,i){
+          setTimeout(function(){c.classList.add('animated')},i*120+500);
+        });
+        spawnParticles(rootNode,15);
+      },400);
+    }
+    function collapseRoot(){
+      if(!rootExpanded) return;
+      rootExpanded=false;
+      branchesWrap.classList.remove('expanded');
+      branchesWrap.querySelectorAll('.tree-branch-col').forEach(function(c){c.classList.remove('visible')});
+      branchesWrap.querySelectorAll('.tree-sub-wrap').forEach(function(sw){
+        sw.classList.remove('expanded');
+        sw.querySelectorAll('.tree-sub-col').forEach(function(sc){sc.classList.remove('visible')});
+      });
+      branchesWrap.querySelectorAll('.tree-leaf-skills').forEach(function(l){l.classList.remove('visible')});
+      setTimeout(function(){trunkLine.classList.remove('grown')},200);
+    }
+
+    var leaveTimer=null;
+    rootNode.addEventListener('mouseenter',function(){
+      clearTimeout(leaveTimer);
+      expandRoot();
+    });
+    layer.addEventListener('mouseleave',function(){
+      leaveTimer=setTimeout(collapseRoot,300);
+    });
+
+    var obs=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){
+          setTimeout(function(){
+            rc.classList.add('animated');
+            spawnParticles(rootNode,8);
+          },300);
+          obs.unobserve(e.target);
+        }
+      });
+    },{threshold:.2});
+    obs.observe(container);
   }
 
   function initRoast(){
@@ -365,6 +730,7 @@
     initFilter();
     initLightbox();
     initBarFills();
+    initSkillTree();
     initRoast();
     initBackToTop();
     initTheme();

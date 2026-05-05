@@ -292,18 +292,97 @@ body.light .equip-bar{background:rgba(0,0,0,.06)}
 .tl-card p{font-size:.88rem;color:var(--txt2);line-height:1.7}
 .tl-tag{display:inline-block;margin-top:10px;padding:4px 12px;border-radius:20px;font-size:.72rem;background:rgba(108,140,255,.08);color:var(--accent);border:1px solid rgba(108,140,255,.15)}
 
-#skills{background:var(--bg)}
-.skills-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:20px;max-width:1000px;margin:0 auto}
-.skill-item{padding:20px 24px;border-radius:var(--radius);background:var(--card);border:1px solid var(--border);transition:var(--transition);opacity:0;transform:translateY(15px)}
-.skill-item.visible{opacity:1;transform:translateY(0)}
-.skill-item:hover{border-color:var(--accent)}
-.skill-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-.skill-name{font-weight:600;font-size:.95rem}
-.skill-pct{font-size:.85rem;color:var(--accent);font-weight:700}
-.skill-bar{height:8px;border-radius:4px;background:rgba(255,255,255,.06);overflow:hidden;margin-bottom:8px}
-body.light .skill-bar{background:rgba(0,0,0,.06)}
-.skill-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--accent),var(--gold));width:0%;transition:width 1.5s cubic-bezier(.4,0,.2,1)}
-.skill-note{font-size:.82rem;color:var(--txt3)}
+#skills{background:var(--bg2);overflow:hidden;position:relative}
+#skill-tree{max-width:900px;margin:0 auto;position:relative;padding:20px 0 60px;min-height:500px}
+.tree-canvas{position:absolute;inset:0;pointer-events:none;z-index:0}
+.tree-canvas path{fill:none;stroke-width:2.5;stroke-linecap:round}
+.tree-canvas path.trunk-line{stroke:url(#trunkGrad)}
+.tree-canvas path.branch-line{stroke:url(#branchGrad);stroke-dasharray:300;stroke-dashoffset:300;transition:stroke-dashoffset .8s cubic-bezier(.4,0,.2,1)}
+.tree-canvas path.branch-line.drawn{stroke-dashoffset:0}
+
+.tree-layer{display:flex;flex-direction:column;align-items:center;position:relative;z-index:1}
+
+/* Root node */
+.tree-root-node{cursor:pointer;user-select:none;position:relative}
+.tree-root-ring{position:relative;width:100px;height:100px;margin:0 auto}
+.tree-root-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.tree-root-ring circle{fill:none;stroke:var(--accent);stroke-width:3;stroke-dasharray:283;stroke-dashoffset:283;transition:stroke-dashoffset 2s cubic-bezier(.4,0,.2,1)}
+.tree-root-ring circle.animated{stroke-dashoffset:113}
+.tree-root-inner{position:absolute;inset:8px;border-radius:50%;background:var(--card);border:3px solid var(--accent);display:flex;align-items:center;justify-content:center;font-size:2.2rem;transition:all .4s cubic-bezier(.4,0,.2,1);box-shadow:0 0 20px rgba(108,140,255,.1)}
+.tree-root-node:hover .tree-root-inner{border-color:var(--gold);box-shadow:0 0 40px rgba(255,215,0,.3);transform:scale(1.1)}
+.tree-root-label{margin-top:12px;font-size:1rem;font-weight:700;text-align:center;letter-spacing:2px;color:var(--txt1)}
+.tree-root-note{text-align:center;font-size:.78rem;color:var(--txt3);margin-top:4px}
+
+/* Trunk */
+.tree-trunk-wrap{position:relative;z-index:1}
+.tree-trunk-line{width:3px;height:0;background:linear-gradient(180deg,var(--accent),var(--gold));margin:0 auto;transition:height .6s cubic-bezier(.4,0,.2,1);border-radius:2px}
+.tree-trunk-line.grown{height:60px}
+.tree-trunk-pulse{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:10px;height:10px;border-radius:50%;background:var(--gold);opacity:0;transition:opacity .3s .4s;box-shadow:0 0 10px var(--gold)}
+.tree-trunk-line.grown + .tree-trunk-pulse{opacity:1;animation:dotPulse 2s ease-in-out infinite}
+
+/* Branches container */
+.tree-branches-wrap{display:flex;justify-content:center;position:relative;z-index:1;opacity:0;transform:scaleY(0);transform-origin:top center;transition:all .5s cubic-bezier(.4,0,.2,1);pointer-events:none}
+.tree-branches-wrap.expanded{opacity:1;transform:scaleY(1);pointer-events:auto}
+
+/* Individual branch */
+.tree-branch-col{display:flex;flex-direction:column;align-items:center;position:relative;opacity:0;transform:translateY(20px);transition:all .5s ease-out}
+.tree-branch-col.visible{opacity:1;transform:translateY(0)}
+
+/* Branch connector stub */
+.tree-branch-stem{width:3px;height:30px;background:linear-gradient(180deg,var(--accent),var(--gold));border-radius:2px;margin:0 auto}
+.tree-branch-stem-glow{width:8px;height:8px;border-radius:50%;background:var(--gold);margin:-4px auto 0;box-shadow:0 0 8px var(--gold);opacity:0;transition:opacity .3s .2s}
+.tree-branch-col.visible .tree-branch-stem-glow{opacity:1}
+
+/* Branch node */
+.tree-bnode{cursor:pointer;user-select:none;text-align:center;transition:transform .3s ease}
+.tree-bnode:hover{transform:translateY(-4px)}
+.tree-bnode-ring{position:relative;width:72px;height:72px;margin:0 auto}
+.tree-bnode-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.tree-bnode-ring circle{fill:none;stroke:var(--accent);stroke-width:2.5;stroke-dasharray:201;stroke-dashoffset:201;transition:stroke-dashoffset 1.5s cubic-bezier(.4,0,.2,1)}
+.tree-bnode-ring circle.animated{stroke-dashoffset:var(--b-dash-offset,80)}
+.tree-bnode-inner{position:absolute;inset:6px;border-radius:50%;background:var(--card);border:2px solid var(--accent);display:flex;align-items:center;justify-content:center;font-size:1.4rem;transition:all .3s ease}
+.tree-bnode:hover .tree-bnode-inner{border-color:var(--gold);box-shadow:0 0 20px rgba(255,215,0,.25);transform:scale(1.08)}
+.tree-bnode-label{margin-top:6px;font-size:.78rem;font-weight:600;color:var(--txt1);letter-spacing:1px}
+.tree-bnode-pct{font-size:.68rem;color:var(--accent);font-weight:700;margin-top:2px}
+.tree-bnode-note{font-size:.7rem;color:var(--txt3);max-width:130px;margin:4px auto 0;line-height:1.35}
+
+/* Sub-branches (level 2) */
+.tree-sub-wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:16px;max-width:0;max-height:0;opacity:0;overflow:hidden;transition:all .5s cubic-bezier(.4,0,.2,1);pointer-events:none}
+.tree-sub-wrap.expanded{max-width:500px;max-height:600px;opacity:1;pointer-events:auto}
+
+.tree-sub-col{display:flex;flex-direction:column;align-items:center;opacity:0;transform:translateY(15px);transition:all .4s ease-out}
+.tree-sub-col.visible{opacity:1;transform:translateY(0)}
+
+.tree-sub-stem{width:2px;height:20px;background:var(--accent);border-radius:1px;margin:0 auto;opacity:.5}
+
+.tree-snode{cursor:default;text-align:center}
+.tree-snode-ring{position:relative;width:52px;height:52px;margin:0 auto}
+.tree-snode-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.tree-snode-ring circle{fill:none;stroke:var(--accent);stroke-width:2;stroke-dasharray:148;stroke-dashoffset:148;transition:stroke-dashoffset 1s cubic-bezier(.4,0,.2,1)}
+.tree-snode-ring circle.animated{stroke-dashoffset:var(--s-dash-offset,60)}
+.tree-snode-inner{position:absolute;inset:5px;border-radius:50%;background:var(--card);border:2px solid rgba(108,140,255,.4);display:flex;align-items:center;justify-content:center;font-size:1rem;transition:all .3s ease}
+.tree-snode:hover .tree-snode-inner{border-color:var(--gold);box-shadow:0 0 12px rgba(255,215,0,.2);transform:scale(1.1)}
+.tree-snode-label{margin-top:4px;font-size:.68rem;font-weight:600;color:var(--txt2);letter-spacing:.5px}
+.tree-snode-pct{font-size:.62rem;color:var(--accent);font-weight:700;margin-top:1px}
+
+/* Leaf skills */
+.tree-leaf-skills{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:10px;max-width:180px;opacity:0;transform:translateY(-8px);transition:all .4s .2s ease-out;pointer-events:none}
+.tree-leaf-skills.visible{opacity:1;transform:translateY(0);pointer-events:auto}
+.tree-leaf-tag{padding:4px 12px;border-radius:16px;font-size:.65rem;background:rgba(108,140,255,.06);color:var(--accent);border:1px solid rgba(108,140,255,.12);transition:all .25s;white-space:nowrap}
+.tree-leaf-tag:hover{background:rgba(108,140,255,.15);transform:translateY(-2px)}
+
+/* Particles */
+.tree-particle{position:absolute;border-radius:50%;pointer-events:none;z-index:0;opacity:0}
+
+@media(max-width:768px){
+  .tree-root-ring{width:80px;height:80px}
+  .tree-root-inner{inset:6px;font-size:1.6rem}
+  .tree-bnode-ring{width:56px;height:56px}
+  .tree-bnode-inner{inset:5px;font-size:1.1rem}
+  .tree-snode-ring{width:42px;height:42px}
+  .tree-snode-inner{inset:4px;font-size:.8rem}
+  .tree-branches-wrap{flex-wrap:wrap;gap:12px}
+}
 
 #gallery{background:var(--bg2)}
 .filter-bar{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:40px}
