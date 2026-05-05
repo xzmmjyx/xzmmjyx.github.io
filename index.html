@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>工大小矿工 · 测绘日志</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <canvas id="cursor-canvas"></canvas>
+
+  <div id="page-loader">
+    <div class="loader-inner">
+      <div class="loader-ring"></div>
+      <span class="loader-text">正在架设基站...</span>
+    </div>
+  </div>
+
+  <div class="grain-overlay"></div>
+  <div class="scroll-progress"></div>
+
+  <div class="side-dots" id="side-dots">
+    <a class="dot active" data-section="hero"><span>首页</span></a>
+    <a class="dot" data-section="academy"><span>学院</span></a>
+    <a class="dot" data-section="profile"><span>闫科旭</span></a>
+    <a class="dot" data-section="equipment"><span>装备</span></a>
+    <a class="dot" data-section="timeline"><span>地狱笑话</span></a>
+    <a class="dot" data-section="skills"><span>技能</span></a>
+    <a class="dot" data-section="gallery"><span>现场</span></a>
+    <a class="dot" data-section="roast"><span>吐槽</span></a>
+  </div>
+
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="#hero" class="nav-logo">
+        <span class="logo-icon">⛏</span>
+        <span class="logo-text">工大小矿工</span>
+      </a>
+      <ul id="nav-links" class="nav-links">
+        <li><a href="#hero" class="nav-link active" data-section="hero">首页</a></li>
+        <li><a href="#academy" class="nav-link" data-section="academy">学院</a></li>
+        <li><a href="#profile" class="nav-link" data-section="profile">闫科旭</a></li>
+        <li><a href="#equipment" class="nav-link" data-section="equipment">装备</a></li>
+        <li><a href="#timeline" class="nav-link" data-section="timeline">地狱笑话</a></li>
+        <li><a href="#skills" class="nav-link" data-section="skills">技能</a></li>
+        <li><a href="#gallery" class="nav-link" data-section="gallery">现场</a></li>
+        <li><a href="#roast" class="nav-link" data-section="roast">吐槽</a></li>
+      </ul>
+      <button id="nav-toggle" class="nav-toggle" aria-label="菜单">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ==================== Hero ==================== -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-grid-lines"></div>
+    <div class="hero-content">
+      <div class="hero-badge">⛏ 辽宁工程技术大学 · 测绘与地理科学学院</div>
+      <h1 id="hero-title" class="hero-title" data-text="工大小矿工"></h1>
+      <p class="hero-subtitle">外业跑断腿 · 内业画瞎眼 · 闭合差永远超限</p>
+      <div class="hero-tags">
+        <span class="hero-tag">控制测量</span>
+        <span class="hero-tag">RTK</span>
+        <span class="hero-tag">水准仪</span>
+        <span class="hero-tag">全站仪</span>
+        <span class="hero-tag">CASS</span>
+      </div>
+      <div class="hero-btns">
+        <a href="#academy" class="btn btn-primary">探索学院</a>
+        <a href="#gallery" class="btn btn-outline">翻车现场</a>
+      </div>
+      <div class="scroll-indicator">
+        <span>往下滑</span>
+        <div class="scroll-arrow">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 跑马灯 -->
+  <div class="marquee-bar">
+    <div class="marquee-track">
+      <span>⚠️ 坐标闭合差超限 ≠ 我的错 · 是风太大了</span>
+      <span>📐 外业三分钟 · 内业一整天 · 导师一句话全部重来</span>
+      <span>🌡️ 38度高温跑外业 · 晒脱皮了还得继续测</span>
+      <span>📐 全站仪对中整平半小时 · 一看气泡又跑偏了</span>
+      <span>⚠️ 坐标闭合差超限 ≠ 我的错 · 是风太大了</span>
+      <span>📐 外业三分钟 · 内业一整天 · 导师一句话全部重来</span>
+      <span>🌡️ 38度高温跑外业 · 晒脱皮了还得继续测</span>
+      <span>📐 全站仪对中整平半小时 · 一看气泡又跑偏了</span>
+    </div>
+  </div>
+
+  <!-- ==================== 东北原神职业技术学院 ==================== -->
+  <section id="academy">
+    <div class="section-header">
+      <span class="section-tag">ACADEMY</span>
+      <h2>东北原神职业技术学院</h2>
+      <p>辽宁工程技术大学 · 各学院原神化对号入座</p>
+    </div>
+    <div class="academy-grid">
+      <a href="https://www.lntu.edu.cn/" target="_blank" rel="noopener" class="academy-card academy-main">
+        <div class="academy-icon">🏫</div>
+        <div class="academy-info">
+          <h4>东北原神职业技术学院</h4>
+          <p>辽宁工程技术大学 · 官网</p>
+          <span class="academy-url">lntu.edu.cn</span>
+        </div>
+        <div class="academy-arrow">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+        </div>
+      </a>
+      <a href="https://chxy.lntu.edu.cn/" target="_blank" rel="noopener" class="academy-card">
+        <div class="academy-icon">🌿</div>
+        <div class="academy-info">
+          <h4>纳西妲学院</h4>
+          <p>测绘与地理科学学院</p>
+          <span class="academy-url">chxy.lntu.edu.cn</span>
+        </div>
+        <div class="academy-arrow">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+        </div>
+      </a>
+      <a href="https://dkxy.lntu.edu.cn/" target="_blank" rel="noopener" class="academy-card">
+        <div class="academy-icon">⚡</div>
+        <div class="academy-info">
+          <h4>雷电将军学院</h4>
+          <p>电气与控制工程学院</p>
+          <span class="academy-url">dkxy.lntu.edu.cn</span>
+        </div>
+        <div class="academy-arrow">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+        </div>
+      </a>
+      <a href="https://aqxy.lntu.edu.cn/" target="_blank" rel="noopener" class="academy-card">
+        <div class="academy-icon">🔥</div>
+        <div class="academy-info">
+          <h4>胡桃学院</h4>
+          <p>安全科学与工程学院</p>
+          <span class="academy-url">aqxy.lntu.edu.cn</span>
+        </div>
+        <div class="academy-arrow">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+        </div>
+      </a>
+      <a href="https://kyxy.lntu.edu.cn/" target="_blank" rel="noopener" class="academy-card">
+        <div class="academy-icon">🪨</div>
+        <div class="academy-info">
+          <h4>钟离学院</h4>
+          <p>矿业学院</p>
+          <span class="academy-url">kyxy.lntu.edu.cn</span>
+        </div>
+        <div class="academy-arrow">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+        </div>
+      </a>
+      <a href="https://gsxy.lntu.edu.cn/" target="_blank" rel="noopener" class="academy-card">
+        <div class="academy-icon">💎</div>
+        <div class="academy-info">
+          <h4>凝光学院</h4>
+          <p>工商管理学院</p>
+          <span class="academy-url">gsxy.lntu.edu.cn</span>
+        </div>
+        <div class="academy-arrow">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+        </div>
+      </a>
+      <a href="https://tmxy.lntu.edu.cn/" target="_blank" rel="noopener" class="academy-card">
+        <div class="academy-icon">❄️</div>
+        <div class="academy-info">
+          <h4>甘雨学院</h4>
+          <p>土木工程学院</p>
+          <span class="academy-url">tmxy.lntu.edu.cn</span>
+        </div>
+        <div class="academy-arrow">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+        </div>
+      </a>
+      <a href="https://jxxy.lntu.edu.cn/" target="_blank" rel="noopener" class="academy-card">
+        <div class="academy-icon">⚔️</div>
+        <div class="academy-info">
+          <h4>刻晴学院</h4>
+          <p>机械工程学院</p>
+          <span class="academy-url">jxxy.lntu.edu.cn</span>
+        </div>
+        <div class="academy-arrow">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+        </div>
+      </a>
+      <a href="https://rjxy.lntu.edu.cn/" target="_blank" rel="noopener" class="academy-card">
+        <div class="academy-icon">🔮</div>
+        <div class="academy-info">
+          <h4>丽莎学院</h4>
+          <p>软件学院（人工智能学院）</p>
+          <span class="academy-url">rjxy.lntu.edu.cn</span>
+        </div>
+        <div class="academy-arrow">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ==================== 闫科旭专属页面 ==================== -->
+  <section id="profile">
+    <div class="profile-bg-effect"></div>
+    <div class="profile-inner">
+      <div class="profile-badge">
+        <span class="badge-icon">★</span>
+        <span>中国共产党党员</span>
+      </div>
+      <div class="profile-hero-grid">
+        <div class="profile-text-col">
+          <div class="profile-tag-row">
+            <span class="profile-tag">测绘与地理科学学院</span>
+            <span class="profile-tag">第二学生党支部</span>
+            <span class="profile-tag">地理空间信息工程23级1班</span>
+          </div>
+          <h1 class="profile-name">闫科旭</h1>
+          <div class="profile-title-block">
+            <div class="profile-title-line">
+              <span class="title-dot red"></span>
+              <span class="title-highlight">辽宁工程技术大学 测绘与地理科学学院 地理空间信息工程 二〇二三级一班 班长</span>
+            </div>
+            <div class="profile-title-line">
+              <span class="title-dot red"></span>
+              <span class="title-highlight">中共辽宁工程技术大学测绘与地理科学学院第二学生支部委员会 副书记</span>
+            </div>
+            <div class="profile-title-line">
+              <span class="title-dot red"></span>
+              <span class="title-highlight">测绘与地理科学学院学生工作委员会 委员</span>
+            </div>
+            <div class="profile-title-line">
+              <span class="title-dot red"></span>
+              <span class="title-highlight">中国共产党党员</span>
+            </div>
+          </div>
+          <div class="profile-stats-row">
+            <div class="profile-stat">
+              <div class="ps-num">23</div>
+              <div class="ps-label">级</div>
+            </div>
+            <div class="profile-stat-divider"></div>
+            <div class="profile-stat">
+              <div class="ps-num">1班</div>
+              <div class="ps-label">班级</div>
+            </div>
+            <div class="profile-stat-divider"></div>
+            <div class="profile-stat">
+              <div class="ps-num">班长</div>
+              <div class="ps-label">职务</div>
+            </div>
+            <div class="profile-stat-divider"></div>
+            <div class="profile-stat">
+              <div class="ps-num">副书记</div>
+              <div class="ps-label">支部职务</div>
+            </div>
+          </div>
+          <div class="profile-quote">
+            <span class="quote-mark">"</span>
+            经天纬地绘宏图 · 智慧神州揽心中 · 不忘初心 · 牢记使命
+          </div>
+        </div>
+        <div class="profile-photo-col">
+          <div class="profile-photo-frame">
+            <div class="profile-photo-glow"></div>
+            <div class="profile-photo">
+              <img src="https://picsum.photos/seed/ykx/600/800" alt="闫科旭">
+            </div>
+            <div class="profile-photo-corner tl"></div>
+            <div class="profile-photo-corner tr"></div>
+            <div class="profile-photo-corner bl"></div>
+            <div class="profile-photo-corner br"></div>
+          </div>
+          <div class="profile-photo-label">辽宁工程技术大学 · 测绘与地理科学学院 · 中国共产党党员</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 装备库 ==================== -->
+  <section id="equipment">
+    <div class="section-header">
+      <span class="section-tag">EQUIPMENT</span>
+      <h2>装备库</h2>
+      <p>工欲善其事 · 先看看装备够不够格</p>
+    </div>
+    <div class="equip-grid">
+      <div class="equip-card">
+        <div class="equip-icon-wrap"><span class="equip-icon">🔭</span></div>
+        <h3>全站仪</h3>
+        <span class="equip-brand">学校老古董 · 型号不详</span>
+        <div class="equip-bar"><div class="equip-fill" data-width="45"></div></div>
+        <span class="equip-status">凑合能用</span>
+        <p class="equip-desc">对中整平要半小时的那种，气泡跑得比我还快</p>
+      </div>
+      <div class="equip-card">
+        <div class="equip-icon-wrap"><span class="equip-icon">📡</span></div>
+        <h3>RTK接收机</h3>
+        <span class="equip-brand">南方测绘 · S82T</span>
+        <div class="equip-bar"><div class="equip-fill" data-width="72"></div></div>
+        <span class="equip-status">主力担当</span>
+        <p class="equip-desc">三分搞定坐标，前提是搜星够多、别进树林子</p>
+      </div>
+      <div class="equip-card">
+        <div class="equip-icon-wrap"><span class="equip-icon">📏</span></div>
+        <h3>水准仪</h3>
+        <span class="equip-brand">自动安平 · DSZ2</span>
+        <div class="equip-bar"><div class="equip-fill" data-width="60"></div></div>
+        <span class="equip-status">还行吧</span>
+        <p class="equip-desc">二等水准闭合差超了三次，最后发现是脚架没踩实</p>
+      </div>
+      <div class="equip-card">
+        <div class="equip-icon-wrap"><span class="equip-icon">📐</span></div>
+        <h3>棱镜杆</h3>
+        <span class="equip-brand">一对 · 生锈版</span>
+        <div class="equip-bar"><div class="equip-fill" data-width="30"></div></div>
+        <span class="equip-status">该换了</span>
+        <p class="equip-desc">杆子弯了还没人发现，直到闭合差超限才知道</p>
+      </div>
+      <div class="equip-card">
+        <div class="equip-icon-wrap"><span class="equip-icon">🖥️</span></div>
+        <h3>CASS软件</h3>
+        <span class="equip-brand">南方CASS · 学生版</span>
+        <div class="equip-bar"><div class="equip-fill" data-width="55"></div></div>
+        <span class="equip-status">刚入门</span>
+        <p class="equip-desc">等高线画了一晚上，第二天发现高程数据是错的</p>
+      </div>
+      <div class="equip-card">
+        <div class="equip-icon-wrap"><span class="equip-icon">🎒</span></div>
+        <h3>外业背包</h3>
+        <span class="equip-brand">军绿色 · 能装就行</span>
+        <div class="equip-bar"><div class="equip-fill" data-width="85"></div></div>
+        <span class="equip-status">好评</span>
+        <p class="equip-desc">能塞下记录本、铅笔、水壶和一堆乱七八糟的东西</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 翻车时间线 ==================== -->
+  <section id="timeline">
+    <div class="section-header">
+      <span class="section-tag">DARK HUMOR</span>
+      <h2>测绘地狱笑话</h2>
+      <p>笑着笑着就哭了 · 哭着哭着又笑了</p>
+    </div>
+    <div class="timeline-wrap">
+      <div class="timeline-line"></div>
+      <div class="timeline-item tl-left">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <div class="tl-date">地域笑话 · 壹</div>
+          <h3>测绘人死后下地狱</h3>
+          <p>测绘人问阎王："我这辈子干了什么坏事？"阎王翻开生死簿："你没干坏事，你只是闭合差一直超限，阎王殿的面积都测不准了。"</p>
+          <span class="tl-tag">闭合差</span>
+        </div>
+      </div>
+      <div class="timeline-item tl-right">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <div class="tl-date">地域笑话 · 贰</div>
+          <h3>天堂和地狱的区别</h3>
+          <p>天堂是什么？天堂是用RTK，一秒定位，搜星12颗，精度±1cm。地狱是什么？地狱是在工大的实训基地，全站仪气泡跑了40分钟，闭合差限差是±20mm，你测出来±200mm。</p>
+          <span class="tl-tag">RTK</span>
+        </div>
+      </div>
+      <div class="timeline-item tl-left">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <div class="tl-date">地域笑话 · 叁</div>
+          <h3>三个测绘人的遗愿</h3>
+          <p>三个测绘人死后，第一个说："我这辈子闭合差从来没超限。"阎王说："假的，拉下去。"第二个说："我对中整平只要三分钟。"阎王说："吹的，拉下去。"第三个啥也没说，阎王翻了翻记录："哦，你在工大测绘实习的，上来自己坐，你已经够惨了。"</p>
+          <span class="tl-tag">控制测量</span>
+        </div>
+      </div>
+      <div class="timeline-item tl-right">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <div class="tl-date">地域笑话 · 肆</div>
+          <h3>测绘专业和殡仪馆</h3>
+          <p>有人问：测绘专业和殡仪馆有什么区别？殡仪馆只让你死一次，测绘实习天天都在死。殡仪馆好歹体面收场，测绘外业死了都找不到——三脚架还忘在山上了。</p>
+          <span class="tl-tag">外业实习</span>
+        </div>
+      </div>
+      <div class="timeline-item tl-left">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <div class="tl-date">地域笑话 · 伍</div>
+          <h3>等高线的心声</h3>
+          <p>CASS里的等高线对测量员说："求求你别画了，你画的不是等高线，是我的心电图。"测量员说："别急，等我把这条画完，你的生命体征就平稳了。"等高线："可是我已经死了。"</p>
+          <span class="tl-tag">地形测图</span>
+        </div>
+      </div>
+      <div class="timeline-item tl-right">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <div class="tl-date">地域笑话 · 陆</div>
+          <h3>为什么测绘人不谈恋爱</h3>
+          <p>因为：对象问"你心里有我吗？"测绘人答"我闭合差超了，心里只有数据。"对象问"你爱我有多少？"测绘人答"误差范围内，±3σ置信度99.7%。"对象："分手。"测绘人："好的，我先把这段导线测完。"</p>
+          <span class="tl-tag">单身狗</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 技能树 ==================== -->
+  <section id="skills">
+    <div class="section-header">
+      <span class="section-tag">SKILLS</span>
+      <h2>技能树</h2>
+      <p>点了但没完全点 · 大部分技能都是半吊子</p>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-item">
+        <div class="skill-head">
+          <span class="skill-name">全站仪操作</span>
+          <span class="skill-pct">65%</span>
+        </div>
+        <div class="skill-bar"><div class="skill-fill" data-width="65"></div></div>
+        <p class="skill-note">对中整平从40分钟进步到15分钟，勉强及格</p>
+      </div>
+      <div class="skill-item">
+        <div class="skill-head">
+          <span class="skill-name">RTK测量</span>
+          <span class="skill-pct">80%</span>
+        </div>
+        <div class="skill-bar"><div class="skill-fill" data-width="80"></div></div>
+        <p class="skill-note">这个确实简单，前提是有信号</p>
+      </div>
+      <div class="skill-item">
+        <div class="skill-head">
+          <span class="skill-name">水准测量</span>
+          <span class="skill-pct">55%</span>
+        </div>
+        <div class="skill-bar"><div class="skill-fill" data-width="55"></div></div>
+        <p class="skill-note">读数经常看错位数，闭合差就没合格过</p>
+      </div>
+      <div class="skill-item">
+        <div class="skill-head">
+          <span class="skill-name">CASS画图</span>
+          <span class="skill-pct">40%</span>
+        </div>
+        <div class="skill-bar"><div class="skill-fill" data-width="40"></div></div>
+        <p class="skill-note">等高线画出来像心电图，地物符号认不全</p>
+      </div>
+      <div class="skill-item">
+        <div class="skill-head">
+          <span class="skill-name">控制网布设</span>
+          <span class="skill-pct">50%</span>
+        </div>
+        <div class="skill-bar"><div class="skill-fill" data-width="50"></div></div>
+        <p class="skill-note">理论上会布，实际上选的点一半不能用</p>
+      </div>
+      <div class="skill-item">
+        <div class="skill-head">
+          <span class="skill-name">数据平差</span>
+          <span class="skill-pct">35%</span>
+        </div>
+        <div class="skill-bar"><div class="skill-fill" data-width="35"></div></div>
+        <p class="skill-note">Excel凑合能用，编程平差就算了</p>
+      </div>
+      <div class="skill-item">
+        <div class="skill-head">
+          <span class="skill-name">跑外业体力</span>
+          <span class="skill-pct">90%</span>
+        </div>
+        <div class="skill-bar"><div class="skill-fill" data-width="90"></div></div>
+        <p class="skill-note">扛仪器爬山不带喘的，这就是唯一的强项</p>
+      </div>
+      <div class="skill-item">
+        <div class="skill-head">
+          <span class="skill-name">摸鱼技巧</span>
+          <span class="skill-pct">95%</span>
+        </div>
+        <div class="skill-bar"><div class="skill-fill" data-width="95"></div></div>
+        <p class="skill-note">树荫下一蹲，手机一掏，完美伪装观测中</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 测量画廊 ==================== -->
+  <section id="gallery">
+    <div class="section-header">
+      <span class="section-tag">FIELDWORK</span>
+      <h2>测量现场</h2>
+      <p>全是翻车证据 · 留着以后当反面教材</p>
+    </div>
+    <div class="filter-bar">
+      <button class="filter-btn active" data-filter="all">全部</button>
+      <button class="filter-btn" data-filter="control">控制测量</button>
+      <button class="filter-btn" data-filter="leveling">水准测量</button>
+      <button class="filter-btn" data-filter="rtk">RTK作业</button>
+      <button class="filter-btn" data-filter="map">地形测图</button>
+    </div>
+    <div class="masonry" id="masonry"></div>
+  </section>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox">
+    <button id="lightbox-close" class="lightbox-close" aria-label="关闭">&times;</button>
+    <button id="lightbox-prev" class="lightbox-prev" aria-label="上一张">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <button id="lightbox-next" class="lightbox-next" aria-label="下一张">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
+    <div class="lightbox-img-wrap"><img id="lightbox-img" src="" alt=""></div>
+    <div class="lightbox-caption" id="lightbox-caption"></div>
+    <div class="lightbox-counter" id="lightbox-counter"></div>
+  </div>
+
+  <!-- ==================== 吐槽墙 ==================== -->
+  <section id="roast">
+    <div class="section-header">
+      <span class="section-tag">COMPLAINTS</span>
+      <h2>吐槽墙</h2>
+      <p>工大学生的血泪控诉 · 字字珠玑 · 句句扎心</p>
+    </div>
+    <div class="roast-grid">
+      <div class="roast-card">
+        <div class="roast-avatar">测绘苦力A</div>
+        <p>辽宁工程技术大学，名字带"工程"俩字，结果教学楼电梯坏了半年没人修，这工程水平测绘闭合差怕是也得超。</p>
+        <span class="roast-time">3天前</span>
+      </div>
+      <div class="roast-card">
+        <div class="roast-avatar">外业冤种B</div>
+        <p>说好的"工程技术"大学，测绘仪器比我还老，全站仪型号不详，RTK搜星搜到怀疑人生，实训基地荒得像二战遗址。</p>
+        <span class="roast-time">5天前</span>
+      </div>
+      <div class="roast-card">
+        <div class="roast-avatar">闭合差战士C</div>
+        <p>工大最厉害的不是教学，是宣传。官网拍的跟清华似的，到了现场一看——这破地方我高考多考50分都嫌亏。</p>
+        <span class="roast-time">1周前</span>
+      </div>
+      <div class="roast-card">
+        <div class="roast-avatar">退学预备生D</div>
+        <p>招生简章写"坐落于渤海之滨"，到了才发现是"坐落于辽宁阜新风沙之滨"。海呢？在哪呢？沙子倒是不少。</p>
+        <span class="roast-time">10天前</span>
+      </div>
+      <div class="roast-card">
+        <div class="roast-avatar">匿名矿工E</div>
+        <p>工大食堂能把西红柿炒蛋做出水泥的味道，宿舍冬天暖气跟没开似的，夏天又热得跟蒸笼一样。一年四季都在受苦。</p>
+        <span class="roast-time">2周前</span>
+      </div>
+      <div class="roast-card">
+        <div class="roast-avatar">考研逃兵F</div>
+        <p>辽宁工程技术大学，一个让你在大一就坚定考研决心的地方。不是因为学术氛围好，是因为你只想赶紧跑。</p>
+        <span class="roast-time">3周前</span>
+      </div>
+      <div class="roast-input-card">
+        <textarea id="roast-textarea" placeholder="来，说说你对工大的肺腑之言..." maxlength="200"></textarea>
+        <div class="roast-input-footer">
+          <span class="roast-count"><span id="roast-count">0</span>/200</span>
+          <button id="roast-submit" class="btn btn-sm">发射吐槽</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 页脚 ==================== -->
+  <footer id="footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <span class="logo-icon">⛏</span>
+          <span>工大小矿工</span>
+        </div>
+        <div class="footer-nav">
+          <a href="#academy">学院</a>
+          <a href="#profile">闫科旭</a>
+          <a href="#equipment">装备库</a>
+          <a href="#timeline">地狱笑话</a>
+        </div>
+      </div>
+      <div class="footer-divider"></div>
+      <div class="footer-bottom">
+        <div class="footer-social">
+          <a href="#" class="social-icon" aria-label="微博" title="微博">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.194 14.197c0 3.96-4.673 7.165-10.438 7.165-5.766 0-10.438-3.205-10.438-7.165 0-3.96 4.672-7.166 10.438-7.166 5.765 0 10.438 3.206 10.438 7.166zm-3.284-.403c-.188-2.657-3.318-4.484-6.986-4.076-3.668.408-6.408 2.89-6.122 5.547.286 2.657 3.416 4.484 7.084 4.076 3.669-.408 6.412-2.89 6.024-5.547z"/></svg>
+          </a>
+          <a href="#" class="social-icon" aria-label="B站" title="B站">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.56 3.76v7.36c-.036 1.51-.556 2.769-1.56 3.773s-2.262 1.524-3.773 1.56H5.333c-1.51-.036-2.769-.556-3.773-1.56S.036 18.858 0 17.347v-7.36c.036-1.511.556-2.765 1.56-3.76 1.004-.996 2.262-1.52 3.773-1.574h.774l-1.174-1.12a1.234 1.234 0 0 1-.373-.906c0-.356.124-.658.373-.907l.027-.027c.267-.249.573-.373.92-.373.347 0 .653.124.92.373L9.653 4.44c.071.071.134.142.187.213h4.267a.836.836 0 0 1 .16-.213l2.853-2.747c.267-.249.573-.373.92-.373.347 0 .662.151.929.4.267.249.391.551.391.907 0 .355-.124.657-.373.906zM5.333 7.24c-.746.018-1.373.276-1.88.773-.506.498-.769 1.13-.786 1.894v7.52c.017.764.28 1.395.786 1.893.507.498 1.134.756 1.88.773h13.334c.746-.017 1.373-.275 1.88-.773.506-.498.769-1.129.786-1.893v-7.52c-.017-.765-.28-1.396-.786-1.894-.507-.497-1.134-.755-1.88-.773zM8 11.107c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c.017-.391.15-.711.4-.96.249-.254.56-.378.933-.378zm8 0c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c.017-.391.15-.711.4-.96.249-.254.56-.378.933-.378z"/></svg>
+          </a>
+          <a href="#" class="social-icon" aria-label="邮箱" title="邮箱">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+          </a>
+        </div>
+        <p class="footer-copy">&copy; 2026 工大小矿工 · 跑点不忘摸鱼 · 摸鱼不忘跑点</p>
+      </div>
+    </div>
+  </footer>
+
+  <button id="back-to-top" aria-label="回到顶部">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+  </button>
+
+  <button id="theme-toggle" aria-label="切换深色模式">
+    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+    </svg>
+    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z"/>
+    </svg>
+  </button>
+
+  <script src="script.js"></script>
+</body>
+</html>
