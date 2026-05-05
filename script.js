@@ -523,7 +523,10 @@
       var subWrap=buildSubNodes(b.subs,col);
 
       var expandTimer=null;
-      node.addEventListener('mouseenter',function(){
+      var collapseTimer=null;
+      col.addEventListener('mouseenter',function(){
+        clearTimeout(collapseTimer);
+        if(subWrap.classList.contains('expanded')) return;
         expandTimer=setTimeout(function(){
           subWrap.classList.add('expanded');
           var subCols=subWrap.querySelectorAll('.tree-sub-col');
@@ -540,14 +543,16 @@
           }
         },200);
       });
-      node.addEventListener('mouseleave',function(){
+      col.addEventListener('mouseleave',function(e){
         clearTimeout(expandTimer);
-      });
-      col.addEventListener('mouseleave',function(){
-        subWrap.classList.remove('expanded');
-        subWrap.querySelectorAll('.tree-sub-col').forEach(function(sc){
-          sc.classList.remove('visible');
-        });
+        if(!col.contains(e.relatedTarget)){
+          collapseTimer=setTimeout(function(){
+            subWrap.classList.remove('expanded');
+            subWrap.querySelectorAll('.tree-sub-col').forEach(function(sc){
+              sc.classList.remove('visible');
+            });
+          },300);
+        }
       });
 
       return col;
@@ -639,13 +644,19 @@
       setTimeout(function(){trunkLine.classList.remove('grown')},200);
     }
 
-    var leaveTimer=null;
-    rootNode.addEventListener('mouseenter',function(){
-      clearTimeout(leaveTimer);
-      expandRoot();
+    var expandTimer=null;
+    var collapseTimer=null;
+
+    container.addEventListener('mouseenter',function(){
+      clearTimeout(collapseTimer);
+      if(rootExpanded) return;
+      expandTimer=setTimeout(function(){expandRoot()},200);
     });
-    layer.addEventListener('mouseleave',function(){
-      leaveTimer=setTimeout(collapseRoot,300);
+    container.addEventListener('mouseleave',function(e){
+      clearTimeout(expandTimer);
+      if(!container.contains(e.relatedTarget)){
+        collapseTimer=setTimeout(collapseRoot,400);
+      }
     });
 
     var obs=new IntersectionObserver(function(entries){
