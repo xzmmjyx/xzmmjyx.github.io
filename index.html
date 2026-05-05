@@ -84,7 +84,7 @@
       </div>
       <div class="hero-stat-divider"></div>
       <div class="hero-stat-item">
-        <span class="hero-stat-num" data-count="6">0</span>
+        <span class="hero-stat-num" data-count="14">0</span>
         <span class="hero-stat-label">装备图鉴</span>
       </div>
       <div class="hero-stat-divider"></div>
@@ -94,7 +94,7 @@
       </div>
       <div class="hero-stat-divider"></div>
       <div class="hero-stat-item">
-        <span class="hero-stat-num" data-count="6">0</span>
+        <span class="hero-stat-num" data-count="22">0</span>
         <span class="hero-stat-label">地狱笑话</span>
       </div>
     </div>
@@ -427,56 +427,16 @@
       <h2>装备库</h2>
       <p>工欲善其事 · 先看看装备够不够格</p>
     </div>
-    <div class="equip-grid">
-      <div class="equip-card">
-        <div class="equip-icon-wrap"><span class="equip-icon">🔭</span></div>
-        <h3>全站仪</h3>
-        <span class="equip-brand">学校老古董 · 型号不详</span>
-        <div class="equip-bar"><div class="equip-fill" data-width="45"></div></div>
-        <span class="equip-status">凑合能用</span>
-        <p class="equip-desc">对中整平要半小时的那种，气泡跑得比我还快</p>
+    <div class="equip-topbar">
+      <div class="equip-filter" id="equip-filter">
+        <button class="equip-filter-btn active" data-filter="all">全部</button>
+        <button class="equip-filter-btn" data-filter="outdoor">外业</button>
+        <button class="equip-filter-btn" data-filter="office">内业</button>
+        <button class="equip-filter-btn" data-filter="survival">生存</button>
       </div>
-      <div class="equip-card">
-        <div class="equip-icon-wrap"><span class="equip-icon">📡</span></div>
-        <h3>RTK接收机</h3>
-        <span class="equip-brand">南方测绘 · S82T</span>
-        <div class="equip-bar"><div class="equip-fill" data-width="72"></div></div>
-        <span class="equip-status">主力担当</span>
-        <p class="equip-desc">三分搞定坐标，前提是搜星够多、别进树林子</p>
-      </div>
-      <div class="equip-card">
-        <div class="equip-icon-wrap"><span class="equip-icon">📏</span></div>
-        <h3>水准仪</h3>
-        <span class="equip-brand">自动安平 · DSZ2</span>
-        <div class="equip-bar"><div class="equip-fill" data-width="60"></div></div>
-        <span class="equip-status">还行吧</span>
-        <p class="equip-desc">二等水准闭合差超了三次，最后发现是脚架没踩实</p>
-      </div>
-      <div class="equip-card">
-        <div class="equip-icon-wrap"><span class="equip-icon">📐</span></div>
-        <h3>棱镜杆</h3>
-        <span class="equip-brand">一对 · 生锈版</span>
-        <div class="equip-bar"><div class="equip-fill" data-width="30"></div></div>
-        <span class="equip-status">该换了</span>
-        <p class="equip-desc">杆子弯了还没人发现，直到闭合差超限才知道</p>
-      </div>
-      <div class="equip-card">
-        <div class="equip-icon-wrap"><span class="equip-icon">🖥️</span></div>
-        <h3>CASS软件</h3>
-        <span class="equip-brand">南方CASS · 学生版</span>
-        <div class="equip-bar"><div class="equip-fill" data-width="55"></div></div>
-        <span class="equip-status">刚入门</span>
-        <p class="equip-desc">等高线画了一晚上，第二天发现高程数据是错的</p>
-      </div>
-      <div class="equip-card">
-        <div class="equip-icon-wrap"><span class="equip-icon">🎒</span></div>
-        <h3>外业背包</h3>
-        <span class="equip-brand">军绿色 · 能装就行</span>
-        <div class="equip-bar"><div class="equip-fill" data-width="85"></div></div>
-        <span class="equip-status">好评</span>
-        <p class="equip-desc">能塞下记录本、铅笔、水壶和一堆乱七八糟的东西</p>
-      </div>
+      <div class="equip-stat-pills" id="equip-stat-pills"></div>
     </div>
+    <div class="equip-grid" id="equip-grid"></div>
   </section>
 
   <!-- ==================== 翻车时间线 ==================== -->

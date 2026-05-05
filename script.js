@@ -364,7 +364,7 @@
   }
 
   function observeReveal(){
-    var els = $$('.masonry-item:not(.visible),.equip-card:not(.visible),.roast-card:not(.visible),.academy-card:not(.visible),.section-header:not(.visible),.profile-text-col:not(.visible),.profile-photo-col:not(.visible),.showcase-card:not(.visible),.wave-divider:not(.visible)');
+    var els = $$('.masonry-item:not(.visible),.roast-card:not(.visible),.academy-card:not(.visible),.section-header:not(.visible),.profile-text-col:not(.visible),.profile-photo-col:not(.visible),.showcase-card:not(.visible),.wave-divider:not(.visible)');
     if(!els.length) return;
     if(!('IntersectionObserver' in window)){
       els.forEach(function(el){el.classList.add('visible')});
@@ -385,22 +385,109 @@
     els.forEach(function(el){obs.observe(el)});
   }
 
-  function initBarFills(){
-    var fills = $$('.equip-fill[data-width]');
-    if(!fills.length) return;
-    if(!('IntersectionObserver' in window)){
-      fills.forEach(function(f){f.style.width=f.getAttribute('data-width')+'%'});
-      return;
+  function initEquipment(){
+    var grid = $('#equip-grid');
+    var filterWrap = $('#equip-filter');
+    var pillsWrap = $('#equip-stat-pills');
+    if(!grid) return;
+
+    var equips = [
+      {icon:'🔭',name:'全站仪',brand:'学校老古董 · 索佳SET230R',cat:'outdoor',tier:'r',status:'凑合能用',power:45,accuracy:50,endurance:40,weight:60,desc:'对中整平要半小时的那种，气泡跑得比我还快。据说这台机器经历过三次测绘实习，每次回来都要大修一次。'},
+      {icon:'📡',name:'RTK接收机',brand:'南方测绘 · S82T',cat:'outdoor',tier:'sr',status:'主力担当',power:80,accuracy:85,endurance:60,weight:70,desc:'三分搞定坐标，前提是搜星够多、别进树林子。进林子就是灾难片，搜星从12颗直接掉到2颗。'},
+      {icon:'📏',name:'水准仪',brand:'自动安平 · DSZ2',cat:'outdoor',tier:'r',status:'还行吧',power:55,accuracy:60,endurance:65,weight:75,desc:'二等水准闭合差超了三次，最后发现是脚架没踩实。踩实之后超了两次，因为尺垫歪了。'},
+      {icon:'📐',name:'棱镜杆',brand:'一对 · 生锈合金',cat:'outdoor',tier:'n',status:'该换了',power:20,accuracy:30,endurance:25,weight:80,desc:'杆子弯了还没人发现，直到闭合差超限才发现是杆的问题。现在用它测出来的数据带弧度。'},
+      {icon:'🖥️',name:'CASS软件',brand:'南方CASS · 学生破解版',cat:'office',tier:'sr',status:'刚入门',power:60,accuracy:55,endurance:30,weight:20,desc:'等高线画了一晚上，第二天发现高程数据是错的。重画之后发现CAD崩了，没保存。'},
+      {icon:'🎒',name:'外业背包',brand:'军绿色 · 能装就行',cat:'survival',tier:'r',status:'好评',power:15,accuracy:10,endurance:90,weight:85,desc:'能塞下记录本、铅笔、水壶、泡面、充电宝和一堆乱七八糟的东西。唯一的作用是让你在外业冻死之前先把包垫在屁股底下。'},
+      {icon:'🛰️',name:'GNSS接收机',brand:'中海达 · V200',cat:'outdoor',tier:'ssr',status:'梦中情器',power:90,accuracy:92,endurance:70,weight:65,desc:'只在答辩的时候见导师用过，精度±1cm，搜星16颗，对中只需5秒。我们用的RTK看见它会自卑。'},
+      {icon:'⌨️',name:'平差软件',brand:'科傻COSA · 教育版',cat:'office',tier:'r',status:'够用',power:50,accuracy:70,endurance:20,weight:15,desc:'法方程一跑就是半小时，跑完告诉你残差超限。你改了数据重跑，它说："还是超限。"你问为什么，它说："因为你的数据就是垃圾。"'},
+      {icon:'🏕️',name:'军大衣',brand:'07式 · 淘宝68包邮',cat:'survival',tier:'ssr',status:'外业之神',power:10,accuracy:5,endurance:95,weight:90,desc:'零下15度外业测量全靠它。穿上之后行动能力下降60%，但存活率提升200%。测绘人的终极装备，比全站仪重要。'},
+      {icon:'📱',name:'手机APP测量',brand:'测量员 · 免费版',cat:'outdoor',tier:'n',status:'聊胜于无',power:30,accuracy:25,endurance:40,weight:95,desc:'精度±5m，跟没测差不多。但拍个照片标注一下还是可以的，至少比闭合差超限的导线强。'},
+      {icon:'📊',name:'Excel表格',brand:'Office · 正版激活器',cat:'office',tier:'sr',status:'数据坟场',power:40,accuracy:80,endurance:50,weight:10,desc:'平差全靠Excel，公式写了三千行。一旦某格被误删，整个表格就像多米诺骨牌一样崩塌。你永远不知道哪一格是关键格。'},
+      {icon:'🍪',name:'干粮补给',brand:'压缩饼干 · 军用级',cat:'survival',tier:'r',status:'续命物资',power:5,accuracy:5,endurance:80,weight:60,desc:'外业一走就是一整天，中午没地方吃饭。压缩饼干配矿泉水，测绘人的标准套餐。吃多了你会怀疑人生，不吃你会直接没命。'},
+      {icon:'🔭',name:'激光铅垂仪',brand:'徕卡 · LZL2',cat:'outdoor',tier:'sr',status:'高级货',power:70,accuracy:75,endurance:55,weight:45,desc:'投点精度±1mm，但是用的时候不能有人经过，不能有震动，不能有风。在工大实训楼基本等于废的，因为楼下永远在施工。'},
+      {icon:'🎒',name:'急救包',brand:'外业必备 · 过期版',cat:'survival',tier:'n',status:'心理安慰',power:5,accuracy:5,endurance:30,weight:50,desc:'碘伏过期两年，创可贴粘性为零，纱布发黄。但老师说必须带，因为"万一出事了，至少有个包可以拍照发朋友圈证明你们有急救措施"。'}
+    ];
+
+    var tiers = {ssr:'SSR',sr:'SR',r:'R',n:'N'};
+    var tierColors = {ssr:'tier-ssr',sr:'tier-sr',r:'tier-r',n:'tier-n'};
+
+    function renderPills(list){
+      if(!pillsWrap) return;
+      var cats = {outdoor:0,office:0,survival:0};
+      list.forEach(function(e){cats[e.cat]++});
+      pillsWrap.innerHTML = '<div class="equip-stat-pill"><span>'+list.length+'</span>装备总数</div>' +
+        '<div class="equip-stat-pill"><span>'+cats.outdoor+'</span>外业</div>' +
+        '<div class="equip-stat-pill"><span>'+cats.office+'</span>内业</div>' +
+        '<div class="equip-stat-pill"><span>'+cats.survival+'</span>生存</div>';
     }
-    var obs = new IntersectionObserver(function(entries){
-      entries.forEach(function(e){
-        if(e.isIntersecting){
-          setTimeout(function(){e.target.style.width=e.target.getAttribute('data-width')+'%'},200);
-          obs.unobserve(e.target);
-        }
+
+    function renderCards(list){
+      grid.innerHTML = '';
+      list.forEach(function(e,i){
+        var card = document.createElement('div');
+        card.className = 'equip-card';
+        card.setAttribute('data-cat', e.cat);
+        card.style.transitionDelay = (i * 80) + 'ms';
+        card.innerHTML =
+          '<div class="equip-card-banner"></div>' +
+          '<div class="equip-card-body">' +
+            '<div class="equip-card-top">' +
+              '<div class="equip-icon-wrap"><span class="equip-icon">'+e.icon+'</span></div>' +
+              '<div class="equip-card-meta">' +
+                '<h3>'+e.name+'</h3>' +
+                '<span class="equip-brand">'+e.brand+'</span>' +
+              '</div>' +
+            '</div>' +
+            '<div class="equip-card-stats">' +
+              '<div class="equip-mini-stat"><span class="equip-mini-val">'+e.power+'</span><span class="equip-mini-label">威力</span></div>' +
+              '<div class="equip-mini-stat"><span class="equip-mini-val">'+e.accuracy+'</span><span class="equip-mini-label">精度</span></div>' +
+              '<div class="equip-mini-stat"><span class="equip-mini-val">'+e.endurance+'</span><span class="equip-mini-label">续航</span></div>' +
+              '<div class="equip-mini-stat"><span class="equip-mini-val">'+e.weight+'</span><span class="equip-mini-label">便携</span></div>' +
+            '</div>' +
+            '<div class="equip-bar-row"><span class="equip-status">'+e.status+'</span><span class="equip-tier '+tierColors[e.tier]+'">'+tiers[e.tier]+'</span></div>' +
+            '<div class="equip-bar"><div class="equip-fill" data-width="'+e.power+'"></div></div>' +
+            '<p class="equip-desc">'+e.desc+'</p>' +
+          '</div>';
+        grid.appendChild(card);
       });
-    },{threshold:.3});
-    fills.forEach(function(f){obs.observe(f)});
+      observeEquipCards();
+    }
+
+    function observeEquipCards(){
+      var cards = grid.querySelectorAll('.equip-card');
+      if(!cards.length) return;
+      if(!('IntersectionObserver' in window)){
+        cards.forEach(function(c){c.classList.add('visible')});
+        return;
+      }
+      var obs = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if(e.isIntersecting){
+            e.target.classList.add('visible');
+            var fill = e.target.querySelector('.equip-fill');
+            if(fill) setTimeout(function(){fill.style.width = fill.getAttribute('data-width')+'%'},300);
+            obs.unobserve(e.target);
+          }
+        });
+      },{threshold:.1});
+      cards.forEach(function(c){obs.observe(c)});
+    }
+
+    renderCards(equips);
+    renderPills(equips);
+
+    if(filterWrap){
+      filterWrap.addEventListener('click',function(e){
+        var btn = e.target.closest('.equip-filter-btn');
+        if(!btn) return;
+        filterWrap.querySelectorAll('.equip-filter-btn').forEach(function(b){b.classList.remove('active')});
+        btn.classList.add('active');
+        var f = btn.getAttribute('data-filter');
+        var filtered = f === 'all' ? equips : equips.filter(function(eq){return eq.cat === f});
+        renderCards(filtered);
+        renderPills(filtered);
+      });
+    }
   }
 
   function initSkillTree(){
@@ -929,7 +1016,7 @@
     initMasonry();
     initFilter();
     initLightbox();
-    initBarFills();
+    initEquipment();
     initSkillTree();
     initHellScroller();
     initRoast();
