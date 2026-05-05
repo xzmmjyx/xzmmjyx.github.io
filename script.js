@@ -364,7 +364,7 @@
   }
 
   function observeReveal(){
-    var els = $$('.masonry-item:not(.visible),.equip-card:not(.visible),.timeline-item:not(.visible),.roast-card:not(.visible),.academy-card:not(.visible),.section-header:not(.visible),.profile-text-col:not(.visible),.profile-photo-col:not(.visible),.showcase-card:not(.visible),.wave-divider:not(.visible)');
+    var els = $$('.masonry-item:not(.visible),.equip-card:not(.visible),.roast-card:not(.visible),.academy-card:not(.visible),.section-header:not(.visible),.profile-text-col:not(.visible),.profile-photo-col:not(.visible),.showcase-card:not(.visible),.wave-divider:not(.visible)');
     if(!els.length) return;
     if(!('IntersectionObserver' in window)){
       els.forEach(function(el){el.classList.add('visible')});
@@ -779,6 +779,87 @@
     obs.observe(container);
   }
 
+  function initHellScroller(){
+    var scroller = $('#hell-scroller');
+    if(!scroller) return;
+
+    var jokes = [
+      {tag:'闭合差',title:'测绘人死后下地狱',body:'测绘人问阎王："我这辈子干了什么坏事？"阎王翻开生死簿："你没干坏事，你只是闭合差一直超限，阎王殿的面积都测不准了。"测绘人说："那也不能怪我啊，是风太大了。"阎王说："你现在在室内。"'},
+      {tag:'RTK',title:'天堂和地狱的区别',body:'天堂：RTK一秒定位，搜星12颗，精度±1cm。地狱：工大实训基地，全站仪气泡跑了40分钟，闭合差限差±20mm，你测出来±200mm。最地狱的是：你已经是全班最好的了。'},
+      {tag:'控制测量',title:'三个测绘人的遗愿',body:'第一个说："我闭合差从来没超限。"阎王说："假的，拉下去。"第二个说："我对中整平只要三分钟。"阎王说："吹的，拉下去。"第三个啥也没说，阎王翻了翻记录："哦，你在工大测绘实习的，上来自己坐，你已经够惨了。"'},
+      {tag:'外业实习',title:'测绘专业和殡仪馆',body:'区别是：殡仪馆只让你死一次，测绘实习天天都在死。殡仪馆好歹体面收场，测绘外业死了都找不到——三脚架还忘在山上了。最惨的是殡仪馆不收测绘人，因为闭合差超了，棺材尺寸都量不准。'},
+      {tag:'地形测图',title:'等高线的心声',body:'CASS里的等高线对测量员说："求求你别画了，你画的不是等高线，是我的心电图。"测量员说："别急，等我画完你就平稳了。"等高线："可是我已经死了。"测量员："没事，死了也得把图画完交作业。"'},
+      {tag:'单身狗',title:'测绘人为什么不谈恋爱',body:'对象问："你心里有我吗？"测绘人答："闭合差超了，心里只有数据。"对象问："你爱我多少？"测绘人答："误差范围内，±3σ置信度99.7%。"对象："分手。"测绘人："好的，我先把这段导线测完，然后我再处理这段关系的平差。"'},
+      {tag:'工大食堂',title:'辽工程食堂的测量学',body:'工大食堂做菜跟测绘一样——闭合差永远超限。说好的红烧肉，端上来一看，形状不规则、质量不达标、误差±50%。你去投诉，厨师说："这叫随机误差，符合正态分布。"你看了看盘子里的东西："这明明是粗差，应该剔除。"'},
+      {tag:'全站仪',title:'对中整平的哲学',body:'佛说：一花一世界。测绘人说：一气泡一地狱。全站仪的气泡是量子力学的最佳诠释——你越看它，它越跑。你追它，它跑得更快。你放弃它，它就稳了。这就是为什么老测量员说："对中整平靠的不是技术，是缘分。"'},
+      {tag:'工大宿舍',title:'辽工程宿舍的测绘噩梦',body:'工大宿舍的暖气跟RTK信号一样——名义上是有的，实际上你感受不到。冬天零下20度，被窝里瑟瑟发抖，室友说："这就是高程改正，你得适应。"你裹着三层被子说："这不是改正，这是系统误差，而且是无法消除的那种。"'},
+      {tag:'水准仪',title:'二等水准的噩梦',body:'老师说："二等水准闭合差限差±4√L。"你测完一看：超了。重测，又超了。再重测，还超。你开始怀疑人生，怀疑地球是不是不平。最后发现——脚架踩进泥里了，高程从一开始就歪了。你抱着脚架痛哭："你为什么不告诉我？"'},
+      {tag:'考研',title:'测绘人的考研自白',body:'为什么考研？因为本科四年学到的是：闭合差会超限、仪器会坏、外业会死、内业会疯。读研之后学到的是：闭合差还是会超限，仪器还是会坏，但你已经是研究生了，可以指挥本科生去死了。这就是学历的价值。'},
+      {tag:'CAD',title:'CAD制图人的崩溃',body:'CAD画图画到凌晨三点，Ctrl+S按了无数次。突然蓝屏。你愣了三秒，缓缓摘下眼镜，看着窗外的月亮，想起了母亲。你打开手机想给导师发消息说不做了，看到导师凌晨三点发来的消息："图呢？"你把手机关了。'},
+      {tag:'实习工资',title:'测绘人的工资',body:'面试官问："你期望薪资多少？"测绘人说："一万。"面试官笑了。测绘人说："八千。"面试官还在笑。测绘人说："五千。"面试官不笑了，说："我们给你三千五，但你得接受出差，出差没有补贴，外业包吃住——住帐篷，吃泡面。"测绘人说："成交。"'},
+      {tag:'导线测量',title:'导线测量的绝望',body:'导线测量像人生——你得一站一站地走，每一步都有误差，误差还会累积。走到最后你发现，你已经偏离目标十万八千里了。但你不能重来，因为天黑了，仪器没电了，你也走不动了。这时候你才明白：人生就是一条闭合不了的导线。'},
+      {tag:'数据处理',title:'平差的艺术',body:'导师问："你的平差结果呢？"你说："残差太大，法方程病态了。"导师说："那就剔除粗差。"你说："剔除之后还剩两个点。"导师说："那叫两个点确定一条直线，不需要平差。"你说："可是这两个点的残差也超限了。"导师："那你别平差了，你去平复一下你的心情吧。"'},
+      {tag:'毕业论文',title:'测绘论文的致谢',body:'致谢：感谢我的导师，没有您的催促我就不会通宵达旦。感谢全站仪，让我知道什么叫"对中整平的人生"。感谢工大的食堂，让我在饥寒交迫中领悟了误差理论的真谛。感谢我的室友，没有你们我不会在凌晨两点还清醒地处理数据。最后感谢我自己，活着写完了这篇论文。'},
+      {tag:'天气',title:'测绘人看天气',body:'普通人看天气：今天晴天，适合出门。测绘人看天气：今天风力3级，对棱镜杆有影响，RTK搜星数可能下降，建议改用全站仪。下雨了：水准仪不能用了，导线测不了了，全班放假。全班欢呼。老师说："回去算数据。"全班沉默。'},
+      {tag:'GNSS',title:'搜星的信仰',body:'RTK开机，等搜星。一分钟：6颗，不够。两分钟：8颗，还行。三分钟：10颗，开干。突然掉到4颗。你抬头看天，天很蓝，没有云，但卫星就是不来。你双手合十："北斗大哥，GPS大爷，给个面子吧。"五分钟后12颗星全到了。你信了——测绘是门玄学。'},
+      {tag:'仪器维修',title:'仪器坏了之后',body:'全站仪摔了。你大脑飞速运转：1.自己修——可能更坏；2.报修——要扣钱；3.假装没坏——下一个人用的时候才发现；4.说是风吹倒的——对，是风的错。你选了4。下一个人用了之后说："这仪器怎么歪了？"你说："可能是磁偏角的影响。"'},
+      {tag:'辽工程',title:'辽工程测绘人的日常',body:'早上6点起床跑外业，零下15度冻成狗。中午泡面对付一口，继续测。下午4点收工回宿舍，发现数据有问题，白测了。晚上写报告写到凌晨，发现CAD又崩了。第二天重来。这就是辽工程测绘人的日常，比地平线还平，比等高线还曲折。'},
+      {tag:'体育',title:'测绘人的体能',body:'有人说测绘是脑力劳动。错。测绘是体力劳动里掺了一点脑力，脑力劳动里掺了一点体力，最终两者都做不好。跑外业一天走三万步，扛着仪器爬山，回来还要坐着画图画到半夜。你的身体说："你要么动，要么静，别两个都要。"你说："闭嘴，导师要明天交成果。"'},
+      {tag:'GPS-RTK',title:'坐标转换的噩梦',body:'老师说："把WGS84坐标转到地方坐标系。"你用了七参数，结果不对。用了四参数，还是不对。用了三参数，差了十万八千里。你开始怀疑地球是不是圆的。最后发现——输入的时候小数点点错了。你看着屏幕上偏差100公里的结果，缓缓闭上了眼睛。'},
+      {tag:'假期',title:'测绘人的寒暑假',body:'别人寒假：旅游、聚会、打游戏。测绘人寒假：写实习报告、算平差、画CAD。别人暑假：实习、赚钱、谈恋爱。测绘人暑假：外业测量、晒脱皮、中暑。你问学长："测绘人有没有轻松的时候？"学长说："毕业之后。"你问："毕业之后就轻松了？"学长说："不是，毕业之后就不学测绘了。"'}
+    ];
+
+    var rows = [
+      {el:$('#hell-track-1'), dir:'left', items: jokes.slice(0,8)},
+      {el:$('#hell-track-2'), dir:'right', items: jokes.slice(8,16)},
+      {el:$('#hell-track-3'), dir:'left', items: jokes.slice(16)}
+    ];
+
+    rows.forEach(function(row){
+      if(!row.el) return;
+      var all = row.items.concat(row.items);
+      row.el.innerHTML = '';
+      all.forEach(function(j,idx){
+        var card = document.createElement('div');
+        card.className = 'hell-card';
+        card.setAttribute('data-idx', String(jokes.indexOf(j)));
+        var preview = j.body.length > 80 ? j.body.substring(0,80)+'...' : j.body;
+        card.innerHTML =
+          '<div class="hell-card-head"><span class="hell-card-tag">'+j.tag+'</span><span class="hell-card-num">#'+(jokes.indexOf(j)+1)+'</span></div>' +
+          '<h4>'+j.title+'</h4>' +
+          '<p>'+preview+'</p>' +
+          '<div class="hell-card-hint">点击查看全文 ▸</div>';
+        row.el.appendChild(card);
+      });
+    });
+
+    var expanded = $('#hell-expanded');
+    var expandedTag = $('#hell-expanded-tag');
+    var expandedTitle = $('#hell-expanded-title');
+    var expandedBody = $('#hell-expanded-body');
+    var expandedClose = $('#hell-expanded-close');
+
+    scroller.addEventListener('click',function(e){
+      var card = e.target.closest('.hell-card');
+      if(!card) return;
+      var idx = parseInt(card.getAttribute('data-idx'),10);
+      var j = jokes[idx];
+      if(!j) return;
+      expandedTag.textContent = j.tag;
+      expandedTitle.textContent = j.title;
+      expandedBody.textContent = j.body;
+      expanded.classList.add('open');
+      $$('.hell-row').forEach(function(r){r.classList.add('paused')});
+    });
+
+    if(expandedClose){
+      expandedClose.addEventListener('click',function(){
+        expanded.classList.remove('open');
+        $$('.hell-row').forEach(function(r){r.classList.remove('paused')});
+      });
+    }
+  }
+
   function initRoast(){
     var textarea = $('#roast-textarea');
     var count = $('#roast-count');
@@ -850,6 +931,7 @@
     initLightbox();
     initBarFills();
     initSkillTree();
+    initHellScroller();
     initRoast();
     initBackToTop();
     initTheme();

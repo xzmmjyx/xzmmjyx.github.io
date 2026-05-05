@@ -484,63 +484,25 @@
     <div class="section-header">
       <span class="section-tag">DARK HUMOR</span>
       <h2>测绘地狱笑话</h2>
-      <p>笑着笑着就哭了 · 哭着哭着又笑了</p>
+      <p>悬停暂停 · 点击展开 · 笑着笑着就哭了</p>
     </div>
-    <div class="timeline-wrap">
-      <div class="timeline-line"></div>
-      <div class="timeline-item tl-left">
-        <div class="tl-dot"></div>
-        <div class="tl-card">
-          <div class="tl-date">地域笑话 · 壹</div>
-          <h3>测绘人死后下地狱</h3>
-          <p>测绘人问阎王："我这辈子干了什么坏事？"阎王翻开生死簿："你没干坏事，你只是闭合差一直超限，阎王殿的面积都测不准了。"</p>
-          <span class="tl-tag">闭合差</span>
-        </div>
+    <div class="hell-scroller" id="hell-scroller">
+      <div class="hell-row hell-row-left">
+        <div class="hell-track" id="hell-track-1"></div>
       </div>
-      <div class="timeline-item tl-right">
-        <div class="tl-dot"></div>
-        <div class="tl-card">
-          <div class="tl-date">地域笑话 · 贰</div>
-          <h3>天堂和地狱的区别</h3>
-          <p>天堂是什么？天堂是用RTK，一秒定位，搜星12颗，精度±1cm。地狱是什么？地狱是在工大的实训基地，全站仪气泡跑了40分钟，闭合差限差是±20mm，你测出来±200mm。</p>
-          <span class="tl-tag">RTK</span>
-        </div>
+      <div class="hell-row hell-row-right">
+        <div class="hell-track" id="hell-track-2"></div>
       </div>
-      <div class="timeline-item tl-left">
-        <div class="tl-dot"></div>
-        <div class="tl-card">
-          <div class="tl-date">地域笑话 · 叁</div>
-          <h3>三个测绘人的遗愿</h3>
-          <p>三个测绘人死后，第一个说："我这辈子闭合差从来没超限。"阎王说："假的，拉下去。"第二个说："我对中整平只要三分钟。"阎王说："吹的，拉下去。"第三个啥也没说，阎王翻了翻记录："哦，你在工大测绘实习的，上来自己坐，你已经够惨了。"</p>
-          <span class="tl-tag">控制测量</span>
-        </div>
+      <div class="hell-row hell-row-left">
+        <div class="hell-track" id="hell-track-3"></div>
       </div>
-      <div class="timeline-item tl-right">
-        <div class="tl-dot"></div>
-        <div class="tl-card">
-          <div class="tl-date">地域笑话 · 肆</div>
-          <h3>测绘专业和殡仪馆</h3>
-          <p>有人问：测绘专业和殡仪馆有什么区别？殡仪馆只让你死一次，测绘实习天天都在死。殡仪馆好歹体面收场，测绘外业死了都找不到——三脚架还忘在山上了。</p>
-          <span class="tl-tag">外业实习</span>
-        </div>
-      </div>
-      <div class="timeline-item tl-left">
-        <div class="tl-dot"></div>
-        <div class="tl-card">
-          <div class="tl-date">地域笑话 · 伍</div>
-          <h3>等高线的心声</h3>
-          <p>CASS里的等高线对测量员说："求求你别画了，你画的不是等高线，是我的心电图。"测量员说："别急，等我把这条画完，你的生命体征就平稳了。"等高线："可是我已经死了。"</p>
-          <span class="tl-tag">地形测图</span>
-        </div>
-      </div>
-      <div class="timeline-item tl-right">
-        <div class="tl-dot"></div>
-        <div class="tl-card">
-          <div class="tl-date">地域笑话 · 陆</div>
-          <h3>为什么测绘人不谈恋爱</h3>
-          <p>因为：对象问"你心里有我吗？"测绘人答"我闭合差超了，心里只有数据。"对象问"你爱我有多少？"测绘人答"误差范围内，±3σ置信度99.7%。"对象："分手。"测绘人："好的，我先把这段导线测完。"</p>
-          <span class="tl-tag">单身狗</span>
-        </div>
+    </div>
+    <div class="hell-expanded" id="hell-expanded">
+      <div class="hell-expanded-inner">
+        <div class="hell-expanded-tag" id="hell-expanded-tag"></div>
+        <h3 class="hell-expanded-title" id="hell-expanded-title"></h3>
+        <p class="hell-expanded-body" id="hell-expanded-body"></p>
+        <button class="hell-expanded-close" id="hell-expanded-close">收起</button>
       </div>
     </div>
   </section>

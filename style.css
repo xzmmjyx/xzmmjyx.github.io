@@ -298,23 +298,48 @@ body.light .equip-bar{background:rgba(0,0,0,.06)}
 .equip-status{font-size:.82rem;font-weight:600;color:var(--accent);display:block;margin-bottom:8px}
 .equip-desc{font-size:.85rem;color:var(--txt2);line-height:1.6}
 
-#timeline{background:var(--bg2)}
-.timeline-wrap{max-width:800px;margin:0 auto;position:relative;padding:20px 0}
-.timeline-line{position:absolute;left:50%;top:0;bottom:0;width:2px;background:linear-gradient(180deg,transparent,var(--accent),var(--gold),transparent);transform:translateX(-50%)}
-.timeline-item{display:flex;align-items:flex-start;margin-bottom:40px;position:relative;opacity:0;transition:all .8s ease-out}
-.timeline-item.visible{opacity:1}
-.tl-left{justify-content:flex-end;padding-right:calc(50% + 30px);transform:translateX(-30px)}
-.tl-left.visible{transform:translateX(0)}
-.tl-right{padding-left:calc(50% + 30px);transform:translateX(30px)}
-.tl-right.visible{transform:translateX(0)}
-.tl-dot{position:absolute;left:50%;top:16px;width:14px;height:14px;border-radius:50%;background:var(--accent);transform:translateX(-50%);border:3px solid var(--bg2);z-index:2;transition:var(--transition)}
-.timeline-item:hover .tl-dot{box-shadow:0 0 12px rgba(108,140,255,.5);transform:translateX(-50%) scale(1.2)}
-.tl-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;max-width:340px;transition:var(--transition)}
-.tl-card:hover{border-color:var(--accent);transform:translateY(-3px)}
-.tl-date{font-size:.78rem;color:var(--accent);font-weight:600;margin-bottom:8px;letter-spacing:1px}
-.tl-card h3{font-size:1.05rem;font-weight:700;margin-bottom:8px}
-.tl-card p{font-size:.88rem;color:var(--txt2);line-height:1.7}
-.tl-tag{display:inline-block;margin-top:10px;padding:4px 12px;border-radius:20px;font-size:.72rem;background:rgba(108,140,255,.08);color:var(--accent);border:1px solid rgba(108,140,255,.15)}
+#timeline{background:var(--bg2);overflow:hidden;padding-bottom:60px}
+.hell-scroller{display:flex;flex-direction:column;gap:20px;overflow:hidden;padding:20px 0}
+.hell-row{overflow:hidden;position:relative}
+.hell-row::before,.hell-row::after{content:'';position:absolute;top:0;bottom:0;width:100px;z-index:2;pointer-events:none}
+.hell-row::before{left:0;background:linear-gradient(90deg,var(--bg2),transparent)}
+.hell-row::after{right:0;background:linear-gradient(-90deg,var(--bg2),transparent)}
+.hell-track{display:flex;gap:20px;width:max-content;will-change:transform}
+.hell-row-left .hell-track{animation:hellScrollLeft 60s linear infinite}
+.hell-row-right .hell-track{animation:hellScrollRight 55s linear infinite}
+.hell-row:hover .hell-track,.hell-row.paused .hell-track{animation-play-state:paused}
+@keyframes hellScrollLeft{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+@keyframes hellScrollRight{0%{transform:translateX(-50%)}100%{transform:translateX(0)}}
+
+.hell-card{flex-shrink:0;width:320px;padding:20px;border-radius:var(--radius);background:var(--card);border:1px solid var(--border);cursor:pointer;transition:all .35s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden}
+.hell-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--gold));transform:scaleX(0);transform-origin:left;transition:transform .4s ease}
+.hell-card:hover::before{transform:scaleX(1)}
+.hell-card:hover{border-color:var(--accent);transform:translateY(-6px);box-shadow:0 12px 40px rgba(108,140,255,.12)}
+.hell-card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.hell-card-tag{padding:4px 12px;border-radius:20px;font-size:.7rem;background:rgba(108,140,255,.08);color:var(--accent);border:1px solid rgba(108,140,255,.15);font-weight:600;letter-spacing:1px}
+.hell-card-num{font-size:.68rem;color:var(--txt3);font-weight:700}
+.hell-card h4{font-size:.95rem;font-weight:700;margin-bottom:8px;line-height:1.4;color:var(--txt1)}
+.hell-card p{font-size:.82rem;color:var(--txt2);line-height:1.65;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.hell-card-hint{margin-top:10px;font-size:.68rem;color:var(--accent);opacity:.6;transition:opacity .3s}
+.hell-card:hover .hell-card-hint{opacity:1}
+
+.hell-expanded{max-height:0;overflow:hidden;transition:max-height .5s cubic-bezier(.4,0,.2,1);max-width:800px;margin:0 auto}
+.hell-expanded.open{max-height:400px}
+.hell-expanded-inner{padding:28px 32px;margin-top:20px;border-radius:var(--radius);background:var(--card);border:1px solid rgba(108,140,255,.2);position:relative}
+.hell-expanded-inner::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--gold),var(--accent))}
+.hell-expanded-tag{display:inline-block;padding:4px 14px;border-radius:20px;font-size:.72rem;background:rgba(108,140,255,.1);color:var(--accent);border:1px solid rgba(108,140,255,.2);margin-bottom:12px;font-weight:600;letter-spacing:1px}
+.hell-expanded-title{font-size:1.25rem;font-weight:800;margin-bottom:12px;color:var(--txt1)}
+.hell-expanded-body{font-size:.92rem;color:var(--txt2);line-height:1.8}
+.hell-expanded-close{margin-top:16px;padding:8px 24px;border-radius:20px;font-size:.82rem;background:rgba(108,140,255,.08);color:var(--accent);border:1px solid rgba(108,140,255,.2);cursor:pointer;transition:var(--transition)}
+.hell-expanded-close:hover{background:rgba(108,140,255,.18);border-color:var(--accent)}
+
+@media(max-width:768px){
+  .hell-card{width:260px;padding:16px}
+  .hell-card h4{font-size:.88rem}
+  .hell-card p{font-size:.78rem}
+  .hell-expanded-inner{padding:20px}
+  .hell-expanded-title{font-size:1.1rem}
+}
 
 #skills{background:var(--bg2);overflow:hidden;position:relative}
 #skill-tree{max-width:900px;margin:0 auto;position:relative;padding:20px 0 60px;min-height:500px}
@@ -493,11 +518,6 @@ body.light #theme-toggle .icon-moon{display:block}
   .nav-links.open{right:0}
   .nav-link{padding:14px 16px;font-size:1rem}
   .nav-toggle{display:flex}
-  .timeline-line{left:20px}
-  .tl-left,.tl-right{padding-left:56px;padding-right:0;justify-content:flex-start}
-  .tl-left{transform:translateX(0)}
-  .tl-right{transform:translateX(0)}
-  .tl-dot{left:20px}
   .profile-name{font-size:3rem;letter-spacing:3px}
   .profile-hero-grid{grid-template-columns:1fr;gap:36px}
   .profile-photo-frame{width:300px;height:400px;margin:0 auto}
