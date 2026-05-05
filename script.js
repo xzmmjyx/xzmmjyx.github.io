@@ -5,21 +5,21 @@
   var $$ = function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
 
   var photos = [
-    {src:'https://picsum.photos/seed/totalstation/600/400',h:400,title:'全站仪对中整平现场',desc:'气泡跑了半小时还没进圈',cat:'control'},
-    {src:'https://picsum.photos/seed/leveling1/600/800',h:800,title:'水准测量翻车瞬间',desc:'零下15度手冻僵了',cat:'leveling'},
-    {src:'https://picsum.photos/seed/rtkwork/600/500',h:500,title:'RTK外业采集',desc:'信号时有时无',cat:'rtk'},
-    {src:'https://picsum.photos/seed/contour/600/450',h:450,title:'地形测图等高线',desc:'画出来像心电图',cat:'map'},
-    {src:'https://picsum.photos/seed/tripod/600/700',h:700,title:'三脚架忘在测站',desc:'天黑了打手电找的',cat:'control'},
-    {src:'https://picsum.photos/seed/fieldwork1/600/400',h:400,title:'外业跑断腿',desc:'38度高温还在测',cat:'rtk'},
-    {src:'https://picsum.photos/seed/surveyor/600/600',h:600,title:'闭合差超限第N次',desc:'风太大了不是我的错',cat:'leveling'},
-    {src:'https://picsum.photos/seed/cass/600/350',h:350,title:'CASS画图画到凌晨',desc:'第二天发现数据是错的',cat:'map'},
-    {src:'https://picsum.photos/seed/prism/600/500',h:500,title:'棱镜杆子弯了',desc:'没人发现直到闭合差超了',cat:'control'},
-    {src:'https://picsum.photos/seed/gnss/600/750',h:750,title:'GNSS静态观测',desc:'坐了两小时玩手机',cat:'rtk'},
-    {src:'https://picsum.photos/seed/traverse/600/400',h:400,title:'导线测量',desc:'一站测完发现读错盘了',cat:'control'},
-    {src:'https://picsum.photos/seed/topo/600/550',h:550,title:'地形图测绘',desc:'地物符号认不全',cat:'map'},
-    {src:'https://picsum.photos/seed/benchmark/600/650',h:650,title:'水准点找半天',desc:'点位被草盖住了',cat:'leveling'},
-    {src:'https://picsum.photos/seed/gps/600/400',h:400,title:'GPS静态测量',desc:'放了两个小时机器自己跑了',cat:'rtk'},
-    {src:'https://picsum.photos/seed/campus/600/500',h:500,title:'校内实习基地',desc:'操场都快被我们踩烂了',cat:'map'}
+    {src:'images/1.jpg',h:400,title:'现场照片 1',desc:'测绘现场实录',cat:'control'},
+    {src:'images/2.jpg',h:500,title:'现场照片 2',desc:'测绘现场实录',cat:'leveling'},
+    {src:'images/3.jpg',h:450,title:'现场照片 3',desc:'测绘现场实录',cat:'rtk'},
+    {src:'images/4.jpg',h:600,title:'现场照片 4',desc:'测绘现场实录',cat:'map'},
+    {src:'images/5.jpg',h:400,title:'现场照片 5',desc:'测绘现场实录',cat:'control'},
+    {src:'images/6.jpg',h:550,title:'现场照片 6',desc:'测绘现场实录',cat:'rtk'},
+    {src:'images/7.jpg',h:500,title:'现场照片 7',desc:'测绘现场实录',cat:'leveling'},
+    {src:'images/1.jpg',h:400,title:'现场照片 8',desc:'测绘现场实录',cat:'control'},
+    {src:'images/2.jpg',h:500,title:'现场照片 9',desc:'测绘现场实录',cat:'rtk'},
+    {src:'images/3.jpg',h:450,title:'现场照片 10',desc:'测绘现场实录',cat:'map'},
+    {src:'images/4.jpg',h:600,title:'现场照片 11',desc:'测绘现场实录',cat:'control'},
+    {src:'images/5.jpg',h:400,title:'现场照片 12',desc:'测绘现场实录',cat:'map'},
+    {src:'images/6.jpg',h:550,title:'现场照片 13',desc:'测绘现场实录',cat:'leveling'},
+    {src:'images/7.jpg',h:500,title:'现场照片 14',desc:'测绘现场实录',cat:'rtk'},
+    {src:'images/1.jpg',h:400,title:'现场照片 15',desc:'测绘现场实录',cat:'map'}
   ];
 
   var catNames = {control:'控制测量',leveling:'水准测量',rtk:'RTK作业',map:'地形测图'};
