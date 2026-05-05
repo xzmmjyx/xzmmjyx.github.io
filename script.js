@@ -97,7 +97,7 @@
     var backToTop = $('#back-to-top');
     var progressBar = $('.scroll-progress');
     var ticking = false;
-    var sectionIds = ['hero','academy','profile','equipment','timeline','skills','gallery','roast'];
+    var sectionIds = ['hero','academy','profile','showcase','equipment','timeline','skills','gallery','roast'];
 
     function onScroll(){
       if(ticking) return;
@@ -262,7 +262,7 @@
   }
 
   function observeReveal(){
-    var els = $$('.masonry-item:not(.visible),.equip-card:not(.visible),.timeline-item:not(.visible),.skill-item:not(.visible),.roast-card:not(.visible),.academy-card:not(.visible),.section-header:not(.visible),.profile-text-col:not(.visible),.profile-photo-col:not(.visible)');
+    var els = $$('.masonry-item:not(.visible),.equip-card:not(.visible),.timeline-item:not(.visible),.skill-item:not(.visible),.roast-card:not(.visible),.academy-card:not(.visible),.section-header:not(.visible),.profile-text-col:not(.visible),.profile-photo-col:not(.visible),.showcase-card:not(.visible)');
     if(!els.length) return;
     if(!('IntersectionObserver' in window)){
       els.forEach(function(el){el.classList.add('visible')});
