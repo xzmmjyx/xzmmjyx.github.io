@@ -57,6 +57,7 @@
 
   <!-- ==================== Hero ==================== -->
   <section id="hero">
+    <canvas id="hero-particles"></canvas>
     <div class="hero-bg"></div>
     <div class="hero-overlay"></div>
     <div class="hero-grid-lines"></div>
@@ -75,11 +76,32 @@
         <a href="#academy" class="btn btn-primary">探索学院</a>
         <a href="#gallery" class="btn btn-outline">翻车现场</a>
       </div>
-      <div class="scroll-indicator">
-        <span>往下滑</span>
-        <div class="scroll-arrow">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
-        </div>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat-item">
+        <span class="hero-stat-num" data-count="7">0</span>
+        <span class="hero-stat-label">学院导航</span>
+      </div>
+      <div class="hero-stat-divider"></div>
+      <div class="hero-stat-item">
+        <span class="hero-stat-num" data-count="6">0</span>
+        <span class="hero-stat-label">装备图鉴</span>
+      </div>
+      <div class="hero-stat-divider"></div>
+      <div class="hero-stat-item">
+        <span class="hero-stat-num" data-count="15">0</span>
+        <span class="hero-stat-label">翻车证据</span>
+      </div>
+      <div class="hero-stat-divider"></div>
+      <div class="hero-stat-item">
+        <span class="hero-stat-num" data-count="6">0</span>
+        <span class="hero-stat-label">地狱笑话</span>
+      </div>
+    </div>
+    <div class="scroll-indicator">
+      <span>往下滑</span>
+      <div class="scroll-arrow">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
       </div>
     </div>
   </section>
@@ -99,6 +121,9 @@
   </div>
 
   <!-- ==================== 东北原神职业技术学院 ==================== -->
+  <div class="wave-divider wave-dark">
+    <svg viewBox="0 0 1440 80" preserveAspectRatio="none"><path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z"/></svg>
+  </div>
   <section id="academy">
     <div class="section-header">
       <span class="section-tag">ACADEMY</span>
@@ -209,6 +234,9 @@
   </section>
 
   <!-- ==================== 闫科旭专属页面 ==================== -->
+  <div class="wave-divider wave-to-red">
+    <svg viewBox="0 0 1440 80" preserveAspectRatio="none"><path d="M0,80 C360,0 720,60 1080,20 C1260,0 1380,40 1440,80 L1440,80 L0,80 Z"/></svg>
+  </div>
   <section id="profile">
     <div class="profile-bg-effect"></div>
     <div class="profile-inner">
@@ -390,6 +418,9 @@
   </section>
 
   <!-- ==================== 装备库 ==================== -->
+  <div class="wave-divider wave-from-red">
+    <svg viewBox="0 0 1440 80" preserveAspectRatio="none"><path d="M0,0 C240,60 480,20 720,50 C960,80 1200,10 1440,40 L1440,80 L0,80 Z"/></svg>
+  </div>
   <section id="equipment">
     <div class="section-header">
       <span class="section-tag">EQUIPMENT</span>
