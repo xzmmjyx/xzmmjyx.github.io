@@ -248,7 +248,7 @@
     var heroContent = $('.hero-content');
     var heroStats = $('.hero-stats');
     var ticking = false;
-    var sectionIds = ['hero','academy','equipment','timeline','skills','mbti','sorting-hat','roast'];
+    var sectionIds = ['hero','academy','equipment','timeline','skills','sbti','sorting-hat','roast'];
 
     function onScroll(){
       if(ticking) return;
@@ -309,7 +309,7 @@
     });
   }
 
-  var mbtiQuestions = [
+  var sbtiQuestions = [
     {q:'外业测量时，你的首选位置是？',a:'站在仪器旁边指挥全局，大声报数',b:'默默扛着脚架走到最远的测站'},
     {q:'闭合差超限时，你的第一反应是？',a:'大喊"这不可能！一定是仪器的问题！"',b:'默默翻出原始记录开始逐个排查'},
     {q:'小组外业分工，你更愿意做？',a:'跑棱镜——到处走，跟人聊天，不用动脑子',b:'观测读数——安安静静盯着十字丝'},
@@ -328,7 +328,7 @@
     {q:'你理想中的测绘工作状态是？',a:'团队合作，每天和不同的人打交道',b:'独立作业，安安静静处理数据'}
   ];
 
-  var mbtiTypes = {
+  var sbtiTypes = {
     'ENTJ':{name:'ENTJ · 控制测量指挥官',desc:'你是天生的团队指挥官，外业时永远站在仪器旁边发号施令。你坚信自己的方案是对的（虽然经常翻车）。你的RTK永远比别人的信号好，因为你用的是权力加成。',skill:'坐标系转换 · 误差传播分析 · 指挥全局',weakness:'闭合差超限时会甩锅给队友',icon:'👑'},
     'ENTP':{name:'ENTP · 坐标系发明家',desc:'你总在质疑现有的测量方法，觉得"为什么不用无人机算了？"你的论文选题总是最炸裂的，从"基于区块链的RTK数据管理"到"用游戏引擎模拟矿山变形监测"。',skill:'跨学科融合 · 创新思维 · 口才了得',weakness:'想法太多，一个毕设选题换了八次',icon:'💡'},
     'ENFJ':{name:'ENFJ · 外业团建大师',desc:'你不仅会测量，还会搞团建。每次外业实习，你都是那个组织聚餐、调解矛盾、鼓励队友的人。你的外业笔记最后一页写的是"大家辛苦了，测完请吃饭！"',skill:'团队协作 · 沟通能力 · 带动气氛',weakness:'自己数据没记全，光顾着照顾别人了',icon:'🤝'},
@@ -352,11 +352,11 @@
   var majorBadIdx = majorItems.indexOf('测绘工程');
   var schoolBadIdx = schoolItems.indexOf('东北原神职业技术学院');
 
-  function initMBTITest(){
-    var btnStart = $('#btn-mbti-start');
-    var intro = $('#mbti-intro');
-    var quiz = $('#mbti-quiz');
-    var result = $('#mbti-result');
+  function initSBTITest(){
+    var btnStart = $('#btn-sbti-start');
+    var intro = $('#sbti-intro');
+    var quiz = $('#sbti-quiz');
+    var result = $('#sbti-result');
     if(!btnStart) return;
     var current = 0;
     var answers = [];
@@ -365,55 +365,55 @@
       quiz.style.display = 'block';
       current = 0;
       answers = [];
-      renderMBTIQuestion();
+      renderSBTIQuestion();
     });
-    function renderMBTIQuestion(){
-      var q = mbtiQuestions[current];
-      var bar = $('#mbti-progress-bar');
-      var text = $('#mbti-progress-text');
-      var qEl = $('#mbti-question');
-      var oEl = $('#mbti-options');
-      if(bar) bar.style.width = ((current+1)/mbtiQuestions.length*100)+'%';
-      if(text) text.textContent = (current+1)+'/'+mbtiQuestions.length;
+    function renderSBTIQuestion(){
+      var q = sbtiQuestions[current];
+      var bar = $('#sbti-progress-bar');
+      var text = $('#sbti-progress-text');
+      var qEl = $('#sbti-question');
+      var oEl = $('#sbti-options');
+      if(bar) bar.style.width = ((current+1)/sbtiQuestions.length*100)+'%';
+      if(text) text.textContent = (current+1)+'/'+sbtiQuestions.length;
       if(qEl) qEl.textContent = q.q;
       if(oEl){
         oEl.innerHTML = '';
         var opts = [{text:q.a,val:'E'},{text:q.b,val:'I'}];
         opts.forEach(function(opt){
           var btn = document.createElement('button');
-          btn.className = 'mbti-opt-btn';
+          btn.className = 'sbti-opt-btn';
           btn.textContent = opt.text;
           btn.addEventListener('click', function(){
             answers.push(opt.val);
             current++;
-            if(current < mbtiQuestions.length){
-              renderMBTIQuestion();
+            if(current < sbtiQuestions.length){
+              renderSBTIQuestion();
             }else{
-              showMBTIResult();
+              showSBTIResult();
             }
           });
           oEl.appendChild(btn);
         });
       }
     }
-    function showMBTIResult(){
+    function showSBTIResult(){
       var e = answers.filter(function(a){return a==='E'}).length;
       var i = answers.filter(function(a){return a==='I'}).length;
       var dims = e >= i ? 'E' : 'I';
       var nDims = answers.length - e - i;
       var base = dims + 'N' + (Math.random()>.5?'T':'F') + (Math.random()>.5?'J':'P');
-      var ty = mbtiTypes[base] || mbtiTypes['ISTJ'];
+      var ty = sbtiTypes[base] || sbtiTypes['ISTJ'];
       quiz.style.display = 'none';
       result.style.display = 'block';
-      result.innerHTML = '<div class="mbti-result-card">' +
-        '<div class="mbti-result-icon">'+ty.icon+'</div>' +
-        '<div class="mbti-result-type">'+ty.name+'</div>' +
-        '<p class="mbti-result-desc">'+ty.desc+'</p>' +
-        '<div class="mbti-result-skills"><strong>核心技能：</strong>'+ty.skill+'</div>' +
-        '<div class="mbti-result-weakness"><strong>致命弱点：</strong>'+ty.weakness+'</div>' +
-        '<button class="btn btn-primary mbti-restart" id="btn-mbti-restart">重新测试</button>' +
+      result.innerHTML = '<div class="sbti-result-card">' +
+        '<div class="sbti-result-icon">'+ty.icon+'</div>' +
+        '<div class="sbti-result-type">'+ty.name+'</div>' +
+        '<p class="sbti-result-desc">'+ty.desc+'</p>' +
+        '<div class="sbti-result-skills"><strong>核心技能：</strong>'+ty.skill+'</div>' +
+        '<div class="sbti-result-weakness"><strong>致命弱点：</strong>'+ty.weakness+'</div>' +
+        '<button class="btn btn-primary sbti-restart" id="btn-sbti-restart">重新测试</button>' +
         '</div>';
-      var restartBtn = $('#btn-mbti-restart');
+      var restartBtn = $('#btn-sbti-restart');
       if(restartBtn) restartBtn.addEventListener('click', function(){
         result.style.display = 'none';
         result.innerHTML = '';
@@ -1717,7 +1717,7 @@
     initSkillTree();
     initHellScroller();
     initRoast();
-    initMBTITest();
+    initSBTITest();
     initSortingHat();
     initBackToTop();
     initTheme();
