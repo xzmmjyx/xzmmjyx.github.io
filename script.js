@@ -276,7 +276,7 @@
     var heroContent = $('.hero-content');
     var heroStats = $('.hero-stats');
     var ticking = false;
-    var sectionIds = ['hero','academy','profile','equipment','timeline','skills','roast'];
+    var sectionIds = ['hero','academy','team-showcase','profile','showcase','photowall','equipment','timeline','skills','roast'];
 
     function onScroll(){
       if(ticking) return;
@@ -482,10 +482,13 @@
   }
 
   function observeReveal(){
-    var els = $$('.roast-card:not(.visible),.academy-card:not(.visible),.section-header:not(.visible),.profile-text-col:not(.visible),.profile-photo-col:not(.visible),.showcase-card:not(.visible),.wave-divider:not(.visible)');
+    var els = $$('.roast-card:not(.visible),.academy-card:not(.visible),.section-header:not(.visible),.profile-text-col:not(.visible),.profile-photo-col:not(.visible),.showcase-card:not(.visible),.wave-divider:not(.visible),.transition-section:not(.in-view),.transition-hero:not(.in-view)');
     if(!els.length) return;
     if(!('IntersectionObserver' in window)){
-      els.forEach(function(el){el.classList.add('visible')});
+      els.forEach(function(el){
+        var cls = el.classList.contains('transition-section') || el.classList.contains('transition-hero') ? 'in-view' : 'visible';
+        el.classList.add(cls);
+      });
       return;
     }
     var obs = new IntersectionObserver(function(entries){
@@ -497,7 +500,8 @@
         }
       });
       revealed.forEach(function(el,i){
-        setTimeout(function(){el.classList.add('visible')},i*60);
+        var cls = el.classList.contains('transition-section') || el.classList.contains('transition-hero') ? 'in-view' : 'visible';
+        setTimeout(function(){el.classList.add(cls)},i*60);
       });
     },{threshold:.08,rootMargin:'0px 0px -30px 0px'});
     els.forEach(function(el){obs.observe(el)});
@@ -1486,8 +1490,8 @@
     initTagSparks();
     initScroll();
     initMobileNav();
-    initProfileTabs();
     initProfileLightbox();
+    initPhotoWall();
     initEquipment();
     initSkillTree();
     initHellScroller();

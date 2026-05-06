@@ -23,9 +23,12 @@
   <div class="side-dots" id="side-dots">
     <a class="dot active" data-section="hero"><span>首页</span></a>
     <a class="dot" data-section="academy"><span>学院</span></a>
+    <a class="dot" data-section="team-showcase"><span>团队</span></a>
     <a class="dot" data-section="profile"><span>闫科旭</span></a>
+    <a class="dot" data-section="showcase"><span>风采</span></a>
+    <a class="dot" data-section="photowall"><span>照片墙</span></a>
     <a class="dot" data-section="equipment"><span>装备</span></a>
-    <a class="dot" data-section="timeline"><span>地狱笑话</span></a>
+    <a class="dot" data-section="timeline"><span>笑话</span></a>
     <a class="dot" data-section="skills"><span>技能</span></a>
     <a class="dot" data-section="roast"><span>吐槽</span></a>
   </div>
@@ -40,6 +43,8 @@
         <li><a href="#hero" class="nav-link active" data-section="hero">首页</a></li>
         <li><a href="#academy" class="nav-link" data-section="academy">学院</a></li>
         <li><a href="#profile" class="nav-link" data-section="profile">闫科旭</a></li>
+        <li><a href="#showcase" class="nav-link" data-section="showcase">风采</a></li>
+        <li><a href="#photowall" class="nav-link" data-section="photowall">照片墙</a></li>
         <li><a href="#equipment" class="nav-link" data-section="equipment">装备</a></li>
         <li><a href="#timeline" class="nav-link" data-section="timeline">地狱笑话</a></li>
         <li><a href="#skills" class="nav-link" data-section="skills">技能</a></li>
@@ -117,10 +122,16 @@
     </div>
   </div>
 
+  <!-- ==================== 衔接页：学院过渡 ==================== -->
+  <section class="transition-section transition-dark" id="transition-academy">
+    <div class="transition-section-inner">
+      <div class="transition-section-icon">🏫</div>
+      <h3 class="transition-section-title">探索学院 · 原神化解读</h3>
+      <p class="transition-section-desc">每个学院都有属于自己的元素</p>
+    </div>
+  </section>
+
   <!-- ==================== 东北原神职业技术学院 ==================== -->
-  <div class="wave-divider wave-dark">
-    <svg viewBox="0 0 1440 80" preserveAspectRatio="none"><path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z"/></svg>
-  </div>
   <section id="academy">
     <div class="section-header">
       <span class="section-tag">ACADEMY</span>
@@ -230,21 +241,32 @@
     </div>
   </section>
 
-  <!-- ==================== 闫科旭综合板块 ==================== -->
-  <div class="wave-divider wave-to-red">
-    <svg viewBox="0 0 1440 80" preserveAspectRatio="none"><path d="M0,80 C360,0 720,60 1080,20 C1260,0 1380,40 1440,80 L1440,80 L0,80 Z"/></svg>
-  </div>
+  <!-- ==================== 衔接页：团队展示 ==================== -->
+  <section class="transition-hero" id="team-showcase">
+    <div class="transition-hero-bg" style="background-image:url('images/a1.jpg')"></div>
+    <div class="transition-hero-overlay"></div>
+    <div class="transition-hero-content">
+      <div class="transition-hero-line"></div>
+      <span class="transition-hero-tag">TEAM SHOWCASE</span>
+      <h2 class="transition-hero-title">团队展示</h2>
+      <p class="transition-hero-sub">测绘与地理科学学院 · 第二学生党支部 · 二〇二三级一班</p>
+      <div class="transition-hero-line"></div>
+    </div>
+    <div class="transition-hero-scroll">
+      <span>向下探索</span>
+      <div class="transition-hero-arrow"></div>
+    </div>
+  </section>
+
+  <!-- ==================== 闫科旭板块 ==================== -->
   <section id="profile">
     <div class="profile-bg-effect"></div>
-    <div class="profile-tabs">
-      <button class="profile-tab active" data-tab="about">闫科旭</button>
-      <button class="profile-tab" data-tab="showcase">党员风采</button>
-      <button class="profile-tab" data-tab="photowall">照片墙</button>
-      <div class="profile-tab-indicator"></div>
+    <div class="section-header">
+      <span class="section-tag" style="background:rgba(220,38,38,.12);color:var(--red);border:1px solid rgba(220,38,38,.2)">PROFILE</span>
+      <h2>闫科旭</h2>
+      <p>测绘与地理科学学院 · 地理空间信息工程 · 第二学生党支部</p>
     </div>
-
-    <div class="profile-tab-panel active" data-panel="about">
-      <div class="profile-inner">
+    <div class="profile-inner">
         <div class="profile-badge">
           <span class="badge-icon">★</span>
           <span>中国共产党党员</span>
@@ -317,17 +339,28 @@
         </div>
       </div>
     </div>
+  </section>
 
-    <div class="profile-tab-panel" data-panel="showcase">
-      <div class="showcase-inner">
-        <div class="showcase-header">
-          <div class="showcase-badge">
-            <span class="badge-icon">★</span>
-            <span>中共党员</span>
-          </div>
-          <h2 class="showcase-title">党员风采</h2>
-          <p class="showcase-sub">不忘初心 · 牢记使命 · 服务人民 · 奉献测绘</p>
+  <!-- ==================== 衔接页：党员风采过渡 ==================== -->
+  <section class="transition-section transition-red" id="transition-showcase">
+    <div class="transition-section-inner">
+      <div class="transition-section-icon">★</div>
+      <h3 class="transition-section-title">不忘初心 · 牢记使命</h3>
+      <p class="transition-section-desc">一名党员，一面旗帜</p>
+    </div>
+  </section>
+
+  <!-- ==================== 党员风采板块 ==================== -->
+  <section id="showcase">
+    <div class="showcase-inner">
+      <div class="showcase-header">
+        <div class="showcase-badge">
+          <span class="badge-icon">★</span>
+          <span>中共党员</span>
         </div>
+        <h2 class="showcase-title">党员风采</h2>
+        <p class="showcase-sub">不忘初心 · 牢记使命 · 服务人民 · 奉献测绘</p>
+      </div>
         <div class="showcase-grid">
           <div class="showcase-card">
             <div class="showcase-card-frame">
@@ -417,23 +450,31 @@
         <div class="showcase-footer">
           <p>辽宁工程技术大学 · 测绘与地理科学学院 · 第二学生党支部</p>
         </div>
-      </div>
     </div>
+  </section>
 
-    <div class="profile-tab-panel" data-panel="photowall">
-      <div class="photowall-inner">
-        <div class="showcase-header">
-          <div class="showcase-badge">
-            <span class="badge-icon">📷</span>
-            <span>影像记录</span>
-          </div>
-          <h2 class="showcase-title">闫科旭照片墙</h2>
-          <p class="showcase-sub">测绘日常 · 外业实录 · 珍贵瞬间 · 每一帧都是故事</p>
+  <!-- ==================== 衔接页：照片墙过渡 ==================== -->
+  <section class="transition-section transition-dark" id="transition-photowall">
+    <div class="transition-section-inner">
+      <div class="transition-section-icon">📷</div>
+      <h3 class="transition-section-title">影像记忆 · 每一帧都是故事</h3>
+      <p class="transition-section-desc">镜头定格的不仅是画面，更是青春</p>
+    </div>
+  </section>
+
+  <!-- ==================== 照片墙板块 ==================== -->
+  <section id="photowall">
+    <div class="photowall-inner">
+      <div class="showcase-header">
+        <div class="showcase-badge">
+          <span class="badge-icon">📷</span>
+          <span>影像记录</span>
         </div>
-        <div class="photowall-grid" id="photowall-grid"></div>
+        <h2 class="showcase-title">闫科旭照片墙</h2>
+        <p class="showcase-sub">测绘日常 · 外业实录 · 珍贵瞬间 · 每一帧都是故事</p>
       </div>
+      <div class="photowall-grid" id="photowall-grid"></div>
     </div>
-
     <div class="profile-lightbox" id="profile-lightbox">
       <button class="profile-lightbox-close" id="profile-lightbox-close">&times;</button>
       <button class="profile-lightbox-prev" id="profile-lightbox-prev">
@@ -448,10 +489,16 @@
     </div>
   </section>
 
+  <!-- ==================== 衔接页：装备库过渡 ==================== -->
+  <section class="transition-section transition-blue" id="transition-equipment">
+    <div class="transition-section-inner">
+      <div class="transition-section-icon">🎒</div>
+      <h3 class="transition-section-title">工欲善其事 · 必先利其器</h3>
+      <p class="transition-section-desc">测绘装备图鉴 · 全面盘点</p>
+    </div>
+  </section>
+
   <!-- ==================== 装备库 ==================== -->
-  <div class="wave-divider wave-from-red">
-    <svg viewBox="0 0 1440 80" preserveAspectRatio="none"><path d="M0,0 C240,60 480,20 720,50 C960,80 1200,10 1440,40 L1440,80 L0,80 Z"/></svg>
-  </div>
   <section id="equipment">
     <div class="section-header">
       <span class="section-tag">EQUIPMENT</span>
@@ -539,6 +586,15 @@
     </div>
   </section>
 
+  <!-- ==================== 衔接页：地狱笑话过渡 ==================== -->
+  <section class="transition-section transition-purple" id="transition-timeline">
+    <div class="transition-section-inner">
+      <div class="transition-section-icon">😂</div>
+      <h3 class="transition-section-title">笑着笑着就哭了</h3>
+      <p class="transition-section-desc">测绘人的黑色幽默 · 只有经历过才懂</p>
+    </div>
+  </section>
+
   <!-- ==================== 翻车时间线 ==================== -->
   <section id="timeline">
     <div class="section-header">
@@ -567,6 +623,15 @@
     </div>
   </section>
 
+  <!-- ==================== 衔接页：技能树过渡 ==================== -->
+  <section class="transition-section transition-green" id="transition-skills">
+    <div class="transition-section-inner">
+      <div class="transition-section-icon">🌳</div>
+      <h3 class="transition-section-title">技能觉醒 · 解锁天赋树</h3>
+      <p class="transition-section-desc">每个测绘人都有一棵独特的技能树</p>
+    </div>
+  </section>
+
   <!-- ==================== 技能树 ==================== -->
   <section id="skills">
     <div class="section-header">
@@ -581,6 +646,15 @@
     </div>
     <div id="skill-tree">
       <canvas id="skill-canvas" class="skill-canvas"></canvas>
+    </div>
+  </section>
+
+  <!-- ==================== 衔接页：吐槽墙过渡 ==================== -->
+  <section class="transition-section transition-warm" id="transition-roast">
+    <div class="transition-section-inner">
+      <div class="transition-section-icon">🔥</div>
+      <h3 class="transition-section-title">不吐不快 · 真情实感</h3>
+      <p class="transition-section-desc">工大学子的心声 · 字字扎心</p>
     </div>
   </section>
 
@@ -643,6 +717,8 @@
         <div class="footer-nav">
           <a href="#academy">学院</a>
           <a href="#profile">闫科旭</a>
+          <a href="#showcase">风采</a>
+          <a href="#photowall">照片墙</a>
           <a href="#equipment">装备库</a>
           <a href="#timeline">地狱笑话</a>
         </div>
