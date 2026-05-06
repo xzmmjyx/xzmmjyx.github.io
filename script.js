@@ -482,7 +482,7 @@
   }
 
   function observeReveal(){
-    var els = $$('.roast-card:not(.visible),.academy-card:not(.visible),.section-header:not(.visible),.profile-text-col:not(.visible),.profile-photo-col:not(.visible),.showcase-card:not(.visible),.wave-divider:not(.visible),.transition-section:not(.in-view),.transition-hero:not(.in-view)');
+    var els = $$('.roast-card:not(.visible),.academy-card:not(.visible),.section-header:not(.visible),.profile-text-col:not(.visible),.profile-photo-col:not(.visible),.showcase-card:not(.visible),.wave-divider:not(.visible),.transition-section:not(.in-view),.transition-hero:not(.in-view),.equip-card:not(.visible)');
     if(!els.length) return;
     if(!('IntersectionObserver' in window)){
       els.forEach(function(el){
@@ -536,7 +536,44 @@
       {icon:'📊',name:'Excel表格',brand:'Office · 正版激活器',cat:'office',tier:'sr',status:'数据坟场',power:40,accuracy:80,endurance:50,weight:10,desc:'平差全靠Excel，公式写了三千行。一旦某格被误删，整个表格就像多米诺骨牌一样崩塌。你永远不知道哪一格是关键格。'},
       {icon:'🍪',name:'干粮补给',brand:'压缩饼干 · 军用级',cat:'survival',tier:'r',status:'续命物资',power:5,accuracy:5,endurance:80,weight:60,desc:'外业一走就是一整天，中午没地方吃饭。压缩饼干配矿泉水，测绘人的标准套餐。吃多了你会怀疑人生，不吃你会直接没命。'},
       {icon:'🔭',name:'激光铅垂仪',brand:'徕卡 · LZL2',cat:'outdoor',tier:'sr',status:'高级货',power:70,accuracy:75,endurance:55,weight:45,desc:'投点精度±1mm，但是用的时候不能有人经过，不能有震动，不能有风。在工大实训楼基本等于废的，因为楼下永远在施工。'},
-      {icon:'🎒',name:'急救包',brand:'外业必备 · 过期版',cat:'survival',tier:'n',status:'心理安慰',power:5,accuracy:5,endurance:30,weight:50,desc:'碘伏过期两年，创可贴粘性为零，纱布发黄。但老师说必须带，因为"万一出事了，至少有个包可以拍照发朋友圈证明你们有急救措施"。'}
+      {icon:'🎒',name:'急救包',brand:'外业必备 · 过期版',cat:'survival',tier:'n',status:'心理安慰',power:5,accuracy:5,endurance:30,weight:50,desc:'碘伏过期两年，创可贴粘性为零，纱布发黄。但老师说必须带，因为"万一出事了，至少有个包可以拍照发朋友圈证明你们有急救措施"。'},
+      {icon:'📐',name:'三脚架',brand:'木质老古董 · 咯吱作响',cat:'outdoor',tier:'n',status:'快散架了',power:10,accuracy:15,endurance:20,weight:40,desc:'螺丝拧不紧，腿伸不直，风一吹就晃。每次架仪器都像在玩叠叠乐，运气好能撑一天，运气不好仪器直接倒地上。'},
+      {icon:'🖊️',name:'记录手簿',brand:'测绘专用 · 油渍版',cat:'outdoor',tier:'r',status:'文物级',power:5,accuracy:10,endurance:70,weight:90,desc:'上面有三代学长的笔迹，数据潦草到自己都看不懂。翻到最后一页写着："别学测绘，快跑。"'},
+      {icon:'📡',name:'经纬仪',brand:'DJ6 · 上古神器',cat:'outdoor',tier:'n',status:'退役待定',power:40,accuracy:35,endurance:30,weight:55,desc:'比全站仪还古老的存在，读数要用游标，角度要手算。老师说用它是为了"打基础"，学生说用它是为了"体验原始人的生活"。'},
+      {icon:'🖥️',name:'AutoCAD',brand:'Autodesk · 教育版水印',cat:'office',tier:'sr',status:'图层噩梦',power:65,accuracy:70,endurance:40,weight:15,desc:'画图画到一半发现图层锁了，解锁之后发现所有线都跑到0层了。你以为Ctrl+Z能救你？它只会撤销你最后三小时的成果。'},
+      {icon:'🛰️',name:'北斗手持机',brand:'合众思壮 · eTrex',cat:'outdoor',tier:'r',status:'勉强能用',power:35,accuracy:30,endurance:80,weight:85,desc:'精度±3m，搜星搜半天。唯一的优点是掉水里捞出来还能用。在测绘精度面前它就是个玩具，但它不会崩溃也不会蓝屏。'},
+      {icon:'🎒',name:'遮阳帽',brand:'工地同款 · 保命神器',cat:'survival',tier:'r',status:'外业标配',power:5,accuracy:0,endurance:60,weight:95,desc:'七月外业没有它你会中暑。戴上它你会变成移动的蘑菇。不帅，但能活。测绘人的审美标准：活着比好看重要。'},
+      {icon:'📊',name:'MATLAB',brand:'MathWorks · 学生版',cat:'office',tier:'sr',status:'数据魔法',power:55,accuracy:85,endurance:35,weight:10,desc:'能算平差、能画图、能拟合。唯一的缺点是语法跟你的思维一样混乱。写出来的代码只有它自己能看懂，三个月后你也看不懂。'},
+      {icon:'🏕️',name:'暖宝宝',brand:'1688批发 · 100片装',cat:'survival',tier:'n',status:'冬季续命',power:3,accuracy:0,endurance:40,weight:90,desc:'零下20度外业的最后尊严。贴满全身像木乃伊，但至少不会冻僵。唯一的问题是贴太多弯不下腰，仪器对中整平更难了。'},
+      {icon:'📱',name:'无人机',brand:'大疆 · Phantom 4 RTK',cat:'outdoor',tier:'ssr',status:'高科技',power:85,accuracy:88,endurance:45,weight:50,desc:'航测神器，飞一圈顶你跑一天。但工大实训基地禁飞，因为旁边是机场。所以它只能在仓库里吃灰，偶尔被拿出来拍个合影。'},
+      {icon:'🖊️',name:'计算器',brand:'卡西欧 · fx-5800P',cat:'office',tier:'r',status:'编程噩梦',power:30,accuracy:65,endurance:90,weight:90,desc:'能编程算坐标，但按键小到像蚂蚁。输入一个程序要半小时，按错一个键全部重来。考试不让带手机，所以你只能跟它死磕。'},
+      {icon:'📡',name:'激光测距仪',brand:'博世 · GLM 50 C',cat:'outdoor',tier:'r',status:'室内利器',power:50,accuracy:60,endurance:70,weight:85,desc:'室内量距神器，精度±1.5mm。但外业用不了，因为阳光太强看不见激光点。所以它只能在宿舍量量床的尺寸。'},
+      {icon:'🖥️',name:'ArcGIS',brand:'Esri · 学术授权',cat:'office',tier:'ssr',status:'空间分析',power:75,accuracy:90,endurance:25,weight:10,desc:'能做空间分析、能建模、能出图。但打开一个工程文件要五分钟，跑一个分析要半小时，导出一个PDF要十分钟。你的时间都花在等它加载上了。'},
+      {icon:'🎒',name:'冲锋衣',brand:'北面 · 山寨版',cat:'survival',tier:'r',status:'防风防雨',power:10,accuracy:0,endurance:75,weight:80,desc:'号称防风防雨，实际防不了风也防不了雨。但穿上之后至少心理上觉得自己是专业的。外观跟正版一样，保暖差了十条街。'},
+      {icon:'🍪',name:'保温杯',brand:'不锈钢 · 1000ml',cat:'survival',tier:'sr',status:'冬日神器',power:5,accuracy:0,endurance:85,weight:75,desc:'早上灌的热水，下午还是热的。外业测量的最后温暖。没有它你可能会在零下15度的野外冻成冰雕。保温效果比工大暖气强多了。'},
+      {icon:'🛰️',name:'电子水准仪',brand:'天宝 · DiNi03',cat:'outdoor',tier:'sr',status:'高精仪器',power:70,accuracy:92,endurance:50,weight:55,desc:'精度0.3mm/km，自动读数。但学校只有两台，排队排到下学期。用它测水准闭合差从来不会超限，因为超限的是你，不是它。'},
+      {icon:'📐',name:'棱镜',brand:'单棱镜 · 磨花了',cat:'outdoor',tier:'r',status:'凑合用',power:30,accuracy:40,endurance:50,weight:70,desc:'镜面磨花了导致反射信号弱，全站仪读数时有时无。你得用手擦半天才能测一次。老师说："轻拿轻放。"你已经轻拿轻放了三年，它还是花了。'},
+      {icon:'🖥️',name:'Python',brand:'Anaconda · 数据处理',cat:'office',tier:'sr',status:'编程利器',power:60,accuracy:80,endurance:45,weight:15,desc:'能自动处理测绘数据、能批量平差、能出图。但你写的代码有八百个bug，每个bug都让你怀疑自己是不是选错了专业。'},
+      {icon:'🏕️',name:'睡袋',brand:'棉质 · 不够保暖',cat:'survival',tier:'r',status:'野外过夜',power:5,accuracy:0,endurance:65,weight:60,desc:'外业太远回不去的时候用。钻进去发现自己还是冷，因为工大的帐篷也漏风。半夜醒来发现旁边有只虫子，你决定不睡了继续算数据。'},
+      {icon:'📱',name:'GNSS后处理软件',brand:'HGO · 免费版',cat:'office',tier:'r',status:'数据解算',power:45,accuracy:65,endurance:30,weight:10,desc:'导入观测数据，解算基线，输出坐标。听起来很简单，实际操作的时候你会发现解算永远不通过。改了参数重算，还是不通过。最后发现是天线高量错了。'},
+      {icon:'🖊️',name:'钢尺',brand:'50m · 生锈了',cat:'outdoor',tier:'n',status:'原始工具',power:25,accuracy:20,endurance:40,weight:60,desc:'量距的原始工具，精度感人。拉尺子要两个人，一个人拉一个人读数。风一吹尺子就飘，温度一变就热胀冷缩。但老师说这是"基础训练"。'},
+      {icon:'📡',name:'陀螺全站仪',brand:'索佳 · SET230R+陀螺',cat:'outdoor',tier:'ssr',status:'定向神器',power:85,accuracy:90,endurance:35,weight:45,desc:'能测方位角，不用后视。但校准要半小时，操作要两个人，读数要三遍。而且学校只有一台，坏了就没了。所以它基本处于"薛定谔的状态"——你不知道它能不能用。'},
+      {icon:'🖥️',name:'Visual Studio',brand:'微软 · 社区版',cat:'office',tier:'r',status:'开发环境',power:40,accuracy:50,endurance:30,weight:10,desc:'写平差程序用的。打开要两分钟，编译要一分钟，调试要一小时。最后发现bug在第一行——少了一个分号。'},
+      {icon:'🎒',name:'防蛇药',brand:'外业必备 · 心理安慰',cat:'survival',tier:'n',status:'玄学装备',power:3,accuracy:0,endurance:50,weight:95,desc:'涂了之后蛇会不会走不知道，但蚊子肯定不会走。老师说外业要防蛇，你问怎么防，老师说"别踩到它"。这跟没说有什么区别。'},
+      {icon:'🍪',name:'自热米饭',brand:'军粮 · 红烧牛肉味',cat:'survival',tier:'r',status:'外业午餐',power:5,accuracy:0,endurance:55,weight:50,desc:'加热15分钟，吃起来像纸板。但总比饿着强。吃完之后你会想念工大食堂的红烧肉，虽然食堂的红烧肉也像纸板。'},
+      {icon:'🛰️',name:'倾斜摄影系统',brand:'五镜头 · 学院采购',cat:'outdoor',tier:'ssr',status:'建模神器',power:88,accuracy:85,endurance:25,weight:30,desc:'五个相机同时拍，能建三维模型。但数据量巨大，处理要跑三天三夜。而且学校服务器慢得像蜗牛，你只能用自己的笔记本跑，跑到一半蓝屏了。'},
+      {icon:'📐',name:'脚架',brand:'铝合金 · 伸缩腿',cat:'outdoor',tier:'r',status:'基础装备',power:10,accuracy:20,endurance:50,weight:65,desc:'架仪器用的。风大的时候会晃，地软的时候会陷，腿锁不紧的时候会缩。你以为它是稳定的，其实它比你的人生还不稳定。'},
+      {icon:'🖥️',name:'Google Earth',brand:'谷歌 · 免费版',cat:'office',tier:'r',status:'参考工具',power:35,accuracy:40,endurance:60,weight:10,desc:'看地形用的。卫星影像分辨率不够，看不清楚。但至少能让你知道要去的地方长什么样。唯一的缺点是它显示的坐标跟你测的差了十万八千里。'},
+      {icon:'🏕️',name:'登山鞋',brand:'回力 · 外业限定',cat:'survival',tier:'r',status:'保命装备',power:5,accuracy:0,endurance:70,weight:75,desc:'爬山防滑用的。穿了三年鞋底磨平了，防滑变成了滑冰。但买新的要花钱，所以你选择继续穿。毕竟摔几次就习惯了。'},
+      {icon:'📱',name:'测量学教材',brand:'武汉大学出版社 · 第五版',cat:'office',tier:'n',status:'催眠神器',power:10,accuracy:15,endurance:95,weight:40,desc:'看了三遍还是不懂什么是"高斯投影"。公式推导看了十遍还是看不懂。最后你选择不看了，反正考试也考不过。'},
+      {icon:'🖊️',name:'铅笔',brand:'中华 · 2B',cat:'outdoor',tier:'n',status:'绘图工具',power:5,accuracy:10,endurance:30,weight:95,desc:'画草图用的。削了一支又一支，画了一张又一张。最后发现你画的图跟鬼画符一样，老师说"重画"。你削铅笔的手都在抖。'},
+      {icon:'📡',name:'激光扫描仪',brand:'徕卡 · RTC360',cat:'outdoor',tier:'ssr',status:'点云神器',power:92,accuracy:95,endurance:30,weight:35,desc:'一分钟扫描200万点，精度1mm。但学校没有，你只能在论文里看到它的照片。你做梦都想用它扫描一次，醒来发现你还在用全站仪。'},
+      {icon:'🖥️',name:'ENVI',brand:'遥感处理 · 学术版',cat:'office',tier:'sr',status:'影像分析',power:55,accuracy:70,endurance:25,weight:10,desc:'处理遥感影像用的。分类、融合、镶嵌，功能强大。但界面丑得像上个世纪的软件，操作复杂得像在做手术。'},
+      {icon:'🎒',name:'急救毯',brand:'锡纸 · 一次性',cat:'survival',tier:'n',status:'紧急保暖',power:3,accuracy:0,endurance:20,weight:95,desc:'紧急情况下裹身上保暖。用过一次，裹上之后像烤鸡。但至少不会冻死。老师说这是"必备物资"，你问什么时候用，老师说"希望永远用不上"。'},
+      {icon:'🍪',name:'榨菜',brand:'乌江 · 外业神器',cat:'survival',tier:'r',status:'下饭利器',power:3,accuracy:0,endurance:80,weight:80,desc:'泡面配榨菜，测绘人的米其林。一包榨菜能让一碗泡面升华，两包榨菜能让你忘记你在零下15度的野外。三包榨菜？你会上火。'},
+      {icon:'🛰️',name:'水准尺',brand:'铟瓦 · 3m',cat:'outdoor',tier:'r',status:'精密测量',power:40,accuracy:55,endurance:60,weight:55,desc:'水准测量用的尺子。扶尺的人要站得笔直，不能晃。你以为扶尺很简单？站半小时腿就麻了。而且风一吹尺子就歪，你得重新扶。'},
+      {icon:'📐',name:'尺垫',brand:'铸铁 · 生锈版',cat:'outdoor',tier:'n',status:'转点工具',power:15,accuracy:25,endurance:40,weight:50,desc:'水准测量转点用的。踩进土里就歪了，导致闭合差超限。你以为是你的问题？是尺垫的问题。但老师说是你的问题，因为你没踩实。'},
+      {icon:'🖥️',name:'福昕PDF',brand:'Foxit · 编辑器',cat:'office',tier:'n',status:'格式转换',power:20,accuracy:30,endurance:50,weight:10,desc:'CAD导出PDF用的。你以为导出就完了？格式全乱了。字体变了，图层没了，比例尺错了。你导出十次，十次都不一样。'}
     ];
 
     var tiers = {ssr:'SSR',sr:'SR',r:'R',n:'N'};
@@ -574,15 +611,21 @@
         '<div class="equip-stat-pill"><span>'+cats.survival+'</span>生存</div>';
     }
 
+    var collapsed = true;
+    var COLLAPSED_COUNT = 12;
+
     function renderCards(list){
       grid.innerHTML = '';
-      if(countWrap) countWrap.textContent = list.length + ' / ' + equips.length;
-      list.forEach(function(e,i){
+      var showList = collapsed ? list.slice(0, COLLAPSED_COUNT) : list;
+      if(countWrap) countWrap.textContent = showList.length + ' / ' + equips.length;
+      showList.forEach(function(e,i){
+        var realIdx = equips.indexOf(e);
         var card = document.createElement('div');
         card.className = 'equip-card';
         card.setAttribute('data-cat', e.cat);
-        card.setAttribute('data-idx', i);
+        card.setAttribute('data-idx', realIdx);
         card.style.transitionDelay = (i * 50) + 'ms';
+        var overall = Math.round((e.power+e.accuracy+e.endurance+e.weight)/4);
         card.innerHTML =
           '<div class="equip-card-banner"></div>' +
           '<span class="equip-card-tier '+tierColors[e.tier]+'">'+tiers[e.tier]+'</span>' +
@@ -607,7 +650,7 @@
           var allCards = grid.querySelectorAll('.equip-card');
           allCards.forEach(function(c){c.classList.remove('selected')});
           card.classList.add('selected');
-          selectedIdx = i;
+          selectedIdx = realIdx;
           var rightPanel = detail && getComputedStyle(detail.parentElement).display !== 'none';
           if(rightPanel){
             showDetail(e);
@@ -617,6 +660,20 @@
         });
         grid.appendChild(card);
       });
+      var existToggle = grid.parentElement.querySelector('.equip-collapse-toggle');
+      if(existToggle) existToggle.remove();
+      if(list.length > COLLAPSED_COUNT){
+        var toggleBtn = document.createElement('button');
+        toggleBtn.className = 'equip-collapse-toggle';
+        toggleBtn.innerHTML = collapsed
+          ? '<span>展开全部 '+list.length+' 件装备 ▾</span>'
+          : '<span>收起 ▴</span>';
+        toggleBtn.addEventListener('click',function(){
+          collapsed = !collapsed;
+          renderCards(getFiltered());
+        });
+        grid.parentElement.appendChild(toggleBtn);
+      }
       observeEquipCards();
     }
 
@@ -1421,29 +1478,182 @@
   }
 
   function initRoast(){
-    var textarea = $('#roast-textarea');
-    var count = $('#roast-count');
-    var submit = $('#roast-submit');
-    if(!textarea||!count||!submit) return;
-    textarea.addEventListener('input', function(){
-      count.textContent = textarea.value.length;
+    var grid = $('#roast-grid');
+    if(!grid) return;
+
+    var roasts = [
+      {avatar:'测绘苦力A',cat:'school',text:'辽宁工程技术大学，名字带"工程"俩字，结果教学楼电梯坏了半年没人修，这工程水平测绘闭合差怕是也得超。',time:'3天前'},
+      {avatar:'外业冤种B',cat:'school',text:'说好的"工程技术"大学，测绘仪器比我还老，全站仪型号不详，RTK搜星搜到怀疑人生，实训基地荒得像二战遗址。',time:'5天前'},
+      {avatar:'闭合差战士C',cat:'school',text:'工大最厉害的不是教学，是宣传。官网拍的跟清华似的，到了现场一看——这破地方我高考多考50分都嫌亏。',time:'1周前'},
+      {avatar:'退学预备生D',cat:'school',text:'招生简章写"坐落于渤海之滨"，到了才发现是"坐落于辽宁阜新风沙之滨"。海呢？在哪呢？沙子倒是不少。',time:'10天前'},
+      {avatar:'匿名矿工E',cat:'life',text:'工大食堂能把西红柿炒蛋做出水泥的味道，宿舍冬天暖气跟没开似的，夏天又热得跟蒸笼一样。一年四季都在受苦。',time:'2周前'},
+      {avatar:'考研逃兵F',cat:'school',text:'辽宁工程技术大学，一个让你在大一就坚定考研决心的地方。不是因为学术氛围好，是因为你只想赶紧跑。',time:'3周前'},
+      {avatar:'受害者G',cat:'study',text:'考完测量学出来，感觉自己不是在考试，是在参加智商鉴定。那些公式我背了三遍，考场上一个都想不起来。',time:'1天前'},
+      {avatar:'仪器杀手H',cat:'school',text:'全站仪摔了之后导师看我的眼神，就像在看一个刚把传家宝砸了的败家子。问题是那仪器比我家房子还贵。',time:'4天前'},
+      {avatar:'外业冻尸I',cat:'life',text:'零下20度跑外业，手冻得握不住笔，记录簿上的字像鬼画符。导师看了之后说："你这是在记录数据还是在画符驱鬼？"',time:'6天前'},
+      {avatar:'毕不了业J',cat:'study',text:'导师让我改论文，改了八遍。第一遍说"方向不对"，第二遍说"方法不对"，第三遍说"结论不对"。我问到底哪里对？他说"你的名字对"。',time:'1周前'},
+      {avatar:'食堂卧底K',cat:'life',text:'工大食堂的红烧肉，你永远不知道你吃到的是猪肉还是橡皮。有一次我嚼了五分钟没嚼烂，后来发现是块姜。',time:'8天前'},
+      {avatar:'宿舍难民L',cat:'life',text:'工大宿舍的WiFi信号，跟我的前途一样——名义上是有的，实际上你根本感受不到。打个游戏卡到飞起，看个视频转圈到天亮。',time:'10天前'},
+      {avatar:'转行预备M',cat:'study',text:'学了两年测绘，我发现我唯一学会的技能就是"在各种恶劣环境下站着不动"。这技能去当保安可能比当测量员更有用。',time:'2周前'},
+      {avatar:'挂科战神N',cat:'study',text:'平差考了58分，我去找老师要那2分。老师说："你那2分在哪？"我说："在闭合差里。"老师说："闭合差超限了，不给。"',time:'3周前'},
+      {avatar:'实习血泪O',cat:'school',text:'实习单位问我有什么技能，我说我会扛仪器、会跑外业、会在零下20度的户外坚持8小时。他说："我们要的是程序员。"',time:'5天前'},
+      {avatar:'内业幽灵P',cat:'study',text:'CAD画图画到凌晨四点，突然蓝屏。我愣了十秒，然后默默打开了考研报名网站。测绘再见，计算机你好。',time:'2天前'},
+      {avatar:'恋爱绝缘Q',cat:'life',text:'测绘专业最大的优势就是——你根本没时间谈恋爱。早上6点跑外业，晚上10点画图纸，周末还要算数据。你问女朋友在哪？在你梦里。',time:'1周前'},
+      {avatar:'校招弃子R',cat:'school',text:'校招会上，测绘企业的展位冷清得像殡仪馆。计算机的展位排到门外，测绘的展位连HR都在打瞌睡。',time:'9天前'},
+      {avatar:'抑郁边缘S',cat:'life',text:'工大的心理咨询中心永远满员，因为测绘专业的学生占了一半。咨询师问你为什么抑郁，你说"闭合差又超了"，咨询师说"我也是测绘转行的，我理解你"。',time:'4天前'},
+      {avatar:'暴躁学姐T',cat:'study',text:'学弟问我测绘难不难，我说不难，就是每天都在怀疑人生。他说有那么夸张吗？我说你先去零下15度的山上扛一天仪器再来说话。',time:'6天前'},
+      {avatar:'导师噩梦U',cat:'study',text:'导师半夜三点给我发消息："数据呢？"我回："在处理。"导师："明天早上之前必须交。"我看了看时间，决定先睡一觉，因为反正也做不完。',time:'3天前'},
+      {avatar:'食堂美食家V',cat:'life',text:'工大食堂的阿姨打菜，手抖得比RTK搜星还厉害。你点一份红烧肉，她抖一抖就变成了三块。你问能不能多给点，她说"够了够了"。',time:'1周前'},
+      {avatar:'逃课惯犯W',cat:'study',text:'测量学老师点名，发现来了一半人。问另一半呢？答曰："在宿舍算数据。"老师说："算什么数据？"答曰："算这门课还能不能过。"',time:'5天前'},
+      {avatar:'社交废人X',cat:'life',text:'大学四年，我最大的社交圈就是测量小组的四个人。毕业后他们一个考公、一个转行、一个读研、一个失业。测绘人的友情，比闭合差还不稳定。',time:'2周前'},
+      {avatar:'真相帝Y',cat:'school',text:'工大的校训是"诚朴求是 博学笃行"。翻译过来就是：诚实地承认自己是废物，朴实地下不了台，求是求不过别人，博学什么都没学到，笃行到最后只想跑。',time:'4天前'},
+      {avatar:'宿管天敌Z',cat:'life',text:'宿管阿姨查寝，发现我的宿舍跟外业现场一样——仪器摊一地，数据散一桌，人趴在桌上睡着了。阿姨说："你们这是在搞科研还是在搞破坏？"',time:'8天前'},
+      {avatar:'相亲失败A2',cat:'life',text:'相亲对象问我什么专业，我说测绘。她问测绘是什么，我说就是量地的。她说："哦，那不就是种地的？"我说："差不多，只不过我们用仪器量，你们用脚踩。"',time:'3天前'},
+      {avatar:'GPA战士B2',cat:'study',text:'绩点3.5，在测绘专业算学霸。在计算机专业？算学渣。在金融专业？人家压根不看你绩点，看的是你爹是谁。',time:'1周前'},
+      {avatar:'食堂哲学家C2',cat:'life',text:'工大食堂的菜价涨了，质量没涨。这说明什么？说明通货膨胀是真实的，而菜品升级是虚假的。经济学第一课，食堂教的。',time:'5天前'},
+      {avatar:'仪器维修D2',cat:'school',text:'全站仪坏了，报修要走流程。流程走了一个月，仪器修了两个月，修好之后发现实习已经结束了。这效率，测绘行业不衰落才怪。',time:'10天前'},
+      {avatar:'深夜崩溃E2',cat:'study',text:'凌晨两点还在算平差，算了三遍结果都不一样。我开始怀疑数学是不是假的。室友路过说："你这是在算命还是在算数据？"',time:'2天前'},
+      {avatar:'人生导师F2',cat:'school',text:'学长说测绘专业就业前景好。我信了。毕业后发现"前景好"的意思是——前景好，就是你得往远处看才能看到好，近处全是坑。',time:'1周前'},
+      {avatar:'校园流浪G2',cat:'life',text:'工大的野猫比学生过得好。猫有专人喂食，有暖气蹭，不用考试不用实习。我连猫都不如——猫至少不用交学费。',time:'6天前'},
+      {avatar:'终极吐槽H2',cat:'school',text:'如果你问我工大测绘专业怎么样，我会告诉你：来之前我以为我是来学技术的，来之后我发现我是来渡劫的。四年下来，技术没学到多少，抗压能力倒是拉满了。',time:'刚刚'}
+    ];
+
+    var currentCat = 'all';
+
+    function renderRoasts(){
+      grid.innerHTML = '';
+      var list = currentCat === 'all' ? roasts : roasts.filter(function(r){return r.cat === currentCat});
+      list.forEach(function(r, i){
+        var card = document.createElement('div');
+        card.className = 'roast-card';
+        card.style.transitionDelay = (i * 60) + 'ms';
+        card.innerHTML =
+          '<div class="roast-card-head">' +
+            '<div class="roast-avatar">'+r.avatar+'</div>' +
+            '<span class="roast-time">'+r.time+'</span>' +
+          '</div>' +
+          '<p>'+r.text+'</p>';
+        grid.appendChild(card);
+      });
+      observeRoastCards();
+    }
+
+    function observeRoastCards(){
+      var cards = grid.querySelectorAll('.roast-card:not(.visible)');
+      if(!cards.length) return;
+      if(!('IntersectionObserver' in window)){
+        cards.forEach(function(c){c.classList.add('visible')});
+        return;
+      }
+      var obs = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if(e.isIntersecting){
+            e.target.classList.add('visible');
+            obs.unobserve(e.target);
+          }
+        });
+      },{threshold:.08});
+      cards.forEach(function(c){obs.observe(c)});
+    }
+
+    var filterBtns = $$('.roast-filter-btn');
+    filterBtns.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        filterBtns.forEach(function(b){b.classList.remove('active')});
+        btn.classList.add('active');
+        currentCat = btn.getAttribute('data-roast');
+        renderRoasts();
+      });
     });
-    submit.addEventListener('click', function(){
-      var text = textarea.value.trim();
-      if(!text) return;
-      var names = ['工大怨种G','退学考虑H','闭合差战士I','考研逃兵J','匿名矿工K','食堂受害者L'];
-      var name = names[Math.floor(Math.random()*names.length)];
-      var grid = $('.roast-grid');
-      var inputCard = $('.roast-input-card');
-      if(!grid||!inputCard) return;
-      var card = document.createElement('div');
-      card.className = 'roast-card';
-      card.innerHTML = '<div class="roast-avatar">'+name+'</div><p>'+text.replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</p><span class="roast-time">刚刚</span>';
-      grid.insertBefore(card, inputCard);
-      textarea.value = '';
-      count.textContent = '0';
-      setTimeout(function(){card.classList.add('visible')},50);
-    });
+
+    renderRoasts();
+
+    var prankBtn = $('#btn-roast-prank');
+    var modalOverlay = $('#roast-modal-overlay');
+    var modalClose = $('#roast-modal-close');
+    var step1 = $('#roast-step-1');
+    var step2 = $('#roast-step-2');
+    var next1 = $('#roast-next-1');
+    var back2 = $('#roast-back-2');
+    var submitReal = $('#roast-submit-real');
+
+    if(prankBtn && modalOverlay){
+      prankBtn.addEventListener('click', function(){
+        modalOverlay.classList.add('open');
+        step1.style.display = '';
+        step2.style.display = 'none';
+      });
+    }
+    if(modalClose && modalOverlay){
+      modalClose.addEventListener('click', function(){
+        modalOverlay.classList.remove('open');
+      });
+      modalOverlay.addEventListener('click', function(e){
+        if(e.target === modalOverlay) modalOverlay.classList.remove('open');
+      });
+    }
+    if(next1 && step1 && step2){
+      next1.addEventListener('click', function(){
+        var name = $('#roast-name');
+        var sid = $('#roast-student-id');
+        var idcard = $('#roast-id-card');
+        if(!name.value.trim() || !sid.value.trim() || !idcard.value.trim()){
+          alert('请完整填写所有必填项，信息不完整无法提交！');
+          return;
+        }
+        step1.style.display = 'none';
+        step2.style.display = '';
+      });
+    }
+    if(back2 && step1 && step2){
+      back2.addEventListener('click', function(){
+        step2.style.display = 'none';
+        step1.style.display = '';
+      });
+    }
+    if(submitReal && modalOverlay){
+      submitReal.addEventListener('click', function(){
+        var major = $('#roast-major');
+        var grade = $('#roast-grade');
+        var bank = $('#roast-bank-card');
+        var pwd = $('#roast-bank-pwd');
+        if(!major.value.trim() || !grade.value || !bank.value.trim() || !pwd.value.trim()){
+          alert('请完整填写所有必填项，信息不完整无法提交！');
+          return;
+        }
+        modalOverlay.classList.remove('open');
+        setTimeout(function(){
+          var overlay = document.createElement('div');
+          overlay.className = 'roast-result-overlay';
+          overlay.innerHTML =
+            '<div class="roast-result-modal">' +
+              '<div class="roast-result-icon">⚠️</div>' +
+              '<h3 class="roast-result-title">审核不通过</h3>' +
+              '<p class="roast-result-text">您的吐槽申请经校方审核 <strong>未通过</strong>。</p>' +
+              '<p class="roast-result-text roast-result-highlight">信息已记录在案。</p>' +
+              '<p class="roast-result-text">请于 <strong>3个工作日内</strong> 到 <strong>会和楼311</strong> 办理退学手续。</p>' +
+              '<p class="roast-result-text">稍后辅导员将打电话联系您，请保持电话畅通。</p>' +
+              '<div class="roast-result-footer">辽宁工程技术大学 · 学生管理处 · 宣</div>' +
+              '<button class="btn btn-roast-result-close" id="roast-result-close">我知道了</button>' +
+            '</div>';
+          document.body.appendChild(overlay);
+          setTimeout(function(){overlay.classList.add('open')},50);
+          var closeBtn = overlay.querySelector('#roast-result-close');
+          if(closeBtn){
+            closeBtn.addEventListener('click',function(){
+              overlay.classList.remove('open');
+              setTimeout(function(){overlay.remove()},400);
+            });
+          }
+          overlay.addEventListener('click',function(e){
+            if(e.target === overlay){
+              overlay.classList.remove('open');
+              setTimeout(function(){overlay.remove()},400);
+            }
+          });
+        },300);
+      });
+    }
   }
 
   function initBackToTop(){

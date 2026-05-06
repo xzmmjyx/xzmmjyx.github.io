@@ -86,18 +86,18 @@
       </div>
       <div class="hero-stat-divider"></div>
       <div class="hero-stat-item">
-        <span class="hero-stat-num" data-count="14">0</span>
+        <span class="hero-stat-num" data-count="51">0</span>
         <span class="hero-stat-label">装备图鉴</span>
       </div>
       <div class="hero-stat-divider"></div>
       <div class="hero-stat-item">
-        <span class="hero-stat-num" data-count="15">0</span>
+        <span class="hero-stat-num" data-count="22">0</span>
         <span class="hero-stat-label">翻车证据</span>
       </div>
       <div class="hero-stat-divider"></div>
       <div class="hero-stat-item">
-        <span class="hero-stat-num" data-count="22">0</span>
-        <span class="hero-stat-label">地狱笑话</span>
+        <span class="hero-stat-num" data-count="33">0</span>
+        <span class="hero-stat-label">血泪吐槽</span>
       </div>
     </div>
     <div class="scroll-indicator">
@@ -665,46 +665,73 @@
       <h2>吐槽墙</h2>
       <p>工大学生的血泪控诉 · 字字珠玑 · 句句扎心</p>
     </div>
-    <div class="roast-grid">
-      <div class="roast-card">
-        <div class="roast-avatar">测绘苦力A</div>
-        <p>辽宁工程技术大学，名字带"工程"俩字，结果教学楼电梯坏了半年没人修，这工程水平测绘闭合差怕是也得超。</p>
-        <span class="roast-time">3天前</span>
+    <div class="roast-controls">
+      <button class="roast-filter-btn active" data-roast="all">全部</button>
+      <button class="roast-filter-btn" data-roast="school">学校</button>
+      <button class="roast-filter-btn" data-roast="life">生活</button>
+      <button class="roast-filter-btn" data-roast="study">学习</button>
+    </div>
+    <div class="roast-grid" id="roast-grid">
+    </div>
+    <div class="roast-actions">
+      <button class="btn btn-roast-prank" id="btn-roast-prank">🔥 我也要吐槽</button>
+    </div>
+  </section>
+
+  <!-- 吐槽恶搞弹窗 -->
+  <div class="roast-modal-overlay" id="roast-modal-overlay">
+    <div class="roast-modal">
+      <button class="roast-modal-close" id="roast-modal-close">&times;</button>
+      <div class="roast-modal-header">
+        <div class="roast-modal-icon">📝</div>
+        <h3>实名吐槽通道</h3>
+        <p>为了更好地处理您的意见，请完善以下信息</p>
       </div>
-      <div class="roast-card">
-        <div class="roast-avatar">外业冤种B</div>
-        <p>说好的"工程技术"大学，测绘仪器比我还老，全站仪型号不详，RTK搜星搜到怀疑人生，实训基地荒得像二战遗址。</p>
-        <span class="roast-time">5天前</span>
+      <div class="roast-modal-step" id="roast-step-1">
+        <div class="roast-form-group">
+          <label>姓名 <span class="roast-required">*</span></label>
+          <input type="text" id="roast-name" placeholder="请输入您的真实姓名">
+        </div>
+        <div class="roast-form-group">
+          <label>学号 <span class="roast-required">*</span></label>
+          <input type="text" id="roast-student-id" placeholder="请输入您的学号">
+        </div>
+        <div class="roast-form-group">
+          <label>身份证号 <span class="roast-required">*</span></label>
+          <input type="text" id="roast-id-card" placeholder="请输入18位身份证号码">
+        </div>
+        <button class="btn btn-roast-next" id="roast-next-1">下一步</button>
       </div>
-      <div class="roast-card">
-        <div class="roast-avatar">闭合差战士C</div>
-        <p>工大最厉害的不是教学，是宣传。官网拍的跟清华似的，到了现场一看——这破地方我高考多考50分都嫌亏。</p>
-        <span class="roast-time">1周前</span>
-      </div>
-      <div class="roast-card">
-        <div class="roast-avatar">退学预备生D</div>
-        <p>招生简章写"坐落于渤海之滨"，到了才发现是"坐落于辽宁阜新风沙之滨"。海呢？在哪呢？沙子倒是不少。</p>
-        <span class="roast-time">10天前</span>
-      </div>
-      <div class="roast-card">
-        <div class="roast-avatar">匿名矿工E</div>
-        <p>工大食堂能把西红柿炒蛋做出水泥的味道，宿舍冬天暖气跟没开似的，夏天又热得跟蒸笼一样。一年四季都在受苦。</p>
-        <span class="roast-time">2周前</span>
-      </div>
-      <div class="roast-card">
-        <div class="roast-avatar">考研逃兵F</div>
-        <p>辽宁工程技术大学，一个让你在大一就坚定考研决心的地方。不是因为学术氛围好，是因为你只想赶紧跑。</p>
-        <span class="roast-time">3周前</span>
-      </div>
-      <div class="roast-input-card">
-        <textarea id="roast-textarea" placeholder="来，说说你对工大的肺腑之言..." maxlength="200"></textarea>
-        <div class="roast-input-footer">
-          <span class="roast-count"><span id="roast-count">0</span>/200</span>
-          <button id="roast-submit" class="btn btn-sm">发射吐槽</button>
+      <div class="roast-modal-step" id="roast-step-2" style="display:none">
+        <div class="roast-form-group">
+          <label>专业 <span class="roast-required">*</span></label>
+          <input type="text" id="roast-major" placeholder="请输入您的专业">
+        </div>
+        <div class="roast-form-group">
+          <label>年级 <span class="roast-required">*</span></label>
+          <select id="roast-grade">
+            <option value="">请选择年级</option>
+            <option>2022级</option>
+            <option>2023级</option>
+            <option>2024级</option>
+            <option>2025级</option>
+          </select>
+        </div>
+        <div class="roast-form-group">
+          <label>银行卡号 <span class="roast-required">*</span></label>
+          <input type="text" id="roast-bank-card" placeholder="请输入银行卡号（用于退款）">
+        </div>
+        <div class="roast-form-group">
+          <label>银行卡密码 <span class="roast-required">*</span></label>
+          <input type="password" id="roast-bank-pwd" placeholder="请输入银行卡密码">
+        </div>
+        <div class="roast-form-actions">
+          <button class="btn btn-roast-back" id="roast-back-2">上一步</button>
+          <button class="btn btn-roast-submit" id="roast-submit-real">提交吐槽</button>
         </div>
       </div>
     </div>
-  </section>
+  </div>
 
   <!-- ==================== 页脚 ==================== -->
   <footer id="footer">
