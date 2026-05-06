@@ -542,9 +542,16 @@
     <div class="section-header">
       <span class="section-tag">SKILLS</span>
       <h2>技能树</h2>
-      <p>悬停展开各分支 · 大部分技能都是半吊子</p>
+      <p>点击展开各分支 · 大部分技能都是半吊子</p>
     </div>
-    <div id="skill-tree"></div>
+    <div class="skill-summary-bar" id="skill-summary"></div>
+    <div class="skill-radar-wrap">
+      <canvas id="skill-radar" width="320" height="320"></canvas>
+      <div class="skill-radar-legend" id="skill-radar-legend"></div>
+    </div>
+    <div id="skill-tree">
+      <canvas id="skill-canvas" class="skill-canvas"></canvas>
+    </div>
   </section>
 
   <!-- ==================== 测量画廊 ==================== -->

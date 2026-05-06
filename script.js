@@ -721,49 +721,202 @@
     if(!container) return;
 
     var treeData = [
-      {icon:'🔭',label:'仪器操作',pct:68,note:'凑合能用，偶尔翻车',subs:[
-        {icon:'🎯',label:'全站仪',pct:65,note:'对中整平40→15分钟',leaves:['对中整平','坐标测量','后方交会']},
-        {icon:'📡',label:'RTK',pct:80,note:'有信号就行',leaves:['基站架设','移动站','坐标转换']},
-        {icon:'📏',label:'水准仪',pct:55,note:'闭合差没合格过',leaves:['读数','记录','计算闭合差']}
+      {icon:'🔭',label:'仪器操作',pct:68,note:'凑合能用，偶尔翻车',color:'#3b6cf5',subs:[
+        {icon:'🎯',label:'全站仪',pct:65,note:'对中整平40→15分钟',leaves:[{t:'对中整平',s:'m'},{t:'坐标测量',s:'m'},{t:'后方交会',s:'l'},{t:'距离测量',s:'m'},{t:'角度放样',s:'n'}]},
+        {icon:'📡',label:'RTK',pct:80,note:'有信号就行',leaves:[{t:'基站架设',s:'m'},{t:'移动站',s:'m'},{t:'坐标转换',s:'l'},{t:'点校正',s:'m'},{t:'动态测量',s:'m'}]},
+        {icon:'📏',label:'水准仪',pct:55,note:'闭合差没合格过',leaves:[{t:'读数',s:'m'},{t:'记录',s:'m'},{t:'计算闭合差',s:'n'},{t:'自动安平',s:'l'},{t:'i角检校',s:'n'}]},
+        {icon:'🛰',label:'GNSS接收机',pct:45,note:'导师才让碰',leaves:[{t:'静态观测',s:'l'},{t:'基线解算',s:'n'},{t:'网平差',s:'n'},{t:'搜星优化',s:'l'}]}
       ]},
-      {icon:'📐',label:'测量技术',pct:55,note:'理论懂一半，实操看运气',subs:[
-        {icon:'🗺',label:'控制测量',pct:50,note:'会布但点不能用',leaves:['导线测量','三角测量','GPS控制网']},
-        {icon:'⛰',label:'水准测量',pct:45,note:'手冻僵了记错读数',leaves:['二等水准','四等水准','高程计算']},
-        {icon:'📐',label:'地形测绘',pct:42,note:'地物符号认不全',leaves:['碎部测量','特征点','比例尺']}
+      {icon:'📐',label:'测量技术',pct:55,note:'理论懂一半，实操看运气',color:'#e74c3c',subs:[
+        {icon:'🗺',label:'控制测量',pct:50,note:'会布但点不能用',leaves:[{t:'导线测量',s:'m'},{t:'三角测量',s:'l'},{t:'GPS控制网',s:'l'},{t:'选点埋石',s:'m'},{t:'精度估算',s:'n'}]},
+        {icon:'⛰',label:'水准测量',pct:45,note:'手冻僵了记错读数',leaves:[{t:'二等水准',s:'l'},{t:'四等水准',s:'m'},{t:'高程计算',s:'m'},{t:'跨河水准',s:'n'},{t:'三角高程',s:'l'}]},
+        {icon:'📐',label:'地形测绘',pct:42,note:'地物符号认不全',leaves:[{t:'碎部测量',s:'m'},{t:'特征点',s:'l'},{t:'比例尺',s:'m'},{t:'地物调绘',s:'l'},{t:'地貌测绘',s:'n'}]},
+        {icon:'🏗',label:'施工放样',pct:38,note:'放错两次被骂了',leaves:[{t:'极坐标法',s:'l'},{t:'高程放样',s:'m'},{t:'建筑放线',s:'n'},{t:'道路放样',s:'n'}]}
       ]},
-      {icon:'💻',label:'内业处理',pct:42,note:'画图靠猜，平差靠蒙',subs:[
-        {icon:'🗺',label:'CASS画图',pct:40,note:'等高线像心电图',leaves:['等高线','地物绘制','图幅整饰']},
-        {icon:'📊',label:'数据平差',pct:35,note:'Excel凑合用',leaves:['条件平差','间接平差','精度评定']},
-        {icon:'🖱',label:'CAD制图',pct:45,note:'基本操作会',leaves:['图层管理','标注','出图']}
+      {icon:'💻',label:'内业处理',pct:42,note:'画图靠猜，平差靠蒙',color:'#9b59b6',subs:[
+        {icon:'🗺',label:'CASS画图',pct:40,note:'等高线像心电图',leaves:[{t:'等高线',s:'m'},{t:'地物绘制',s:'l'},{t:'图幅整饰',s:'l'},{t:'断面图',s:'n'},{t:'土方计算',s:'n'}]},
+        {icon:'📊',label:'数据平差',pct:35,note:'Excel凑合用',leaves:[{t:'条件平差',s:'n'},{t:'间接平差',s:'n'},{t:'精度评定',s:'l'},{t:'粗差探测',s:'n'},{t:'法方程',s:'n'}]},
+        {icon:'🖱',label:'CAD制图',pct:45,note:'基本操作会',leaves:[{t:'图层管理',s:'m'},{t:'标注',s:'m'},{t:'出图',s:'l'},{t:'块编辑',s:'l'},{t:'二次开发',s:'n'}]},
+        {icon:'🌐',label:'GIS应用',pct:30,note:'只会打开看',leaves:[{t:'ArcGIS',s:'l'},{t:'矢量化',s:'n'},{t:'空间分析',s:'n'},{t:'属性编辑',s:'l'}]}
       ]},
-      {icon:'🏃',label:'体力活',pct:92,note:'唯一的强项，不吹',subs:[
-        {icon:'⛰',label:'跑外业',pct:95,note:'扛仪器爬山不带喘',leaves:['上山','下山','翻墙']},
-        {icon:'❄',label:'抗冻能力',pct:88,note:'零下15度还在测',leaves:['冬训','毅力','硬抗']},
-        {icon:'☀',label:'抗晒能力',pct:90,note:'38度依然在线',leaves:['夏天外业','防晒','中暑预防']}
+      {icon:'🧮',label:'理论基础',pct:38,note:'考前突击勉强过',color:'#f39c12',subs:[
+        {icon:'📐',label:'误差理论',pct:35,note:'误差本身就是个误差',leaves:[{t:'偶然误差',s:'m'},{t:'系统误差',s:'l'},{t:'中误差',s:'l'},{t:'极限误差',s:'n'},{t:'相对误差',s:'n'}]},
+        {icon:'🧮',label:'矩阵运算',pct:28,note:'求逆就头大',leaves:[{t:'矩阵求逆',s:'n'},{t:'最小二乘',s:'l'},{t:'特征值',s:'n'},{t:'正规方程',s:'n'}]},
+        {icon:'📊',label:'概率统计',pct:40,note:'正态分布倒是熟',leaves:[{t:'正态分布',s:'m'},{t:'假设检验',s:'l'},{t:'区间估计',s:'l'},{t:'回归分析',s:'n'}]},
+        {icon:'🌍',label:'大地测量',pct:32,note:'椭球体头大',leaves:[{t:'参考椭球',s:'l'},{t:'高斯投影',s:'n'},{t:'坐标系转换',s:'n'},{t:'垂线偏差',s:'n'}]}
       ]},
-      {icon:'🐟',label:'摸鱼艺术',pct:95,note:'树荫下蹲着，手机一掏',subs:[
-        {icon:'📶',label:'找信号',pct:98,note:'RTK没信号就是休息',leaves:['切换基站','重启设备','等待搜星']},
-        {icon:'😴',label:'偷懒术',pct:95,note:'完美伪装观测中',leaves:['装调仪器','看手机','树荫蹲']},
-        {icon:'📝',label:'编数据',pct:60,note:'偶尔合理修正',leaves:['凑闭合差','美化数据','截图存档']}
+      {icon:'🏃',label:'体力活',pct:92,note:'唯一的强项，不吹',color:'#27ae60',subs:[
+        {icon:'⛰',label:'跑外业',pct:95,note:'扛仪器爬山不带喘',leaves:[{t:'上山',s:'m'},{t:'下山',s:'m'},{t:'翻墙',s:'m'},{t:'扛仪器',s:'m'},{t:'越野',s:'m'}]},
+        {icon:'❄',label:'抗冻能力',pct:88,note:'零下15度还在测',leaves:[{t:'冬训',s:'m'},{t:'毅力',s:'m'},{t:'硬抗',s:'m'},{t:'军大衣',s:'m'}]},
+        {icon:'☀',label:'抗晒能力',pct:90,note:'38度依然在线',leaves:[{t:'夏天外业',s:'m'},{t:'防晒',s:'l'},{t:'中暑预防',s:'m'},{t:'补水',s:'m'}]},
+        {icon:'🎒',label:'负重行军',pct:85,note:'背包20斤不喘',leaves:[{t:'装备搬运',s:'m'},{t:'长途跋涉',s:'m'},{t:'地形适应',s:'m'}]}
+      ]},
+      {icon:'🐟',label:'摸鱼艺术',pct:95,note:'树荫下蹲着，手机一掏',color:'#1abc9c',subs:[
+        {icon:'📶',label:'找信号',pct:98,note:'RTK没信号就是休息',leaves:[{t:'切换基站',s:'m'},{t:'重启设备',s:'m'},{t:'等待搜星',s:'m'},{t:'假装调试',s:'m'}]},
+        {icon:'😴',label:'偷懒术',pct:95,note:'完美伪装观测中',leaves:[{t:'装调仪器',s:'m'},{t:'看手机',s:'m'},{t:'树荫蹲',s:'m'},{t:'借口上厕所',s:'m'}]},
+        {icon:'📝',label:'编数据',pct:60,note:'偶尔合理修正',leaves:[{t:'凑闭合差',s:'l'},{t:'美化数据',s:'n'},{t:'截图存档',s:'m'},{t:'合理推测',s:'l'}]},
+        {icon:'🍕',label:'外业生存',pct:88,note:'找吃的才是核心技能',leaves:[{t:'泡面',s:'m'},{t:'找小卖部',s:'m'},{t:'蹭饭',s:'m'},{t:'带零食',s:'m'}]}
       ]}
     ];
+
+    var catNames = ['仪器操作','测量技术','内业处理','理论基础','体力活','摸鱼艺术'];
+    var catColors = ['#3b6cf5','#e74c3c','#9b59b6','#f39c12','#27ae60','#1abc9c'];
+    var avgPct = Math.round(treeData.reduce(function(s,b){return s+b.pct},0)/treeData.length);
+    var totalSkills = treeData.reduce(function(s,b){return s+b.subs.reduce(function(ss,sub){return ss+sub.leaves.length},0)},0);
+
+    function renderSummary(){
+      var wrap = $('#skill-summary');
+      if(!wrap) return;
+      var items = [
+        {icon:'📊',val:avgPct+'%',label:'综合评级'},
+        {icon:'🔢',val:treeData.length,label:'技能分支'},
+        {icon:'📋',val:totalSkills,label:'子技能总数'},
+        {icon:'⭐',val:'Lv.3',label:'当前等级'}
+      ];
+      items.forEach(function(it,i){
+        var card = document.createElement('div');
+        card.className = 'skill-summary-card';
+        card.style.transitionDelay = (i*0.1)+'s';
+        card.innerHTML = '<span class="skill-summary-icon">'+it.icon+'</span><div class="skill-summary-info"><span class="skill-summary-val">'+it.val+'</span><span class="skill-summary-label">'+it.label+'</span></div>';
+        wrap.appendChild(card);
+      });
+      var obs = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if(e.isIntersecting){
+            wrap.querySelectorAll('.skill-summary-card').forEach(function(c){c.classList.add('visible')});
+            obs.unobserve(e.target);
+          }
+        });
+      },{threshold:.3});
+      obs.observe(wrap);
+    }
+
+    function renderRadar(){
+      var canvas = $('#skill-radar');
+      var legendWrap = $('#skill-radar-legend');
+      if(!canvas||!canvas.getContext) return;
+      var ctx = canvas.getContext('2d');
+      var w = canvas.width, h = canvas.height;
+      var cx = w/2, cy = h/2, R = Math.min(cx,cy)-40;
+      var n = treeData.length;
+      var angleStep = 2*Math.PI/n;
+      var startAngle = -Math.PI/2;
+
+      function drawGrid(){
+        ctx.strokeStyle = getComputedStyle(document.body).getPropertyValue('--border').trim()||'rgba(0,0,0,.06)';
+        ctx.lineWidth = 1;
+        for(var i=1;i<=5;i++){
+          var r = R*i/5;
+          ctx.beginPath();
+          for(var j=0;j<=n;j++){
+            var a = startAngle + j*angleStep;
+            var x = cx + r*Math.cos(a);
+            var y = cy + r*Math.sin(a);
+            j===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+          }
+          ctx.closePath();
+          ctx.stroke();
+        }
+        for(var j=0;j<n;j++){
+          var a = startAngle + j*angleStep;
+          ctx.beginPath();
+          ctx.moveTo(cx,cy);
+          ctx.lineTo(cx+R*Math.cos(a),cy+R*Math.sin(a));
+          ctx.stroke();
+        }
+      }
+
+      function drawLabels(){
+        ctx.font = '600 11px "Microsoft YaHei",sans-serif';
+        ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--txt2').trim()||'#5a5a72';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        for(var j=0;j<n;j++){
+          var a = startAngle + j*angleStep;
+          var lr = R+24;
+          var x = cx + lr*Math.cos(a);
+          var y = cy + lr*Math.sin(a);
+          ctx.fillText(treeData[j].label,x,y);
+        }
+      }
+
+      function animateArea(progress){
+        ctx.clearRect(0,0,w,h);
+        drawGrid();
+        drawLabels();
+        ctx.beginPath();
+        for(var j=0;j<=n;j++){
+          var idx = j%n;
+          var a = startAngle + idx*angleStep;
+          var r = R*(treeData[idx].pct/100)*progress;
+          var x = cx + r*Math.cos(a);
+          var y = cy + r*Math.sin(a);
+          j===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+        }
+        ctx.closePath();
+        var accent = getComputedStyle(document.body).getPropertyValue('--accent').trim()||'#3b6cf5';
+        ctx.fillStyle = accent+'30';
+        ctx.fill();
+        ctx.strokeStyle = accent;
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        for(var j=0;j<n;j++){
+          var a = startAngle + j*angleStep;
+          var r = R*(treeData[j].pct/100)*progress;
+          var x = cx + r*Math.cos(a);
+          var y = cy + r*Math.sin(a);
+          ctx.beginPath();
+          ctx.arc(x,y,4,0,2*Math.PI);
+          ctx.fillStyle = catColors[j];
+          ctx.fill();
+          ctx.strokeStyle = '#fff';
+          ctx.lineWidth = 1.5;
+          ctx.stroke();
+        }
+      }
+
+      var obs = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if(e.isIntersecting){
+            var start = null;
+            function step(ts){
+              if(!start) start=ts;
+              var p = Math.min((ts-start)/1200,1);
+              var eased = 1-Math.pow(1-p,3);
+              animateArea(eased);
+              if(p<1) requestAnimationFrame(step);
+            }
+            requestAnimationFrame(step);
+            obs.unobserve(e.target);
+          }
+        });
+      },{threshold:.3});
+      obs.observe(canvas);
+
+      if(legendWrap){
+        treeData.forEach(function(b,i){
+          var item = document.createElement('div');
+          item.className = 'skill-radar-legend-item';
+          item.style.transitionDelay = (i*0.12)+'s';
+          item.innerHTML = '<span class="skill-radar-legend-dot" style="background:'+catColors[i]+'"></span><span>'+b.label+'</span><span class="skill-radar-legend-pct">'+b.pct+'%</span>';
+          legendWrap.appendChild(item);
+        });
+        var lobs = new IntersectionObserver(function(entries){
+          entries.forEach(function(e){
+            if(e.isIntersecting){
+              legendWrap.querySelectorAll('.skill-radar-legend-item').forEach(function(el){el.classList.add('visible')});
+              lobs.unobserve(e.target);
+            }
+          });
+        },{threshold:.3});
+        lobs.observe(legendWrap);
+      }
+    }
 
     function svgEl(tag,attr){
       var el=document.createElementNS('http://www.w3.org/2000/svg',tag);
       if(attr){for(var k in attr)el.setAttribute(k,attr[k])}
       return el;
-    }
-
-    function ringSVG(size,pct,cls){
-      var r=size/2-2;
-      var circ=2*Math.PI*r;
-      var off=circ*(1-pct/100);
-      var svg=svgEl('svg',{viewBox:'0 0 '+size+' '+size});
-      var c=svgEl('circle',{cx:size/2,cy:size/2,r:r,'stroke-dasharray':circ,'stroke-dashoffset':circ});
-      if(cls) c.className.baseVal=cls;
-      c.style.setProperty('--'+cls+'-offset',off);
-      svg.appendChild(c);
-      return svg;
     }
 
     function spawnParticles(el,count){
@@ -781,21 +934,41 @@
         container.appendChild(p);
         (function(pEl){
           var angle=Math.random()*Math.PI*2;
-          var dist=30+Math.random()*60;
+          var dist=30+Math.random()*80;
           var dx=Math.cos(angle)*dist;
           var dy=Math.sin(angle)*dist;
           pEl.style.opacity='0.8';
-          pEl.style.transition='all '+(0.6+Math.random()*0.6)+'s ease-out';
+          pEl.style.transition='all '+(0.5+Math.random()*0.7)+'s ease-out';
           requestAnimationFrame(function(){
             pEl.style.transform='translate('+dx+'px,'+dy+'px) scale(0)';
             pEl.style.opacity='0';
           });
-          setTimeout(function(){if(pEl.parentNode)pEl.parentNode.removeChild(pEl)},1400);
+          setTimeout(function(){if(pEl.parentNode)pEl.parentNode.removeChild(pEl)},1500);
         })(p);
       }
     }
 
-    function buildSubNodes(subs,parentEl){
+    var tooltipEl = document.createElement('div');
+    tooltipEl.className = 'skill-tooltip';
+    document.body.appendChild(tooltipEl);
+
+    function showTooltip(e,name,pct,note){
+      tooltipEl.innerHTML = '<div class="skill-tooltip-name">'+name+'</div><div class="skill-tooltip-pct">熟练度 '+pct+'%</div>'+(note?'<div class="skill-tooltip-note">'+note+'</div>':'');
+      tooltipEl.classList.add('show');
+      positionTooltip(e);
+    }
+    function positionTooltip(e){
+      var x = e.clientX+14, y = e.clientY+14;
+      if(x+230>window.innerWidth) x = e.clientX-230;
+      if(y+100>window.innerHeight) y = e.clientY-100;
+      tooltipEl.style.left = x+'px';
+      tooltipEl.style.top = y+'px';
+    }
+    function hideTooltip(){
+      tooltipEl.classList.remove('show');
+    }
+
+    function buildSubNodes(subs,parentEl,colIdx){
       var wrap=document.createElement('div');
       wrap.className='tree-sub-wrap';
       subs.forEach(function(s,idx){
@@ -825,7 +998,6 @@
         var inner=document.createElement('div');
         inner.className='tree-snode-inner';
         inner.textContent=s.icon;
-
         ring.appendChild(inner);
         node.appendChild(ring);
 
@@ -840,16 +1012,15 @@
         node.appendChild(pctEl);
 
         if(s.note){
-          var note=document.createElement('div');
-          note.className='tree-snode-label';
-          note.style.fontSize='.62rem';
-          note.style.color='var(--txt3)';
-          note.style.maxWidth='120px';
-          note.style.margin='3px auto 0';
-          note.style.lineHeight='1.3';
-          note.textContent=s.note;
-          node.appendChild(note);
+          var noteEl=document.createElement('div');
+          noteEl.className='tree-snode-note';
+          noteEl.textContent=s.note;
+          node.appendChild(noteEl);
         }
+
+        node.addEventListener('mouseenter',function(ev){showTooltip(ev,s.label,s.pct,s.note)});
+        node.addEventListener('mousemove',positionTooltip);
+        node.addEventListener('mouseleave',hideTooltip);
 
         col.appendChild(node);
 
@@ -859,7 +1030,9 @@
           s.leaves.forEach(function(l){
             var tag=document.createElement('span');
             tag.className='tree-leaf-tag';
-            tag.textContent=l;
+            if(l.s==='n') tag.classList.add('locked');
+            else if(l.s==='m') tag.classList.add('mastered');
+            tag.textContent=l.t;
             leafWrap.appendChild(tag);
           });
         }
@@ -867,9 +1040,8 @@
 
         node.addEventListener('mouseenter',function(){
           leafWrap.classList.add('visible');
-          var circle=c;
-          if(!circle.classList.contains('animated')){
-            circle.classList.add('animated');
+          if(!c.classList.contains('animated')){
+            c.classList.add('animated');
             spawnParticles(node,6);
           }
         });
@@ -931,46 +1103,51 @@
       node.appendChild(pctEl);
 
       if(b.note){
-        var note=document.createElement('div');
-        note.className='tree-bnode-note';
-        note.textContent=b.note;
-        node.appendChild(note);
+        var noteEl=document.createElement('div');
+        noteEl.className='tree-bnode-note';
+        noteEl.textContent=b.note;
+        node.appendChild(noteEl);
       }
+
+      var arrowEl=document.createElement('div');
+      arrowEl.className='tree-bnode-arrow';
+      arrowEl.textContent='▼ 点击展开';
+      node.appendChild(arrowEl);
+
+      node.addEventListener('mouseenter',function(ev){showTooltip(ev,b.label,b.pct,b.note)});
+      node.addEventListener('mousemove',positionTooltip);
+      node.addEventListener('mouseleave',hideTooltip);
 
       col.appendChild(node);
 
-      var subWrap=buildSubNodes(b.subs,col);
+      var subWrap=buildSubNodes(b.subs,col,idx);
 
-      var expandTimer=null;
-      var collapseTimer=null;
-      col.addEventListener('mouseenter',function(){
-        clearTimeout(collapseTimer);
-        if(subWrap.classList.contains('expanded')) return;
-        expandTimer=setTimeout(function(){
+      var isOpen = false;
+      node.addEventListener('click',function(e){
+        e.stopPropagation();
+        if(isOpen){
+          isOpen=false;
+          node.classList.remove('active');
+          subWrap.classList.remove('expanded');
+          subWrap.querySelectorAll('.tree-sub-col').forEach(function(sc){sc.classList.remove('visible')});
+          setTimeout(function(){drawCanvasLines()},400);
+        }else{
+          isOpen=true;
+          node.classList.add('active');
           subWrap.classList.add('expanded');
           var subCols=subWrap.querySelectorAll('.tree-sub-col');
           subCols.forEach(function(sc,i){
-            setTimeout(function(){sc.classList.add('visible')},i*100+100);
+            setTimeout(function(){sc.classList.add('visible')},i*80+60);
           });
           var subRings=subWrap.querySelectorAll('.tree-snode-ring circle');
           subRings.forEach(function(sr,i){
-            setTimeout(function(){sr.classList.add('animated')},i*100+300);
+            setTimeout(function(){sr.classList.add('animated')},i*80+200);
           });
           if(!c.classList.contains('animated')){
             c.classList.add('animated');
             spawnParticles(node,10);
           }
-        },200);
-      });
-      col.addEventListener('mouseleave',function(e){
-        clearTimeout(expandTimer);
-        if(!col.contains(e.relatedTarget)){
-          collapseTimer=setTimeout(function(){
-            subWrap.classList.remove('expanded');
-            subWrap.querySelectorAll('.tree-sub-col').forEach(function(sc){
-              sc.classList.remove('visible');
-            });
-          },300);
+          setTimeout(function(){drawCanvasLines()},500);
         }
       });
 
@@ -983,10 +1160,9 @@
     var rootNode=document.createElement('div');
     rootNode.className='tree-root-node';
 
-    var rootRingW=100;
+    var rootRingW=110;
     var rootR=rootRingW/2-2;
     var rootCirc=2*Math.PI*rootR;
-    var rootOff=rootCirc*(1-60/100);
     var rootRing=document.createElement('div');
     rootRing.className='tree-root-ring';
     var rsvg=svgEl('svg',{viewBox:'0 0 '+rootRingW+' '+rootRingW});
@@ -1007,8 +1183,13 @@
 
     var rootNote=document.createElement('div');
     rootNote.className='tree-root-note';
-    rootNote.textContent='总体半吊子水平 · 悬停展开各分支';
+    rootNote.textContent='综合评级 '+avgPct+'% · 点击展开各分支 · 共'+totalSkills+'项子技能';
     rootNode.appendChild(rootNote);
+
+    var rootHint=document.createElement('div');
+    rootHint.className='tree-root-hint';
+    rootHint.textContent='CLICK';
+    rootNode.appendChild(rootHint);
 
     layer.appendChild(rootNode);
 
@@ -1032,50 +1213,75 @@
 
     container.appendChild(layer);
 
+    var skillCanvas = $('#skill-canvas');
+    function drawCanvasLines(){
+      if(!skillCanvas) return;
+      var rect = container.getBoundingClientRect();
+      skillCanvas.width = container.scrollWidth;
+      skillCanvas.height = container.scrollHeight;
+      var ctx = skillCanvas.getContext('2d');
+      ctx.clearRect(0,0,skillCanvas.width,skillCanvas.height);
+      var accent = getComputedStyle(document.body).getPropertyValue('--accent').trim()||'#3b6cf5';
+      var cols = branchesWrap.querySelectorAll('.tree-branch-col.visible');
+      var rootRect = rootNode.getBoundingClientRect();
+      var rootX = rootRect.left-rect.left+rootRect.width/2;
+      var rootY = rootRect.bottom-rect.top;
+      cols.forEach(function(col){
+        var colRect = col.getBoundingClientRect();
+        var colX = colRect.left-rect.left+colRect.width/2;
+        var colY = colRect.top-rect.top+15;
+        ctx.beginPath();
+        ctx.moveTo(rootX,rootY);
+        ctx.bezierCurveTo(rootX,rootY+30,colX,colY-30,colX,colY);
+        ctx.strokeStyle = accent+'60';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      });
+    }
+
     var rootExpanded=false;
     function expandRoot(){
       if(rootExpanded) return;
       rootExpanded=true;
+      rootNode.classList.add('expanded');
       trunkLine.classList.add('grown');
+      rootHint.style.display='none';
       setTimeout(function(){
         branchesWrap.classList.add('expanded');
         var cols=branchesWrap.querySelectorAll('.tree-branch-col');
         cols.forEach(function(c,i){
-          setTimeout(function(){c.classList.add('visible')},i*120+200);
+          setTimeout(function(){c.classList.add('visible')},i*100+200);
         });
         var branchCircles=branchesWrap.querySelectorAll('.tree-bnode-ring circle');
         branchCircles.forEach(function(c,i){
-          setTimeout(function(){c.classList.add('animated')},i*120+500);
+          setTimeout(function(){c.classList.add('animated')},i*100+500);
         });
         spawnParticles(rootNode,15);
+        setTimeout(drawCanvasLines,800);
       },400);
     }
     function collapseRoot(){
       if(!rootExpanded) return;
       rootExpanded=false;
+      rootNode.classList.remove('expanded');
       branchesWrap.classList.remove('expanded');
       branchesWrap.querySelectorAll('.tree-branch-col').forEach(function(c){c.classList.remove('visible')});
+      branchesWrap.querySelectorAll('.tree-bnode').forEach(function(b){b.classList.remove('active')});
       branchesWrap.querySelectorAll('.tree-sub-wrap').forEach(function(sw){
         sw.classList.remove('expanded');
         sw.querySelectorAll('.tree-sub-col').forEach(function(sc){sc.classList.remove('visible')});
       });
       branchesWrap.querySelectorAll('.tree-leaf-skills').forEach(function(l){l.classList.remove('visible')});
-      setTimeout(function(){trunkLine.classList.remove('grown')},200);
+      setTimeout(function(){trunkLine.classList.remove('grown');rootHint.style.display=''},200);
+      if(skillCanvas){
+        var ctx=skillCanvas.getContext('2d');
+        if(ctx) ctx.clearRect(0,0,skillCanvas.width,skillCanvas.height);
+      }
     }
 
-    var expandTimer=null;
-    var collapseTimer=null;
-
-    container.addEventListener('mouseenter',function(){
-      clearTimeout(collapseTimer);
-      if(rootExpanded) return;
-      expandTimer=setTimeout(function(){expandRoot()},200);
-    });
-    container.addEventListener('mouseleave',function(e){
-      clearTimeout(expandTimer);
-      if(!container.contains(e.relatedTarget)){
-        collapseTimer=setTimeout(collapseRoot,400);
-      }
+    rootNode.addEventListener('click',function(){
+      if(rootExpanded) collapseRoot();
+      else expandRoot();
     });
 
     var obs=new IntersectionObserver(function(entries){
@@ -1090,6 +1296,9 @@
       });
     },{threshold:.2});
     obs.observe(container);
+
+    renderSummary();
+    renderRadar();
   }
 
   function initHellScroller(){
