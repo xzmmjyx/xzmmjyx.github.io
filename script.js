@@ -472,8 +472,17 @@
   function initEquipment(){
     var grid = $('#equip-grid');
     var filterWrap = $('#equip-filter');
+    var sortWrap = $('#equip-sort');
     var pillsWrap = $('#equip-stat-pills');
+    var countWrap = $('#equip-count');
+    var detailEmpty, detailContent;
     if(!grid) return;
+
+    var detail = $('#equip-detail');
+    if(detail){
+      detailEmpty = detail.querySelector('.equip-detail-empty');
+      detailContent = detail.querySelector('.equip-detail-content');
+    }
 
     var equips = [
       {icon:'🔭',name:'全站仪',brand:'学校老古董 · 索佳SET230R',cat:'outdoor',tier:'r',status:'凑合能用',power:45,accuracy:50,endurance:40,weight:60,desc:'对中整平要半小时的那种，气泡跑得比我还快。据说这台机器经历过三次测绘实习，每次回来都要大修一次。'},
@@ -494,12 +503,34 @@
 
     var tiers = {ssr:'SSR',sr:'SR',r:'R',n:'N'};
     var tierColors = {ssr:'tier-ssr',sr:'tier-sr',r:'tier-r',n:'tier-n'};
+    var tierOrder = {ssr:0,sr:1,r:2,n:3};
+    var currentFilter = 'all';
+    var currentSort = 'default';
+    var selectedIdx = -1;
+
+    function sortEquips(list){
+      var arr = list.slice();
+      if(currentSort === 'tier'){
+        arr.sort(function(a,b){return tierOrder[a.tier] - tierOrder[b.tier]});
+      }else if(currentSort === 'power'){
+        arr.sort(function(a,b){return b.power - a.power});
+      }else if(currentSort === 'accuracy'){
+        arr.sort(function(a,b){return b.accuracy - a.accuracy});
+      }
+      return arr;
+    }
+
+    function getFiltered(){
+      var list = currentFilter === 'all' ? equips : equips.filter(function(eq){return eq.cat === currentFilter});
+      return sortEquips(list);
+    }
 
     function renderPills(list){
       if(!pillsWrap) return;
       var cats = {outdoor:0,office:0,survival:0};
       list.forEach(function(e){cats[e.cat]++});
-      pillsWrap.innerHTML = '<div class="equip-stat-pill"><span>'+list.length+'</span>装备总数</div>' +
+      pillsWrap.innerHTML =
+        '<div class="equip-stat-pill"><span>'+list.length+'</span>装备总数</div>' +
         '<div class="equip-stat-pill"><span>'+cats.outdoor+'</span>外业</div>' +
         '<div class="equip-stat-pill"><span>'+cats.office+'</span>内业</div>' +
         '<div class="equip-stat-pill"><span>'+cats.survival+'</span>生存</div>';
@@ -507,20 +538,23 @@
 
     function renderCards(list){
       grid.innerHTML = '';
+      if(countWrap) countWrap.textContent = list.length + ' / ' + equips.length;
       list.forEach(function(e,i){
         var card = document.createElement('div');
         card.className = 'equip-card';
         card.setAttribute('data-cat', e.cat);
-        card.style.transitionDelay = (i * 80) + 'ms';
+        card.setAttribute('data-idx', i);
+        card.style.transitionDelay = (i * 50) + 'ms';
         card.innerHTML =
           '<div class="equip-card-banner"></div>' +
+          '<span class="equip-card-tier '+tierColors[e.tier]+'">'+tiers[e.tier]+'</span>' +
           '<div class="equip-card-body">' +
             '<div class="equip-card-top">' +
               '<div class="equip-icon-wrap"><span class="equip-icon">'+e.icon+'</span></div>' +
-              '<div class="equip-card-meta">' +
-                '<h3>'+e.name+'</h3>' +
-                '<span class="equip-brand">'+e.brand+'</span>' +
-              '</div>' +
+            '</div>' +
+            '<div class="equip-card-meta">' +
+              '<h3>'+e.name+'</h3>' +
+              '<span class="equip-brand">'+e.brand+'</span>' +
             '</div>' +
             '<div class="equip-card-stats">' +
               '<div class="equip-mini-stat"><span class="equip-mini-val">'+e.power+'</span><span class="equip-mini-label">威力</span></div>' +
@@ -528,14 +562,108 @@
               '<div class="equip-mini-stat"><span class="equip-mini-val">'+e.endurance+'</span><span class="equip-mini-label">续航</span></div>' +
               '<div class="equip-mini-stat"><span class="equip-mini-val">'+e.weight+'</span><span class="equip-mini-label">便携</span></div>' +
             '</div>' +
-            '<div class="equip-bar-row"><span class="equip-status">'+e.status+'</span><span class="equip-tier '+tierColors[e.tier]+'">'+tiers[e.tier]+'</span></div>' +
+            '<div class="equip-bar-row"><span class="equip-status">'+e.status+'</span></div>' +
             '<div class="equip-bar"><div class="equip-fill" data-width="'+e.power+'"></div></div>' +
-            '<p class="equip-desc">'+e.desc+'</p>' +
           '</div>';
+        card.addEventListener('click',function(){
+          var allCards = grid.querySelectorAll('.equip-card');
+          allCards.forEach(function(c){c.classList.remove('selected')});
+          card.classList.add('selected');
+          selectedIdx = i;
+          var rightPanel = detail && getComputedStyle(detail.parentElement).display !== 'none';
+          if(rightPanel){
+            showDetail(e);
+          }else{
+            showModal(e);
+          }
+        });
         grid.appendChild(card);
       });
       observeEquipCards();
     }
+
+    function showDetail(e){
+      if(!detail || !detailContent) return;
+      if(detailEmpty) detailEmpty.style.display = 'none';
+      detailContent.style.display = '';
+      var el = function(id){return document.getElementById(id)};
+      el('equip-detail-icon').textContent = e.icon;
+      el('equip-detail-name').textContent = e.name;
+      el('equip-detail-brand').textContent = e.brand;
+      var tierEl = el('equip-detail-tier');
+      tierEl.textContent = tiers[e.tier];
+      tierEl.className = 'equip-detail-tier '+tierColors[e.tier];
+      el('equip-detail-status').textContent = e.status;
+      el('equip-detail-desc').textContent = e.desc;
+      el('equip-detail-stats').innerHTML =
+        '<div class="equip-detail-stat"><span class="equip-detail-stat-val">'+e.power+'</span><span class="equip-detail-stat-label">威力</span></div>' +
+        '<div class="equip-detail-stat"><span class="equip-detail-stat-val">'+e.accuracy+'</span><span class="equip-detail-stat-label">精度</span></div>' +
+        '<div class="equip-detail-stat"><span class="equip-detail-stat-val">'+e.endurance+'</span><span class="equip-detail-stat-label">续航</span></div>' +
+        '<div class="equip-detail-stat"><span class="equip-detail-stat-val">'+e.weight+'</span><span class="equip-detail-stat-label">便携</span></div>';
+      var stats = [{l:'威力',v:e.power},{l:'精度',v:e.accuracy},{l:'续航',v:e.endurance},{l:'便携',v:e.weight}];
+      var barsHtml = '';
+      stats.forEach(function(s){
+        barsHtml += '<div class="equip-detail-bar-item">' +
+          '<span class="equip-detail-bar-label">'+s.l+'</span>' +
+          '<div class="equip-detail-bar"><div class="equip-detail-bar-fill" data-width="'+s.v+'"></div></div>' +
+          '<span class="equip-detail-bar-val">'+s.v+'</span>' +
+        '</div>';
+      });
+      el('equip-detail-bars').innerHTML = barsHtml;
+      setTimeout(function(){
+        var fills = detailContent.querySelectorAll('.equip-detail-bar-fill');
+        fills.forEach(function(f){
+          f.style.width = f.getAttribute('data-width') + '%';
+        });
+      },80);
+      detail.scrollTop = 0;
+    }
+
+    function showModal(e){
+      var overlay = $('#equip-modal-overlay');
+      if(!overlay) return;
+      var el = function(id){return document.getElementById(id)};
+      el('equip-modal-icon').textContent = e.icon;
+      el('equip-modal-name').textContent = e.name;
+      el('equip-modal-brand').textContent = e.brand;
+      var tierEl = el('equip-modal-tier');
+      tierEl.textContent = tiers[e.tier];
+      tierEl.className = 'equip-detail-tier '+tierColors[e.tier];
+      el('equip-modal-status').textContent = e.status;
+      el('equip-modal-desc').textContent = e.desc;
+      el('equip-modal-stats').innerHTML =
+        '<div class="equip-detail-stat"><span class="equip-detail-stat-val">'+e.power+'</span><span class="equip-detail-stat-label">威力</span></div>' +
+        '<div class="equip-detail-stat"><span class="equip-detail-stat-val">'+e.accuracy+'</span><span class="equip-detail-stat-label">精度</span></div>' +
+        '<div class="equip-detail-stat"><span class="equip-detail-stat-val">'+e.endurance+'</span><span class="equip-detail-stat-label">续航</span></div>' +
+        '<div class="equip-detail-stat"><span class="equip-detail-stat-val">'+e.weight+'</span><span class="equip-detail-stat-label">便携</span></div>';
+      var stats = [{l:'威力',v:e.power},{l:'精度',v:e.accuracy},{l:'续航',v:e.endurance},{l:'便携',v:e.weight}];
+      var barsHtml = '';
+      stats.forEach(function(s){
+        barsHtml += '<div class="equip-detail-bar-item">' +
+          '<span class="equip-detail-bar-label">'+s.l+'</span>' +
+          '<div class="equip-detail-bar"><div class="equip-detail-bar-fill" data-width="'+s.v+'"></div></div>' +
+          '<span class="equip-detail-bar-val">'+s.v+'</span>' +
+        '</div>';
+      });
+      el('equip-modal-bars').innerHTML = barsHtml;
+      overlay.classList.add('open');
+      setTimeout(function(){
+        var fills = overlay.querySelectorAll('.equip-detail-bar-fill');
+        fills.forEach(function(f){f.style.width = f.getAttribute('data-width')+'%'});
+      },100);
+    }
+
+    function closeModal(){
+      var overlay = $('#equip-modal-overlay');
+      if(!overlay) return;
+      overlay.classList.remove('open');
+    }
+
+    var modalCloseBtn = $('#equip-modal-close');
+    var modalOverlay = $('#equip-modal-overlay');
+    if(modalCloseBtn) modalCloseBtn.addEventListener('click',closeModal);
+    if(modalOverlay) modalOverlay.addEventListener('click',function(e){if(e.target === modalOverlay) closeModal()});
+    document.addEventListener('keydown',function(e){if(e.key === 'Escape') closeModal()});
 
     function observeEquipCards(){
       var cards = grid.querySelectorAll('.equip-card');
@@ -549,16 +677,17 @@
           if(e.isIntersecting){
             e.target.classList.add('visible');
             var fill = e.target.querySelector('.equip-fill');
-            if(fill) setTimeout(function(){fill.style.width = fill.getAttribute('data-width')+'%'},300);
+            if(fill) setTimeout(function(){fill.style.width = fill.getAttribute('data-width')+'%'},200);
             obs.unobserve(e.target);
           }
         });
-      },{threshold:.1});
+      },{threshold:.08});
       cards.forEach(function(c){obs.observe(c)});
     }
 
-    renderCards(equips);
-    renderPills(equips);
+    var filtered = getFiltered();
+    renderCards(filtered);
+    renderPills(filtered);
 
     if(filterWrap){
       filterWrap.addEventListener('click',function(e){
@@ -566,10 +695,23 @@
         if(!btn) return;
         filterWrap.querySelectorAll('.equip-filter-btn').forEach(function(b){b.classList.remove('active')});
         btn.classList.add('active');
-        var f = btn.getAttribute('data-filter');
-        var filtered = f === 'all' ? equips : equips.filter(function(eq){return eq.cat === f});
-        renderCards(filtered);
-        renderPills(filtered);
+        currentFilter = btn.getAttribute('data-filter');
+        selectedIdx = -1;
+        var list = getFiltered();
+        renderCards(list);
+        renderPills(list);
+      });
+    }
+
+    if(sortWrap){
+      sortWrap.addEventListener('click',function(e){
+        var btn = e.target.closest('.equip-sort-btn');
+        if(!btn) return;
+        sortWrap.querySelectorAll('.equip-sort-btn').forEach(function(b){b.classList.remove('active')});
+        btn.classList.add('active');
+        currentSort = btn.getAttribute('data-sort');
+        selectedIdx = -1;
+        renderCards(getFiltered());
       });
     }
   }

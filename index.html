@@ -428,16 +428,85 @@
       <h2>装备库</h2>
       <p>工欲善其事 · 先看看装备够不够格</p>
     </div>
-    <div class="equip-topbar">
-      <div class="equip-filter" id="equip-filter">
-        <button class="equip-filter-btn active" data-filter="all">全部</button>
-        <button class="equip-filter-btn" data-filter="outdoor">外业</button>
-        <button class="equip-filter-btn" data-filter="office">内业</button>
-        <button class="equip-filter-btn" data-filter="survival">生存</button>
+    <div class="equip-inventory">
+      <div class="equip-inventory-left">
+        <div class="equip-player-card">
+          <div class="equip-player-avatar">⛏</div>
+          <div class="equip-player-info">
+            <h3 class="equip-player-name">工大小矿工</h3>
+            <span class="equip-player-class">测绘与地理科学学院</span>
+          </div>
+          <div class="equip-player-level">Lv.3</div>
+        </div>
+        <div class="equip-sort-wrap">
+          <span class="equip-sort-label">排序方式</span>
+          <div class="equip-sort-btns" id="equip-sort">
+            <button class="equip-sort-btn active" data-sort="default">默认</button>
+            <button class="equip-sort-btn" data-sort="tier">品质</button>
+            <button class="equip-sort-btn" data-sort="power">威力</button>
+            <button class="equip-sort-btn" data-sort="accuracy">精度</button>
+          </div>
+        </div>
+        <div class="equip-filter-wrap">
+          <span class="equip-sort-label">装备筛选</span>
+          <div class="equip-filter" id="equip-filter">
+            <button class="equip-filter-btn active" data-filter="all">全部</button>
+            <button class="equip-filter-btn" data-filter="outdoor">外业</button>
+            <button class="equip-filter-btn" data-filter="office">内业</button>
+            <button class="equip-filter-btn" data-filter="survival">生存</button>
+          </div>
+        </div>
+        <div class="equip-stat-pills" id="equip-stat-pills"></div>
       </div>
-      <div class="equip-stat-pills" id="equip-stat-pills"></div>
+      <div class="equip-inventory-center">
+        <div class="equip-grid-header">
+          <span class="equip-grid-title">背包物品</span>
+          <span class="equip-grid-count" id="equip-count"></span>
+        </div>
+        <div class="equip-grid" id="equip-grid"></div>
+      </div>
+      <div class="equip-inventory-right">
+        <div class="equip-detail" id="equip-detail">
+          <div class="equip-detail-empty">
+            <div class="equip-detail-empty-icon">🎒</div>
+            <p>选择一件装备查看详情</p>
+          </div>
+          <div class="equip-detail-content" style="display:none">
+            <div class="equip-detail-banner" id="equip-detail-banner"></div>
+            <div class="equip-detail-icon-wrap">
+              <span class="equip-detail-icon" id="equip-detail-icon"></span>
+            </div>
+            <h3 class="equip-detail-name" id="equip-detail-name"></h3>
+            <span class="equip-detail-brand" id="equip-detail-brand"></span>
+            <div class="equip-detail-tier-wrap">
+              <span class="equip-detail-tier" id="equip-detail-tier"></span>
+              <span class="equip-detail-status" id="equip-detail-status"></span>
+            </div>
+            <div class="equip-detail-stats" id="equip-detail-stats"></div>
+            <div class="equip-detail-bar-group" id="equip-detail-bars"></div>
+            <p class="equip-detail-desc" id="equip-detail-desc"></p>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="equip-grid" id="equip-grid"></div>
+    <div class="equip-modal-overlay" id="equip-modal-overlay">
+      <div class="equip-modal" id="equip-modal">
+        <button class="equip-modal-close" id="equip-modal-close">&times;</button>
+        <div class="equip-detail-banner" id="equip-modal-banner"></div>
+        <div class="equip-detail-icon-wrap">
+          <span class="equip-detail-icon" id="equip-modal-icon"></span>
+        </div>
+        <h3 class="equip-detail-name" id="equip-modal-name"></h3>
+        <span class="equip-detail-brand" id="equip-modal-brand"></span>
+        <div class="equip-detail-tier-wrap">
+          <span class="equip-detail-tier" id="equip-modal-tier"></span>
+          <span class="equip-detail-status" id="equip-modal-status"></span>
+        </div>
+        <div class="equip-detail-stats" id="equip-modal-stats"></div>
+        <div class="equip-detail-bar-group" id="equip-modal-bars"></div>
+        <p class="equip-detail-desc" id="equip-modal-desc"></p>
+      </div>
+    </div>
   </section>
 
   <!-- ==================== 翻车时间线 ==================== -->
