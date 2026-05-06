@@ -309,43 +309,68 @@
     });
   }
 
+  var sbtiDimNames = ['外业热情','内业耐心','仪器依赖','数据严谨','团队协作','摸鱼指数','熬夜能力','吐槽功力','理想主义','实用主义','社交能量','抗压能力','技术崇拜','佛系程度','卷王潜质'];
+
   var sbtiQuestions = [
-    {q:'外业测量时，你的首选位置是？',a:'站在仪器旁边指挥全局，大声报数',b:'默默扛着脚架走到最远的测站'},
-    {q:'闭合差超限时，你的第一反应是？',a:'大喊"这不可能！一定是仪器的问题！"',b:'默默翻出原始记录开始逐个排查'},
-    {q:'小组外业分工，你更愿意做？',a:'跑棱镜——到处走，跟人聊天，不用动脑子',b:'观测读数——安安静静盯着十字丝'},
-    {q:'画CASS等高线时，你通常？',a:'边画边跟同桌吐槽，一个小时画三条',b:'戴上耳机进入心流，三小时画完全部'},
-    {q:'你的外业笔记本风格是？',a:'除了数据还画满了小人、吐槽和天气预报',b:'整整齐齐的数据表格，连页码都不缺'},
-    {q:'面对一门全新的测量课程，你倾向于？',a:'先去论坛和群里问问学长经验',b:'翻开课本从第一页开始啃公式推导'},
-    {q:'测量实习结束聚餐，你会？',a:'主动组织，串桌敬酒，讲外业笑话',b:'坐在角落安静吃饭，偶尔微笑附和'},
-    {q:'数据处理遇到瓶颈，你更可能？',a:'找同学讨论，或者发到群里求助',b:'关掉手机自己翻资料死磕到凌晨'},
-    {q:'RTK搜不到星，你会？',a:'换个开阔地试试，顺便拍个照发朋友圈',b:'检查天线、查看星历、分析多路径效应'},
-    {q:'外业一整天结束后，你更想？',a:'和队友撸串吐槽今天有多惨',b:'回宿舍洗个澡安静躺着什么都不想'},
-    {q:'做毕业设计选题时，你倾向于？',a:'选热门方向，跟大部队走',b:'选一个冷门方向，自己安静地深耕'},
-    {q:'对于CASS和ArcGIS哪个更顺手？',a:'CASS——操作简单粗暴，画图靠直觉',b:'ArcGIS——功能强大，适合深度分析'},
-    {q:'你的测量记录风格属于哪种？',a:'潦草但快速，只有自己能看懂',b:'工整规范，任何人拿去都能读懂'},
-    {q:'测绘竞赛报名时，你更可能？',a:'先组队再说，找几个靠谱的搭子',b:'先确定技术方案，再决定跟谁合作'},
-    {q:'实习基地停电了，你会？',a:'拉着大家聊天讲故事打发时间',b:'趁机整理手簿和原始数据'},
-    {q:'你理想中的测绘工作状态是？',a:'团队合作，每天和不同的人打交道',b:'独立作业，安安静静处理数据'}
+    {q:'外业实习早上六点集合，你的反应是？',l:'"六点？我通宵还没睡呢……"',m:'"行吧，调五个闹钟"',h:'"好耶！外业最棒了！"'},
+    {q:'扛着全站仪爬山坡，你心里想的是？',l:'"这坡是给人爬的吗？我要投诉"',m:'"歇会儿，喝口水再继续"',h:'"冲顶！一览众山小！"'},
+    {q:'面对3000个数据的平差计算，你？',l:'Excel一键搞定，误差？什么误差？',m:'分十组慢慢算，每算完一组休息五分钟',h:'手算！每步检核！闭合差必须为零！'},
+    {q:'CASS画等高线画到一半软件崩溃了，你？',l:'"毁灭吧，明天再说"',m:'重开，还好有自动保存',h:'淡定，我已经养成了每三秒保存一次的习惯'},
+    {q:'到了测区发现全站仪没电了，你？',l:'回宿舍，今天休息',m:'换水准仪先干别的',h:'我有备用电池，你以为我第一天干测绘？'},
+    {q:'RTK一直固定不了，你？',l:'"这破机器，砸了算了"',m:'换个地方试试',h:'检查电台频道、天线连接、看星历图'},
+    {q:'记录数据时有人跟你说话，你？',l:'边聊边记，回头再看出没出错',m:'先记完，再回话',h:'"别跟我说话！数据错了你负责？"'},
+    {q:'发现前天的数据可能记错了，你？',l:'差几毫米而已，没人发现',m:'翻记录本核对一下',h:'立刻重新测！精度就是生命！'},
+    {q:'小组分工你更愿意？',l:'"你们干，我负责最后签字"',m:'随便分什么都行',h:'我来统筹全局！'},
+    {q:'队友把棱镜高度读错了，你？',l:'"笑死，你行不行啊"',m:'"没事，改过来就好"',h:'"没关系，谁都会犯错，我帮你盯着"'},
+    {q:'实习指导老师不在现场，你？',l:'光明正大躺平玩手机',m:'干一会儿歇一会儿',h:'老师不在更要好好干，证明自己'},
+    {q:'画图的时候你通常会？',l:'打开视频边看边画',m:'听歌画图，效率还行',h:'关掉一切干扰，专注画图'},
+    {q:'明天要交测量报告，你现在？',l:'已经写完了，早睡早起',m:'还差一点，今晚搞定',h:'还没开始？没事，今晚通宵'},
+    {q:'凌晨两点你的状态是？',l:'早就睡了，梦里在测高程',m:'还在肝，但脑子已经不动了',h:'精神得很！再来三组数据！'},
+    {q:'看到学校又买了新仪器但从来不用，你？',l:'习惯了，反正也用不上',m:'拍个照发朋友圈阴阳一下',h:'写一篇小作文吐槽，从采购流程到教学脱节'},
+    {q:'听到"测绘是朝阳产业"这句话，你？',l:'"哦"（内心毫无波澜）',m:'"朝阳？我看是夕阳吧"',h:'哈哈哈哈哈哈哈哈（笑到流泪）'},
+    {q:'你当初为什么选测绘？',l:'分低，调剂来的',m:'感觉能到处跑，挺好的',h:'为祖国建设添砖加瓦！'},
+    {q:'你觉得测绘的未来是？',l:'能有什么未来，混口饭吃',m:'无人机+AI，应该还行',h:'测绘是万物之基，智慧城市的骨架！'},
+    {q:'实习报告你一般？',l:'抄学长的，改个名字',m:'参考几份，自己整合一下',h:'自己实测实写，数据真实可靠'},
+    {q:'考试前一天你？',l:'看重点，及格就行',m:'把课本过一遍',h:'所有公式推导三遍，例题全做'},
+    {q:'外业休息时你通常？',l:'一个人找个阴凉处待着',m:'和旁边几个人聊聊天',h:'组织大家玩游戏！狼人杀走起！'},
+    {q:'在学院里遇到认识但不熟的同学，你？',l:'低头看手机假装没看见',m:'点个头微笑一下',h:'热情打招呼，顺便聊两句'},
+    {q:'闭合差超限第三次了，你？',l:'不干了，爱谁谁',m:'深呼吸，再试一次',h:'问题总有解决的办法，冷静分析'},
+    {q:'导师把你的论文批得一文不值，你？',l:'躺平，改不动了',m:'改吧，导师说的也有道理',h:'逐条记录意见，连夜修改'},
+    {q:'看到新出的测绘无人机，你？',l:'又贵又用不上，关我什么事',m:'关注了几个测评博主了解一下',h:'立刻找资料学！我要第一个用上！'},
+    {q:'你更相信？',l:'老法师的经验，仪器是辅助',m:'传统仪器和新技术结合',h:'全自动化！机器比人靠谱！'},
+    {q:'评奖评优没评上，你？',l:'"凭什么？我哪里比别人差？"',m:'有点失落，但明年再来',h:'无所谓，评上了也就那样'},
+    {q:'实习结束聚餐，你喝酒吗？',l:'滴酒不沾，我喝可乐',m:'喝一点，啤的',h:'白的！今晚不醉不归！'},
+    {q:'周末你通常在？',l:'床上躺到中午',m:'图书馆学习半天',h:'早上六点起床，学习一整天'},
+    {q:'老师说这个项目可以加分，你？',l:'"加分？加几分？不够就算了"',m:'可以试试，反正也没事',h:'我报名！通宵也要做完！'}
   ];
 
-  var sbtiTypes = {
-    'ENTJ':{name:'ENTJ · 控制测量指挥官',desc:'你是天生的团队指挥官，外业时永远站在仪器旁边发号施令。你坚信自己的方案是对的（虽然经常翻车）。你的RTK永远比别人的信号好，因为你用的是权力加成。',skill:'坐标系转换 · 误差传播分析 · 指挥全局',weakness:'闭合差超限时会甩锅给队友',icon:'👑'},
-    'ENTP':{name:'ENTP · 坐标系发明家',desc:'你总在质疑现有的测量方法，觉得"为什么不用无人机算了？"你的论文选题总是最炸裂的，从"基于区块链的RTK数据管理"到"用游戏引擎模拟矿山变形监测"。',skill:'跨学科融合 · 创新思维 · 口才了得',weakness:'想法太多，一个毕设选题换了八次',icon:'💡'},
-    'ENFJ':{name:'ENFJ · 外业团建大师',desc:'你不仅会测量，还会搞团建。每次外业实习，你都是那个组织聚餐、调解矛盾、鼓励队友的人。你的外业笔记最后一页写的是"大家辛苦了，测完请吃饭！"',skill:'团队协作 · 沟通能力 · 带动气氛',weakness:'自己数据没记全，光顾着照顾别人了',icon:'🤝'},
-    'ENFP':{name:'ENFP · 测绘段子手',desc:'你的外业记录本里画满了搞笑小人和吐槽涂鸦，每次闭合差超限都能编一个新段子。你的朋友圈是全班最有趣的，因为你把每一堂测量课都活成了脱口秀。',skill:'活跃气氛 · 创意无限 · 自学能力强',weakness:'数据经常记错行，段子倒是没断过',icon:'😂'},
-    'ESTJ':{name:'ESTJ · 闭合差检察官',desc:'你是小组里的质量管控专家，每个数据都要检核三遍。你的外业记录本是全班的模范样本，连老师都拿去当范例。你最大的恐惧是闭合差超限。',skill:'严谨细致 · 规范执行 · 数据检核',weakness:'太较真，同学不想跟你分一组',icon:'📋'},
-    'ESTP':{name:'ESTP · 跑棱镜之王',desc:'你是外业最能跑的人，一天能绕测区跑八圈。你对跑棱镜有一种天然的热情——不是因为喜欢，是因为坐着不动太难受了。你的运动手环记录每天三万步。',skill:'野外适应 · 体力充沛 · 现场应变',weakness:'坐不住，内业数据处理对你来说是酷刑',icon:'🏃'},
-    'ESFJ':{name:'ESFJ · 记录本管家',desc:'你永远是那个记数据最认真的人，不仅记录了测量数据，还记录了天气、温度、风力和每个人的心情。你的外业笔记就像一部测量小说。',skill:'数据记录 · 细节把控 · 团队关怀',weakness:'过于依赖流程，遇到突发状况会慌',icon:'📝'},
-    'ESFP':{name:'ESFP · 测绘气氛组',desc:'你是外业队伍里的开心果，再枯燥的测量任务都能被你搞得热热闹闹。你的仪器箱里除了工具还有一包辣条和一盒扑克牌。',skill:'气氛活跃 · 社交能力强 · 适应力好',weakness:'数据出错率和你的笑声一样高',icon:'🎤'},
-    'INTJ':{name:'INTJ · 大地测量理论家',desc:'你沉迷于测绘理论无法自拔，觉得CASS太low，只有自编平差程序才配得上你。你的毕设论文写了一百页理论推导，只有导师能看懂（可能连导师也看不懂）。',skill:'深度思考 · 理论建模 · 编程能力',weakness:'论文写了三年，实验还没开始做',icon:'🧠'},
-    'INTP':{name:'INTP · 数据分析怪才',desc:'你能盯着一组平差数据看三天三夜，然后在第四天凌晨三点突然发现问题所在。你的MATLAB脚本有五千行注释，因为你不相信任何人（包括未来的自己）能看懂。',skill:'逻辑分析 · 编程能力 · 深度研究',weakness:'说了三个月"马上就做完"但其实还没开始',icon:'🔬'},
-    'INFJ':{name:'INFJ · 测绘理想主义者',desc:'你选择测绘不是因为分低，而是真的想为祖国的大好河山量一量。你默默承担了组里最累的活，从不抱怨。当别人问你为什么选测绘，你说："因为星辰大海。"',skill:'全局视野 · 默默付出 · 内心坚定',weakness:'过于理想化，现实的闭合差会打碎你的梦',icon:'✨'},
-    'INFP':{name:'INFP · 等高线诗人',desc:'你看等高线的时候感受到的不是地形起伏，而是大地的脉搏和呼吸。你的外业记录本上写满了诗意的注释："此处地形如心碎般破碎"。你可能是测绘学院最文艺的人。',skill:'细腻观察 · 独特视角 · 文字功底',weakness:'数据处理速度跟你写诗一样慢',icon:'🌸'},
-    'ISTJ':{name:'ISTJ · 水准仪之魂',desc:'你是全班最靠谱的人，外业从不迟到，数据从不出错。你的测量记录本比教科书还规范。你的人生信条是："一切按规程操作，闭合差就不会超限。"（事实并非如此）',skill:'严格执行 · 数据可靠 · 耐心持久',weakness:'太死板，遇到非常规问题就懵了',icon:'🏛️'},
-    'ISTP':{name:'ISTP · 仪器修理工',desc:'全班仪器坏了都找你。你能用一根铅笔修好三脚架，用胶带固定水准仪气泡。你的工具箱比学校的还齐全。但你的外业记录本？哦，你从来不记。',skill:'动手能力 · 现场应变 · 技术维修',weakness:'从来不写记录，数据全靠脑子记',icon:'🔧'},
-    'ISFJ':{name:'ISFJ · 外业后勤部长',desc:'你是组里最细心的人，出发前检查所有人带没带仪器，外业时帮大家倒水遮阳，结束后第一个收拾工具。你的存在让全组的外业效率提升了30%。',skill:'细致周全 · 团队协作 · 可靠稳定',weakness:'太累，总觉得自己做得不够好',icon:'🫶'},
-    'ISFP':{name:'ISFP · 地形素描师',desc:'你画地形图的速度不快，但画出来的图跟照片一样美。你的CASS图件是全班最好看的，等高线流畅自然，注记整齐美观。你可能是唯一一个觉得画图是享受的人。',skill:'审美能力 · 图形表达 · 精细操作',weakness:'速度太慢，deadline前一天还在调线型',icon:'🎨'}
-  };
+  var sbtiTemplates = [
+    {name:'外业战神',icon:'⛰️',tagline:'你属于野外，仪器是你的武器，山坡是你的战场',desc:'你是天生的外业选手，爬山涉水如履平地。别人还在对中整平，你已经测完三个点了。你的微信步数永远霸榜，你的防晒霜消耗量是全班之最。',dims:[4,1,2,2,3,1,3,2,2,2,3,3,2,1,2]},
+    {name:'内业宅神',icon:'�',tagline:'给我一台电脑和一杯咖啡，我能坐到天荒地老',desc:'你宁愿对着屏幕处理三千个数据，也不愿意去测区晒一分钟太阳。你的CASS操作快如闪电，你的Excel公式写得比情书还长。外业？那是别人的事。',dims:[1,4,2,3,1,2,2,3,1,3,1,2,3,2,2]},
+    {name:'仪器毁灭者',icon:'💥',tagline:'全站仪杀手，三脚架终结者',desc:'你摸过的仪器都会坏，你碰过的棱镜都会歪。你不是故意的，但仪器们似乎对你有意见。学校仪器室已经把你的照片贴在了墙上，配文"此人禁止单独借仪器"。',dims:[2,1,0,1,2,3,2,3,1,2,2,1,1,3,1]},
+    {name:'数据刺客',icon:'🗡️',tagline:'数据到你手里，活不过一集',desc:'你有一种神奇的能力——再简单的数据到你手里都能出错。闭合差超限是常态，坐标算错是日常。但你总能在最后一刻神奇地改回来，没人知道你是怎么做到的。',dims:[2,2,2,0,2,2,3,2,1,2,2,2,2,2,3]},
+    {name:'摸鱼仙人',icon:'🐟',tagline:'摸鱼是一门艺术，而你已经是大师了',desc:'你深谙摸鱼之道，能在老师眼皮底下玩手机而不被发现。你的外业效率不高，但你的摸鱼效率极高。你的人生信条是：能躺着绝不站着，能歇着绝不干着。',dims:[1,1,1,1,1,4,1,3,1,1,2,1,1,4,0]},
+    {name:'熬夜冠军',icon:'�',tagline:'见过凌晨四点的工大吗？我天天见',desc:'你的生物钟已经彻底紊乱，凌晨三点是你效率最高的时刻。你的测量报告都是通宵赶出来的，你的黑眼圈比全站仪的目标棱镜还圆。白天？白天那是休息时间。',dims:[2,2,2,2,2,2,4,2,2,2,2,2,2,2,3]},
+    {name:'吐槽大王',icon:'🎙️',tagline:'给我一个话题，我能吐槽到天亮',desc:'你的嘴比你的全站仪还快，任何话题都能被你吐槽出花来。从学校食堂到仪器设备，从老师教学到实习安排，没有你不敢说的。你的外业记录本背面写满了段子。',dims:[2,2,2,2,2,3,2,4,1,2,3,2,2,2,2]},
+    {name:'卷王本卷',icon:'📈',tagline:'卷死别人，或者被别人卷死',desc:'你是那种早上六点起床、晚上十二点还在学习的人。你不仅卷学习，还卷竞赛、卷论文、卷实习。你的存在让全班同学都感到焦虑，但你不在乎——你只想赢。',dims:[3,3,3,3,3,0,4,1,3,3,2,4,3,0,4]},
+    {name:'佛系青年',icon:'☮️',tagline:'都可以，没关系，无所谓',desc:'你是全班最淡定的人。闭合差超限？没关系。仪器坏了？无所谓。考试挂科？都可以。你的人生哲学是"一切随缘"，但你随缘得太彻底了，导师都替你着急。',dims:[1,1,1,1,1,3,1,1,1,1,1,1,1,4,0]},
+    {name:'社交恐怖分子',icon:'🎉',tagline:'整个测绘学院没有你不认识的人',desc:'你认识学院里的每一个人，包括门卫大爷和食堂阿姨。外业实习对你来说就是大型社交现场，你一边测数据一边跟路过的人打招呼。你的通讯录比测量数据库还大。',dims:[3,1,2,1,4,2,2,3,2,2,4,2,1,1,2]},
+    {name:'社恐晚期',icon:'🙈',tagline:'别跟我说话，我社恐',desc:'你最大的恐惧是小组讨论和外业分组。你宁愿一个人扛着仪器去最远的测站，也不愿意跟人合作。你的外业记录本上除了数据，还写着"今天跟三个人说了话，好累"。',dims:[2,3,2,3,0,2,2,2,2,2,0,2,2,3,2]},
+    {name:'理想主义炮灰',icon:'🌈',tagline:'测绘改变世界？先改变我的闭合差吧',desc:'你怀揣着"测绘改变世界"的梦想来到工大，然后被现实狠狠教育了。你发现测绘不是星辰大海，而是闭合差超限和仪器故障。但你还在坚持，因为你说过"不忘初心"。',dims:[3,2,2,2,2,1,2,2,4,1,2,2,2,1,2]},
+    {name:'实用主义老油条',icon:'🧠',tagline:'别跟我谈理想，谈点实际的',desc:'你是全班最现实的人。选课选分高的，实习选轻松的，考试选重点背的。你的效率很高，但你的热情很低。你的人生信条是：能抄绝不写，能混绝不卷。',dims:[2,2,2,2,2,2,2,2,1,4,2,2,2,2,2]},
+    {name:'技术狂人',icon:'🤖',tagline:'给我一个新仪器，我能玩一整天',desc:'你对新技术的热爱超过了测绘本身。无人机、激光扫描、三维建模——只要是新的你都感兴趣。你的电脑里装满了各种测绘软件，但你的基础测量成绩可能还没及格。',dims:[2,2,4,2,1,1,3,1,2,2,1,2,4,1,3]},
+    {name:'复古派',icon:'📜',tagline:'老法师的传人，传统测量的守护者',desc:'你坚信传统测量才是正道。什么RTK、无人机，都是花里胡哨。你坚持用水准仪和经纬仪，你觉得手算平差才是真本事。你的外业记录本还是用铅笔写的，因为"电子设备不靠谱"。',dims:[2,2,0,3,2,2,2,2,2,2,2,2,0,3,1]},
+    {name:'酒精战士',icon:'🍺',tagline:'酒是测绘人的第二生命',desc:'你是测绘学院的酒神。实习结束聚餐你是主角，班级聚会你是焦点。你的外业背包里除了仪器还有一瓶二锅头，你说这是"防寒用的"。你的测量数据可能不准，但你的酒量绝对准。',dims:[3,1,2,1,3,3,3,3,1,2,3,2,1,2,2]},
+    {name:'傻乐者',icon:'�',tagline:'虽然我什么都不会，但我很快乐',desc:'你是全班最快乐的人。闭合差超限？哈哈真好笑。仪器坏了？嘿嘿真有趣。考试挂科？嘻嘻没关系。你的快乐感染了所有人，虽然你的成绩单不太好看。但你不在乎，因为你快乐啊。',dims:[1,1,1,1,1,3,1,2,1,1,2,1,1,3,1]},
+    {name:'仪器保姆',icon:'🔧',tagline:'仪器就是我的命，谁也别想碰',desc:'你对仪器的爱护程度令人发指。每次用完后都要擦三遍，装箱前要检查半小时。你借仪器的时候比借书还麻烦，因为你要签五份保证书。仪器室老师最喜欢你，因为你比他还爱惜设备。',dims:[2,2,3,3,2,1,2,1,2,2,2,2,3,2,2]},
+    {name:'报告复印机',icon:'📠',tagline:'给我一份模板，我能复制出一片江山',desc:'你的实习报告永远是最规范的，因为你是照着模板一字不差抄的。你的测量数据永远是最漂亮的，因为你懂得"适当调整"。你的论文查重率永远是最高的，但你不在乎——能过就行。',dims:[1,3,1,3,2,2,2,1,1,3,1,2,1,2,3]},
+    {name:'野外生存家',icon:'�️',tagline:'给我一把刀和一台全站仪，我能在野外活一个月',desc:'你是那种在测区也能活得很好的人。你带了足够的干粮和水，还有急救包和备用电池。别人在测区受苦，你在测区露营。你的外业装备比专业驴友还齐全。',dims:[4,1,2,2,2,2,3,2,2,2,3,3,1,2,2]},
+    {name:'理论大师',icon:'📚',tagline:'纸上谈兵，我是专业的',desc:'你的理论知识极其扎实，所有公式倒背如流，所有原理如数家珍。但一上手实操你就懵了——仪器怎么开来着？你的外业成绩和你的理论成绩形成了鲜明对比。',dims:[1,3,1,3,1,2,3,1,3,1,1,2,2,2,2]},
+    {name:'摆烂艺术家',icon:'🛌',tagline:'努力不一定成功，但不努力一定很舒服',desc:'你已经把摆烂提升到了艺术的高度。你的作业永远卡在deadline前最后一分钟交，你的实习报告永远是最短的。但你摆烂摆得理直气壮，甚至摆出了一种独特的美学风格。',dims:[0,0,0,0,0,4,0,3,0,0,0,0,0,4,0]},
+    {name:'热心市民',icon:'🤗',tagline:'有困难找我就对了，虽然我也不一定行',desc:'你是全班最热心的人，谁有困难你都帮。虽然你帮的忙最后往往需要别人再帮你一次，但你的心意是好的。你的口头禅是"没事，我来"，然后搞砸了再说"不好意思"。',dims:[3,2,2,2,4,1,2,2,2,2,3,2,2,1,2]},
+    {name:'焦虑测量员',icon:'😰',tagline:'每天都在焦虑，但也不知道在焦虑什么',desc:'你是全班最焦虑的人。测数据焦虑，画图焦虑，交报告焦虑，不交报告也焦虑。你的心率比你的测量频率还快，你的手汗比你的记录墨水还多。但你焦虑归焦虑，活儿还是能干完的。',dims:[2,2,2,3,2,2,3,2,2,2,2,0,2,1,3]},
+    {name:'快乐测绘狗',icon:'🐶',tagline:'汪汪！今天也是快乐测绘的一天！',desc:'你是全班最乐观的人。不管遇到什么困难，你都能笑着说"没事"。你的快乐感染了全组的人，虽然你的数据经常出错，但大家还是愿意跟你一组——因为开心啊！',dims:[2,2,2,2,2,2,2,2,2,2,2,2,2,2,2]}
+  ];
 
   var majorItems = ['计算机科学与技术','人工智能','电子信息工程','电气工程','金融学','法学','建筑学','临床医学','口腔医学','机械工程','自动化','通信工程','信息安全','数据科学','软件工程','土木工程','化学工程','生物医学','航天工程','建筑学（建筑老八校）','测绘工程'];
   var schoolItems = ['清华大学','北京大学','浙江大学','上海交通大学','复旦大学','南京大学','中国科学技术大学','哈尔滨工业大学','西安交通大学','北京航空航天大学','武汉大学','华中科技大学','中山大学','东南大学','同济大学','天津大学','北京理工大学','大连理工大学','东北原神职业技术学院'];
@@ -359,34 +384,48 @@
     var result = $('#sbti-result');
     if(!btnStart) return;
     var current = 0;
+    var selected = [];
+    var selectedIndices = [];
     var answers = [];
     btnStart.addEventListener('click', function(){
       intro.style.display = 'none';
       quiz.style.display = 'block';
       current = 0;
       answers = [];
+      var pool = [];
+      for(var i=0;i<sbtiQuestions.length;i++) pool.push(i);
+      for(var i=pool.length-1;i>0;i--){
+        var j=Math.floor(Math.random()*(i+1));
+        var tmp=pool[i];pool[i]=pool[j];pool[j]=tmp;
+      }
+      selectedIndices = pool.slice(0,7);
+      selected = selectedIndices.map(function(idx){return sbtiQuestions[idx]});
       renderSBTIQuestion();
     });
     function renderSBTIQuestion(){
-      var q = sbtiQuestions[current];
+      var q = selected[current];
       var bar = $('#sbti-progress-bar');
       var text = $('#sbti-progress-text');
       var qEl = $('#sbti-question');
       var oEl = $('#sbti-options');
-      if(bar) bar.style.width = ((current+1)/sbtiQuestions.length*100)+'%';
-      if(text) text.textContent = (current+1)+'/'+sbtiQuestions.length;
+      if(bar) bar.style.width = ((current+1)/selected.length*100)+'%';
+      if(text) text.textContent = (current+1)+'/'+selected.length;
       if(qEl) qEl.textContent = q.q;
       if(oEl){
         oEl.innerHTML = '';
-        var opts = [{text:q.a,val:'E'},{text:q.b,val:'I'}];
+        var opts = [
+          {text:q.l, val:0, label:'L'},
+          {text:q.m, val:1, label:'M'},
+          {text:q.h, val:2, label:'H'}
+        ];
         opts.forEach(function(opt){
           var btn = document.createElement('button');
           btn.className = 'sbti-opt-btn';
-          btn.textContent = opt.text;
+          btn.innerHTML = '<span class="sbti-opt-label">'+opt.label+'</span><span class="sbti-opt-text">'+opt.text+'</span>';
           btn.addEventListener('click', function(){
-            answers.push(opt.val);
+            answers.push({idx:selectedIndices[current], val:opt.val});
             current++;
-            if(current < sbtiQuestions.length){
+            if(current < selected.length){
               renderSBTIQuestion();
             }else{
               showSBTIResult();
@@ -397,21 +436,31 @@
       }
     }
     function showSBTIResult(){
-      var e = answers.filter(function(a){return a==='E'}).length;
-      var i = answers.filter(function(a){return a==='I'}).length;
-      var dims = e >= i ? 'E' : 'I';
-      var nDims = answers.length - e - i;
-      var base = dims + 'N' + (Math.random()>.5?'T':'F') + (Math.random()>.5?'J':'P');
-      var ty = sbtiTypes[base] || sbtiTypes['ISTJ'];
+      var drank = false;
+      for(var a=0;a<answers.length;a++){
+        if(answers[a].idx === 27 && answers[a].val === 2){
+          drank = true;
+          break;
+        }
+      }
+      if(drank){
+        renderResultCard(sbtiTemplates[15]);
+        return;
+      }
+      var r = Math.floor(Math.random() * sbtiTemplates.length);
+      renderResultCard(sbtiTemplates[r]);
+    }
+    function renderResultCard(ty){
       quiz.style.display = 'none';
       result.style.display = 'block';
-      result.innerHTML = '<div class="sbti-result-card">' +
+      result.innerHTML = '<div class="sbti-result-card sbti-result-card-lowfi">' +
+        '<div class="sbti-result-stamp">SBTI</div>' +
         '<div class="sbti-result-icon">'+ty.icon+'</div>' +
         '<div class="sbti-result-type">'+ty.name+'</div>' +
+        '<div class="sbti-result-tagline">'+ty.tagline+'</div>' +
+        '<div class="sbti-result-divider"></div>' +
         '<p class="sbti-result-desc">'+ty.desc+'</p>' +
-        '<div class="sbti-result-skills"><strong>核心技能：</strong>'+ty.skill+'</div>' +
-        '<div class="sbti-result-weakness"><strong>致命弱点：</strong>'+ty.weakness+'</div>' +
-        '<button class="btn btn-primary sbti-restart" id="btn-sbti-restart">重新测试</button>' +
+        '<button class="sbti-restart" id="btn-sbti-restart">↻ 再测一次</button>' +
         '</div>';
       var restartBtn = $('#btn-sbti-restart');
       if(restartBtn) restartBtn.addEventListener('click', function(){
@@ -428,15 +477,27 @@
     var resultEl = $('#hat-result');
     var btnMajor = $('#btn-hat-major');
     var btnSchool = $('#btn-hat-school');
+    var lights = $$('.hat-light');
     if(!btnMajor || !btnSchool) return;
     btnMajor.addEventListener('click', function(){ startSlot('major') });
     btnSchool.addEventListener('click', function(){ startSlot('school') });
 
+    function flashLights(on){
+      for(var i=0;i<lights.length;i++){
+        if(on){
+          setTimeout(function(n){
+            return function(){lights[n].classList.add('active')};
+          }(i), i*80);
+        }else{
+          lights[i].classList.remove('active');
+        }
+      }
+    }
+
     function startSlot(type){
       var items = type === 'major' ? majorItems : schoolItems;
       var badIdx = type === 'major' ? majorBadIdx : schoolBadIdx;
-      var goodItems = items.slice();
-      goodItems.splice(badIdx, 1);
+      var badItem = items[badIdx];
       stage.style.display = 'block';
       resultEl.innerHTML = '';
       resultEl.classList.remove('show');
@@ -444,41 +505,67 @@
       var strip = document.createElement('div');
       strip.className = 'hat-slot-strip';
       machine.appendChild(strip);
-      var total = 80;
+      var total = 300;
+      var itemW = 200;
+      var slots = [];
+      for(var i=0;i<total;i++){
+        slots.push(items[Math.floor(Math.random()*items.length)]);
+      }
+      var stopPos = Math.floor(total*0.55) + Math.floor(Math.random()*(total*0.35));
+      slots[stopPos] = badItem;
+      var extraCount = 3 + Math.floor(Math.random()*4);
+      for(var e=0;e<extraCount;e++){
+        var p = Math.floor(Math.random()*(stopPos-8));
+        slots[p] = badItem;
+      }
       var itemsHtml = '';
       for(var i=0;i<total;i++){
-        var txt;
-        if(i === total - 1){
-          txt = items[badIdx];
-        }else if(i > total - 6 && i < total - 1){
-          txt = goodItems[Math.floor(Math.random()*goodItems.length)];
-        }else{
-          txt = items[Math.floor(Math.random()*items.length)];
-        }
-        itemsHtml += '<div class="hat-slot-item'+(i===total-1?' bad':'')+'">'+txt+'</div>';
+        itemsHtml += '<div class="hat-slot-item'+(i<stopPos-5?' blurred':'')+'">'+slots[i]+'</div>';
       }
       strip.innerHTML = itemsHtml;
-      var itemW = 180;
-      var pointerOffset = machine.offsetWidth / 2 - itemW / 2;
-      var targetPos = (total - 1) * itemW;
+      var pointerOffset = machine.offsetWidth/2 - itemW/2;
+      var targetPos = stopPos*itemW;
+      var startOffset = Math.floor(Math.random()*itemW*3)-itemW*1.5;
       strip.style.transition = 'none';
-      strip.style.transform = 'translateX(0)';
-      strip.offsetHeight;
+      strip.style.transform = 'translateX('+startOffset+'px)';
+      void strip.offsetHeight;
+      flashLights(true);
+      var duration = 6 + Math.random()*3;
+      var phase1 = duration*0.6;
+      var phase2 = duration*0.25;
+      var phase3 = duration*0.15;
+      var totalDist = -(targetPos-pointerOffset) - startOffset;
+      var p1Target = startOffset + totalDist*0.85;
+      var p2Target = startOffset + totalDist*0.97;
+      var p3Target = -(targetPos-pointerOffset);
       setTimeout(function(){
-        strip.style.transition = 'transform 5s cubic-bezier(.15,.85,.25,1)';
-        strip.style.transform = 'translateX('+(-(targetPos - pointerOffset))+'px)';
-      }, 50);
-      var nearItems = [];
-      for(var j=total-6;j<total-1;j++){
-        nearItems.push(j);
-      }
+        strip.style.transition = 'transform '+phase1+'s cubic-bezier(.2,.8,.35,1)';
+        strip.style.transform = 'translateX('+p1Target+'px)';
+      }, 100);
       setTimeout(function(){
-        strip.style.transition = 'transform 0.3s cubic-bezier(.15,.85,.25,1)';
-        var finalPos = -(targetPos - pointerOffset) + 5;
-        strip.style.transform = 'translateX('+finalPos+'px)';
-      }, 4800);
+        strip.style.transition = 'transform '+phase2+'s cubic-bezier(.4,.85,.5,1)';
+        strip.style.transform = 'translateX('+p2Target+'px)';
+      }, (phase1+0.1)*1000);
       setTimeout(function(){
-        var badItem = items[badIdx];
+        strip.style.transition = 'transform '+phase3+'s cubic-bezier(.6,.9,.75,1)';
+        strip.style.transform = 'translateX('+p3Target+'px)';
+      }, (phase1+phase2+0.1)*1000);
+      var revealTime = (duration+0.3)*1000;
+      var blurOffTime = revealTime - 400;
+      setTimeout(function(){
+        var items = strip.querySelectorAll('.hat-slot-item');
+        for(var i=0;i<items.length;i++){
+          items[i].classList.remove('blurred');
+        }
+      }, blurOffTime);
+      setTimeout(function(){
+        flashLights(false);
+        var stopEl = strip.children[stopPos];
+        if(stopEl) stopEl.classList.add('bad');
+        var others = strip.querySelectorAll('.hat-slot-item:not(.bad)');
+        for(var i=0;i<others.length;i++){
+          others[i].style.opacity = '0.15';
+        }
         resultEl.innerHTML = '<div class="hat-result-card"><div class="hat-result-main">'+badItem+'</div>' +
           '<p class="hat-result-desc">'+(type==='major'?'你的专业是……测绘工程！惊不惊喜？意不意外？命运的齿轮转了一圈又回到了起点。':'你的学校是……东北原神职业技术学院！欢迎来到提瓦特大陆最好的职业技术学院！')+'</p>' +
           '<button class="btn btn-primary hat-again" id="btn-hat-again">再来一次</button></div>';
@@ -489,8 +576,9 @@
           resultEl.innerHTML = '';
           machine.innerHTML = '';
           stage.style.display = 'none';
+          flashLights(false);
         });
-      }, 5500);
+      }, revealTime);
     }
   }
 
@@ -1495,12 +1583,12 @@
     if(!grid) return;
 
     var roasts = [
-      {avatar:'测绘苦力A',cat:'school',text:'辽宁工程技术大学，名字带"工程"俩字，结果教学楼电梯坏了半年没人修，这工程水平测绘闭合差怕是也得超。',time:'3天前'},
+      {avatar:'测绘苦力A',cat:'school',text:'东北原神职业技术学院，名字带"工程"俩字，结果教学楼电梯坏了半年没人修，这工程水平测绘闭合差怕是也得超。',time:'3天前'},
       {avatar:'外业冤种B',cat:'school',text:'说好的"工程技术"大学，测绘仪器比我还老，全站仪型号不详，RTK搜星搜到怀疑人生，实训基地荒得像二战遗址。',time:'5天前'},
       {avatar:'闭合差战士C',cat:'school',text:'工大最厉害的不是教学，是宣传。官网拍的跟清华似的，到了现场一看——这破地方我高考多考50分都嫌亏。',time:'1周前'},
       {avatar:'退学预备生D',cat:'school',text:'招生简章写"坐落于渤海之滨"，到了才发现是"坐落于辽宁阜新风沙之滨"。海呢？在哪呢？沙子倒是不少。',time:'10天前'},
       {avatar:'匿名矿工E',cat:'life',text:'工大食堂能把西红柿炒蛋做出水泥的味道，宿舍冬天暖气跟没开似的，夏天又热得跟蒸笼一样。一年四季都在受苦。',time:'2周前'},
-      {avatar:'考研逃兵F',cat:'school',text:'辽宁工程技术大学，一个让你在大一就坚定考研决心的地方。不是因为学术氛围好，是因为你只想赶紧跑。',time:'3周前'},
+      {avatar:'考研逃兵F',cat:'school',text:'东北原神职业技术学院，一个让你在大一就坚定考研决心的地方。不是因为学术氛围好，是因为你只想赶紧跑。',time:'3周前'},
       {avatar:'受害者G',cat:'study',text:'考完测量学出来，感觉自己不是在考试，是在参加智商鉴定。那些公式我背了三遍，考场上一个都想不起来。',time:'1天前'},
       {avatar:'仪器杀手H',cat:'school',text:'全站仪摔了之后导师看我的眼神，就像在看一个刚把传家宝砸了的败家子。问题是那仪器比我家房子还贵。',time:'4天前'},
       {avatar:'外业冻尸I',cat:'life',text:'零下20度跑外业，手冻得握不住笔，记录簿上的字像鬼画符。导师看了之后说："你这是在记录数据还是在画符驱鬼？"',time:'6天前'},
@@ -1646,7 +1734,7 @@
               '<p class="roast-result-text roast-result-highlight">信息已记录在案。</p>' +
               '<p class="roast-result-text">请于 <strong>3个工作日内</strong> 到 <strong>会和楼311</strong> 办理退学手续。</p>' +
               '<p class="roast-result-text">稍后辅导员将打电话联系您，请保持电话畅通。</p>' +
-              '<div class="roast-result-footer">辽宁工程技术大学 · 学生管理处 · 宣</div>' +
+              '<div class="roast-result-footer">东北原神职业技术学院 · 学生管理处 · 宣</div>' +
               '<button class="btn btn-roast-result-close" id="roast-result-close">我知道了</button>' +
             '</div>';
           document.body.appendChild(overlay);

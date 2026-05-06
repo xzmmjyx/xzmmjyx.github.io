@@ -403,7 +403,7 @@
     <div class="transition-section-inner">
       <div class="transition-section-icon">🧭</div>
       <h3 class="transition-section-title">测绘人格 · 认识真正的自己</h3>
-      <p class="transition-section-desc">16道题测出你的测绘SBTI</p>
+      <p class="transition-section-desc">7道题测出你的测绘SBTI</p>
     </div>
   </section>
 
@@ -416,15 +416,15 @@
     </div>
     <div class="sbti-container" id="sbti-container">
       <div class="sbti-intro" id="sbti-intro">
-        <div class="sbti-intro-icon">🧭</div>
-        <h3>测绘版SBTI人格测试</h3>
-        <p>测绘人的性格不只分为E和I，还分为"闭合差合格"和"闭合差不合格"。16道题，测出你的真实测绘人格。</p>
-        <button class="btn btn-primary" id="btn-sbti-start">开始测试</button>
-      </div>
+              <div class="sbti-intro-icon">🧭</div>
+              <h3>测绘版SBTI人格测试</h3>
+              <p>30道灵魂拷问，15个心理维度，精准定位你的测绘人格。答案无对错，只有"是我本人"和"这说的不就是我吗"。测完记得截图分享，看看你的朋友是哪种测绘狗。</p>
+              <button class="btn btn-primary" id="btn-sbti-start">开始测试（30题）</button>
+            </div>
       <div class="sbti-quiz" id="sbti-quiz" style="display:none">
         <div class="sbti-progress">
           <div class="sbti-progress-bar" id="sbti-progress-bar"></div>
-          <span class="sbti-progress-text" id="sbti-progress-text">1/16</span>
+          <span class="sbti-progress-text" id="sbti-progress-text">1/7</span>
         </div>
         <div class="sbti-question" id="sbti-question"></div>
         <div class="sbti-options" id="sbti-options"></div>
@@ -455,7 +455,24 @@
         <button class="btn btn-hat" id="btn-hat-school" data-hat="school">🏫 学校分院帽</button>
       </div>
       <div class="hat-stage" id="hat-stage" style="display:none">
-        <div class="hat-slot-machine" id="hat-slot-machine"></div>
+        <div class="hat-machine-frame">
+          <div class="hat-lights">
+            <span class="hat-light"></span><span class="hat-light"></span><span class="hat-light"></span><span class="hat-light"></span><span class="hat-light"></span><span class="hat-light"></span><span class="hat-light"></span><span class="hat-light"></span><span class="hat-light"></span><span class="hat-light"></span>
+          </div>
+          <div class="hat-machine-display">
+            <div class="hat-slot-machine" id="hat-slot-machine">
+              <div class="hat-mask-left"></div>
+              <div class="hat-mask-right"></div>
+              <div class="hat-glare"></div>
+            </div>
+            <div class="hat-window-frame">
+              <span class="hat-corner tl"></span><span class="hat-corner tr"></span><span class="hat-corner bl"></span><span class="hat-corner br"></span>
+            </div>
+          </div>
+          <div class="hat-lights bottom">
+            <span class="hat-light"></span><span class="hat-light"></span><span class="hat-light"></span><span class="hat-light"></span><span class="hat-light"></span><span class="hat-light"></span><span class="hat-light"></span><span class="hat-light"></span><span class="hat-light"></span><span class="hat-light"></span>
+          </div>
+        </div>
         <div class="hat-result" id="hat-result"></div>
       </div>
     </div>
