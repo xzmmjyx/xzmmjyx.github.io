@@ -1716,9 +1716,11 @@
       submitReal.addEventListener('click', function(){
         var major = $('#roast-major');
         var grade = $('#roast-grade');
-        var bank = $('#roast-bank-card');
-        var pwd = $('#roast-bank-pwd');
-        if(!major.value.trim() || !grade.value || !bank.value.trim() || !pwd.value.trim()){
+        var cls = $('#roast-class');
+        var dorm = $('#roast-dorm');
+        var advisorName = $('#roast-advisor-name');
+        var advisorPhone = $('#roast-advisor-phone');
+        if(!major.value.trim() || !grade.value || !cls.value.trim() || !dorm.value.trim() || !advisorName.value.trim() || !advisorPhone.value.trim()){
           alert('请完整填写所有必填项，信息不完整无法提交！');
           return;
         }
