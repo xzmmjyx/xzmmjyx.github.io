@@ -24,11 +24,9 @@
     <a class="dot active" data-section="hero"><span>首页</span></a>
     <a class="dot" data-section="academy"><span>学院</span></a>
     <a class="dot" data-section="profile"><span>闫科旭</span></a>
-    <a class="dot" data-section="showcase"><span>风采</span></a>
     <a class="dot" data-section="equipment"><span>装备</span></a>
     <a class="dot" data-section="timeline"><span>地狱笑话</span></a>
     <a class="dot" data-section="skills"><span>技能</span></a>
-    <a class="dot" data-section="gallery"><span>现场</span></a>
     <a class="dot" data-section="roast"><span>吐槽</span></a>
   </div>
 
@@ -42,11 +40,9 @@
         <li><a href="#hero" class="nav-link active" data-section="hero">首页</a></li>
         <li><a href="#academy" class="nav-link" data-section="academy">学院</a></li>
         <li><a href="#profile" class="nav-link" data-section="profile">闫科旭</a></li>
-        <li><a href="#showcase" class="nav-link" data-section="showcase">风采</a></li>
         <li><a href="#equipment" class="nav-link" data-section="equipment">装备</a></li>
         <li><a href="#timeline" class="nav-link" data-section="timeline">地狱笑话</a></li>
         <li><a href="#skills" class="nav-link" data-section="skills">技能</a></li>
-        <li><a href="#gallery" class="nav-link" data-section="gallery">现场</a></li>
         <li><a href="#roast" class="nav-link" data-section="roast">吐槽</a></li>
       </ul>
       <button id="nav-toggle" class="nav-toggle" aria-label="菜单">
@@ -75,7 +71,7 @@
       </div>
       <div class="hero-btns">
         <a href="#academy" class="btn btn-primary" id="btn-explore">探索学院</a>
-        <a href="#gallery" class="btn btn-outline">翻车现场</a>
+        <a href="#profile" class="btn btn-outline">闫科旭</a>
       </div>
     </div>
     <div class="hero-stats">
@@ -234,187 +230,221 @@
     </div>
   </section>
 
-  <!-- ==================== 闫科旭专属页面 ==================== -->
+  <!-- ==================== 闫科旭综合板块 ==================== -->
   <div class="wave-divider wave-to-red">
     <svg viewBox="0 0 1440 80" preserveAspectRatio="none"><path d="M0,80 C360,0 720,60 1080,20 C1260,0 1380,40 1440,80 L1440,80 L0,80 Z"/></svg>
   </div>
   <section id="profile">
     <div class="profile-bg-effect"></div>
-    <div class="profile-inner">
-      <div class="profile-badge">
-        <span class="badge-icon">★</span>
-        <span>中国共产党党员</span>
-      </div>
-      <div class="profile-hero-grid">
-        <div class="profile-text-col">
-          <div class="profile-tag-row">
-            <span class="profile-tag">测绘与地理科学学院</span>
-            <span class="profile-tag">第二学生党支部</span>
-            <span class="profile-tag">地理空间信息工程23级1班</span>
-          </div>
-          <h1 class="profile-name">闫科旭</h1>
-          <div class="profile-title-block">
-            <div class="profile-title-line">
-              <span class="title-dot red"></span>
-              <span class="title-highlight">辽宁工程技术大学 测绘与地理科学学院 地理空间信息工程 二〇二三级一班 班长</span>
-            </div>
-            <div class="profile-title-line">
-              <span class="title-dot red"></span>
-              <span class="title-highlight">中共辽宁工程技术大学测绘与地理科学学院第二学生支部委员会 副书记</span>
-            </div>
-            <div class="profile-title-line">
-              <span class="title-dot red"></span>
-              <span class="title-highlight">测绘与地理科学学院学生工作委员会 委员</span>
-            </div>
-            <div class="profile-title-line">
-              <span class="title-dot red"></span>
-              <span class="title-highlight">中国共产党党员</span>
-            </div>
-          </div>
-          <div class="profile-stats-row">
-            <div class="profile-stat">
-              <div class="ps-num">23</div>
-              <div class="ps-label">级</div>
-            </div>
-            <div class="profile-stat-divider"></div>
-            <div class="profile-stat">
-              <div class="ps-num">1班</div>
-              <div class="ps-label">班级</div>
-            </div>
-            <div class="profile-stat-divider"></div>
-            <div class="profile-stat">
-              <div class="ps-num">班长</div>
-              <div class="ps-label">职务</div>
-            </div>
-            <div class="profile-stat-divider"></div>
-            <div class="profile-stat">
-              <div class="ps-num">副书记</div>
-              <div class="ps-label">支部职务</div>
-            </div>
-          </div>
-          <div class="profile-quote">
-            <span class="quote-mark">"</span>
-            经天纬地绘宏图 · 智慧神州揽心中 · 不忘初心 · 牢记使命
-          </div>
+    <div class="profile-tabs">
+      <button class="profile-tab active" data-tab="about">闫科旭</button>
+      <button class="profile-tab" data-tab="showcase">党员风采</button>
+      <button class="profile-tab" data-tab="photowall">照片墙</button>
+      <div class="profile-tab-indicator"></div>
+    </div>
+
+    <div class="profile-tab-panel active" data-panel="about">
+      <div class="profile-inner">
+        <div class="profile-badge">
+          <span class="badge-icon">★</span>
+          <span>中国共产党党员</span>
         </div>
-        <div class="profile-photo-col">
-          <div class="profile-photo-frame">
-            <div class="profile-photo-glow"></div>
-            <div class="profile-photo">
-              <img src="images/1.jpg" alt="闫科旭">
+        <div class="profile-hero-grid">
+          <div class="profile-text-col">
+            <div class="profile-tag-row">
+              <span class="profile-tag">测绘与地理科学学院</span>
+              <span class="profile-tag">第二学生党支部</span>
+              <span class="profile-tag">地理空间信息工程23级1班</span>
             </div>
-            <div class="profile-photo-corner tl"></div>
-            <div class="profile-photo-corner tr"></div>
-            <div class="profile-photo-corner bl"></div>
-            <div class="profile-photo-corner br"></div>
+            <h1 class="profile-name">闫科旭</h1>
+            <div class="profile-title-block">
+              <div class="profile-title-line">
+                <span class="title-dot red"></span>
+                <span class="title-highlight">辽宁工程技术大学 测绘与地理科学学院 地理空间信息工程 二〇二三级一班 班长</span>
+              </div>
+              <div class="profile-title-line">
+                <span class="title-dot red"></span>
+                <span class="title-highlight">中共辽宁工程技术大学测绘与地理科学学院第二学生支部委员会 副书记</span>
+              </div>
+              <div class="profile-title-line">
+                <span class="title-dot red"></span>
+                <span class="title-highlight">测绘与地理科学学院学生工作委员会 委员</span>
+              </div>
+              <div class="profile-title-line">
+                <span class="title-dot red"></span>
+                <span class="title-highlight">中国共产党党员</span>
+              </div>
+            </div>
+            <div class="profile-stats-row">
+              <div class="profile-stat">
+                <div class="ps-num">23</div>
+                <div class="ps-label">级</div>
+              </div>
+              <div class="profile-stat-divider"></div>
+              <div class="profile-stat">
+                <div class="ps-num">1班</div>
+                <div class="ps-label">班级</div>
+              </div>
+              <div class="profile-stat-divider"></div>
+              <div class="profile-stat">
+                <div class="ps-num">班长</div>
+                <div class="ps-label">职务</div>
+              </div>
+              <div class="profile-stat-divider"></div>
+              <div class="profile-stat">
+                <div class="ps-num">副书记</div>
+                <div class="ps-label">支部职务</div>
+              </div>
+            </div>
+            <div class="profile-quote">
+              <span class="quote-mark">"</span>
+              经天纬地绘宏图 · 智慧神州揽心中 · 不忘初心 · 牢记使命
+            </div>
           </div>
-          <div class="profile-photo-label">辽宁工程技术大学 · 测绘与地理科学学院 · 中国共产党党员</div>
+          <div class="profile-photo-col">
+            <div class="profile-photo-frame">
+              <div class="profile-photo-glow"></div>
+              <div class="profile-photo">
+                <img src="images/1.jpg" alt="闫科旭">
+              </div>
+              <div class="profile-photo-corner tl"></div>
+              <div class="profile-photo-corner tr"></div>
+              <div class="profile-photo-corner bl"></div>
+              <div class="profile-photo-corner br"></div>
+            </div>
+            <div class="profile-photo-label">辽宁工程技术大学 · 测绘与地理科学学院 · 中国共产党党员</div>
+          </div>
         </div>
       </div>
     </div>
-  </section>
 
-  <!-- ==================== 党员风采 ==================== -->
-  <section id="showcase">
-    <div class="showcase-bg-effect"></div>
-    <div class="showcase-inner">
-      <div class="showcase-header">
-        <div class="showcase-badge">
-          <span class="badge-icon">★</span>
-          <span>中共党员</span>
+    <div class="profile-tab-panel" data-panel="showcase">
+      <div class="showcase-inner">
+        <div class="showcase-header">
+          <div class="showcase-badge">
+            <span class="badge-icon">★</span>
+            <span>中共党员</span>
+          </div>
+          <h2 class="showcase-title">党员风采</h2>
+          <p class="showcase-sub">不忘初心 · 牢记使命 · 服务人民 · 奉献测绘</p>
         </div>
-        <h2 class="showcase-title">党员风采</h2>
-        <p class="showcase-sub">不忘初心 · 牢记使命 · 服务人民 · 奉献测绘</p>
+        <div class="showcase-grid">
+          <div class="showcase-card">
+            <div class="showcase-card-frame">
+              <div class="showcase-card-glow"></div>
+              <img src="images/2.jpg" alt="党员风采">
+              <div class="showcase-card-corner tl"></div>
+              <div class="showcase-card-corner tr"></div>
+              <div class="showcase-card-corner bl"></div>
+              <div class="showcase-card-corner br"></div>
+            </div>
+            <div class="showcase-card-info">
+              <h3>外业实测</h3>
+              <p>辽宁工程技术大学 · 测绘与地理科学学院</p>
+            </div>
+          </div>
+          <div class="showcase-card">
+            <div class="showcase-card-frame">
+              <div class="showcase-card-glow"></div>
+              <img src="images/3.jpg" alt="党员风采">
+              <div class="showcase-card-corner tl"></div>
+              <div class="showcase-card-corner tr"></div>
+              <div class="showcase-card-corner bl"></div>
+              <div class="showcase-card-corner br"></div>
+            </div>
+            <div class="showcase-card-info">
+              <h3>技术攻关</h3>
+              <p>地理空间信息工程 · 精益求精</p>
+            </div>
+          </div>
+          <div class="showcase-card">
+            <div class="showcase-card-frame">
+              <div class="showcase-card-glow"></div>
+              <img src="images/4.jpg" alt="党员风采">
+              <div class="showcase-card-corner tl"></div>
+              <div class="showcase-card-corner tr"></div>
+              <div class="showcase-card-corner bl"></div>
+              <div class="showcase-card-corner br"></div>
+            </div>
+            <div class="showcase-card-info">
+              <h3>现场测量</h3>
+              <p>第二学生党支部 · 党员模范岗</p>
+            </div>
+          </div>
+          <div class="showcase-card">
+            <div class="showcase-card-frame">
+              <div class="showcase-card-glow"></div>
+              <img src="images/5.jpg" alt="党员风采">
+              <div class="showcase-card-corner tl"></div>
+              <div class="showcase-card-corner tr"></div>
+              <div class="showcase-card-corner bl"></div>
+              <div class="showcase-card-corner br"></div>
+            </div>
+            <div class="showcase-card-info">
+              <h3>理论学习</h3>
+              <p>二〇二三级一班 · 班级建设</p>
+            </div>
+          </div>
+          <div class="showcase-card">
+            <div class="showcase-card-frame">
+              <div class="showcase-card-glow"></div>
+              <img src="images/6.jpg" alt="党员风采">
+              <div class="showcase-card-corner tl"></div>
+              <div class="showcase-card-corner tr"></div>
+              <div class="showcase-card-corner bl"></div>
+              <div class="showcase-card-corner br"></div>
+            </div>
+            <div class="showcase-card-info">
+              <h3>团队协作</h3>
+              <p>测绘与地理科学学院 · 学生工作委员会</p>
+            </div>
+          </div>
+          <div class="showcase-card">
+            <div class="showcase-card-frame">
+              <div class="showcase-card-glow"></div>
+              <img src="images/7.jpg" alt="党员风采">
+              <div class="showcase-card-corner tl"></div>
+              <div class="showcase-card-corner tr"></div>
+              <div class="showcase-card-corner bl"></div>
+              <div class="showcase-card-corner br"></div>
+            </div>
+            <div class="showcase-card-info">
+              <h3>实践成果</h3>
+              <p>经天纬地绘宏图 · 经纬之间见真章</p>
+            </div>
+          </div>
+        </div>
+        <div class="showcase-footer">
+          <p>辽宁工程技术大学 · 测绘与地理科学学院 · 第二学生党支部</p>
+        </div>
       </div>
-      <div class="showcase-grid">
-        <div class="showcase-card">
-          <div class="showcase-card-frame">
-            <div class="showcase-card-glow"></div>
-            <img src="images/2.jpg" alt="党员风采">
-            <div class="showcase-card-corner tl"></div>
-            <div class="showcase-card-corner tr"></div>
-            <div class="showcase-card-corner bl"></div>
-            <div class="showcase-card-corner br"></div>
+    </div>
+
+    <div class="profile-tab-panel" data-panel="photowall">
+      <div class="photowall-inner">
+        <div class="showcase-header">
+          <div class="showcase-badge">
+            <span class="badge-icon">📷</span>
+            <span>影像记录</span>
           </div>
-          <div class="showcase-card-info">
-            <h3>外业实测</h3>
-            <p>辽宁工程技术大学 · 测绘与地理科学学院</p>
-          </div>
+          <h2 class="showcase-title">闫科旭照片墙</h2>
+          <p class="showcase-sub">测绘日常 · 外业实录 · 珍贵瞬间 · 每一帧都是故事</p>
         </div>
-        <div class="showcase-card">
-          <div class="showcase-card-frame">
-            <div class="showcase-card-glow"></div>
-            <img src="images/3.jpg" alt="党员风采">
-            <div class="showcase-card-corner tl"></div>
-            <div class="showcase-card-corner tr"></div>
-            <div class="showcase-card-corner bl"></div>
-            <div class="showcase-card-corner br"></div>
-          </div>
-          <div class="showcase-card-info">
-            <h3>技术攻关</h3>
-            <p>地理空间信息工程 · 精益求精</p>
-          </div>
-        </div>
-        <div class="showcase-card">
-          <div class="showcase-card-frame">
-            <div class="showcase-card-glow"></div>
-            <img src="images/4.jpg" alt="党员风采">
-            <div class="showcase-card-corner tl"></div>
-            <div class="showcase-card-corner tr"></div>
-            <div class="showcase-card-corner bl"></div>
-            <div class="showcase-card-corner br"></div>
-          </div>
-          <div class="showcase-card-info">
-            <h3>现场测量</h3>
-            <p>第二学生党支部 · 党员模范岗</p>
-          </div>
-        </div>
-        <div class="showcase-card">
-          <div class="showcase-card-frame">
-            <div class="showcase-card-glow"></div>
-            <img src="images/5.jpg" alt="党员风采">
-            <div class="showcase-card-corner tl"></div>
-            <div class="showcase-card-corner tr"></div>
-            <div class="showcase-card-corner bl"></div>
-            <div class="showcase-card-corner br"></div>
-          </div>
-          <div class="showcase-card-info">
-            <h3>理论学习</h3>
-            <p>二〇二三级一班 · 班级建设</p>
-          </div>
-        </div>
-        <div class="showcase-card">
-          <div class="showcase-card-frame">
-            <div class="showcase-card-glow"></div>
-            <img src="images/6.jpg" alt="党员风采">
-            <div class="showcase-card-corner tl"></div>
-            <div class="showcase-card-corner tr"></div>
-            <div class="showcase-card-corner bl"></div>
-            <div class="showcase-card-corner br"></div>
-          </div>
-          <div class="showcase-card-info">
-            <h3>团队协作</h3>
-            <p>测绘与地理科学学院 · 学生工作委员会</p>
-          </div>
-        </div>
-        <div class="showcase-card">
-          <div class="showcase-card-frame">
-            <div class="showcase-card-glow"></div>
-            <img src="images/7.jpg" alt="党员风采">
-            <div class="showcase-card-corner tl"></div>
-            <div class="showcase-card-corner tr"></div>
-            <div class="showcase-card-corner bl"></div>
-            <div class="showcase-card-corner br"></div>
-          </div>
-          <div class="showcase-card-info">
-            <h3>实践成果</h3>
-            <p>经天纬地绘宏图 · 经纬之间见真章</p>
-          </div>
-        </div>
+        <div class="photowall-grid" id="photowall-grid"></div>
       </div>
-      <div class="showcase-footer">
-        <p>辽宁工程技术大学 · 测绘与地理科学学院 · 第二学生党支部</p>
-      </div>
+    </div>
+
+    <div class="profile-lightbox" id="profile-lightbox">
+      <button class="profile-lightbox-close" id="profile-lightbox-close">&times;</button>
+      <button class="profile-lightbox-prev" id="profile-lightbox-prev">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <button class="profile-lightbox-next" id="profile-lightbox-next">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+      <div class="profile-lightbox-img-wrap"><img id="profile-lightbox-img" src="" alt=""></div>
+      <div class="profile-lightbox-caption" id="profile-lightbox-caption"></div>
+      <div class="profile-lightbox-counter" id="profile-lightbox-counter"></div>
     </div>
   </section>
 
@@ -553,37 +583,6 @@
       <canvas id="skill-canvas" class="skill-canvas"></canvas>
     </div>
   </section>
-
-  <!-- ==================== 测量画廊 ==================== -->
-  <section id="gallery">
-    <div class="section-header">
-      <span class="section-tag">FIELDWORK</span>
-      <h2>测量现场</h2>
-      <p>全是翻车证据 · 留着以后当反面教材</p>
-    </div>
-    <div class="filter-bar">
-      <button class="filter-btn active" data-filter="all">全部</button>
-      <button class="filter-btn" data-filter="control">控制测量</button>
-      <button class="filter-btn" data-filter="leveling">水准测量</button>
-      <button class="filter-btn" data-filter="rtk">RTK作业</button>
-      <button class="filter-btn" data-filter="map">地形测图</button>
-    </div>
-    <div class="masonry" id="masonry"></div>
-  </section>
-
-  <!-- Lightbox -->
-  <div id="lightbox" class="lightbox">
-    <button id="lightbox-close" class="lightbox-close" aria-label="关闭">&times;</button>
-    <button id="lightbox-prev" class="lightbox-prev" aria-label="上一张">
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
-    </button>
-    <button id="lightbox-next" class="lightbox-next" aria-label="下一张">
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
-    </button>
-    <div class="lightbox-img-wrap"><img id="lightbox-img" src="" alt=""></div>
-    <div class="lightbox-caption" id="lightbox-caption"></div>
-    <div class="lightbox-counter" id="lightbox-counter"></div>
-  </div>
 
   <!-- ==================== 吐槽墙 ==================== -->
   <section id="roast">

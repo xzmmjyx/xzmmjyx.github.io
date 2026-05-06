@@ -4,28 +4,33 @@
   var $ = function(s,r){return(r||document).querySelector(s)};
   var $$ = function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
 
-  var photos = [
-    {src:'images/1.jpg',h:400,title:'现场照片 1',desc:'测绘现场实录',cat:'control'},
-    {src:'images/2.jpg',h:500,title:'现场照片 2',desc:'测绘现场实录',cat:'leveling'},
-    {src:'images/3.jpg',h:450,title:'现场照片 3',desc:'测绘现场实录',cat:'rtk'},
-    {src:'images/4.jpg',h:600,title:'现场照片 4',desc:'测绘现场实录',cat:'map'},
-    {src:'images/5.jpg',h:400,title:'现场照片 5',desc:'测绘现场实录',cat:'control'},
-    {src:'images/6.jpg',h:550,title:'现场照片 6',desc:'测绘现场实录',cat:'rtk'},
-    {src:'images/7.jpg',h:500,title:'现场照片 7',desc:'测绘现场实录',cat:'leveling'},
-    {src:'images/1.jpg',h:400,title:'现场照片 8',desc:'测绘现场实录',cat:'control'},
-    {src:'images/2.jpg',h:500,title:'现场照片 9',desc:'测绘现场实录',cat:'rtk'},
-    {src:'images/3.jpg',h:450,title:'现场照片 10',desc:'测绘现场实录',cat:'map'},
-    {src:'images/4.jpg',h:600,title:'现场照片 11',desc:'测绘现场实录',cat:'control'},
-    {src:'images/5.jpg',h:400,title:'现场照片 12',desc:'测绘现场实录',cat:'map'},
-    {src:'images/6.jpg',h:550,title:'现场照片 13',desc:'测绘现场实录',cat:'leveling'},
-    {src:'images/7.jpg',h:500,title:'现场照片 14',desc:'测绘现场实录',cat:'rtk'},
-    {src:'images/1.jpg',h:400,title:'现场照片 15',desc:'测绘现场实录',cat:'map'}
+  var photowallImages = [
+    {src:'images/1.jpg',title:'闫科旭 · 测绘记录',desc:'辽宁工程技术大学'},
+    {src:'images/2.jpg',title:'外业实测',desc:'测绘与地理科学学院'},
+    {src:'images/3.jpg',title:'技术攻关',desc:'地理空间信息工程'},
+    {src:'images/4.jpg',title:'现场测量',desc:'第二学生党支部'},
+    {src:'images/5.jpg',title:'理论学习',desc:'二〇二三级一班'},
+    {src:'images/6.jpg',title:'团队协作',desc:'学生工作委员会'},
+    {src:'images/7.jpg',title:'实践成果',desc:'经天纬地绘宏图'},
+    {src:'images/8.jpg',title:'外业记录 8',desc:'测绘现场实录'},
+    {src:'images/9.jpg',title:'外业记录 9',desc:'测绘现场实录'},
+    {src:'images/10.jpg',title:'外业记录 10',desc:'测绘现场实录'},
+    {src:'images/11.jpg',title:'外业记录 11',desc:'测绘现场实录'},
+    {src:'images/12.jpg',title:'外业记录 12',desc:'测绘现场实录'},
+    {src:'images/13.jpg',title:'外业记录 13',desc:'测绘现场实录'},
+    {src:'images/14.jpg',title:'外业记录 14',desc:'测绘现场实录'},
+    {src:'images/15.jpg',title:'外业记录 15',desc:'测绘现场实录'},
+    {src:'images/16.jpg',title:'外业记录 16',desc:'测绘现场实录'},
+    {src:'images/17.jpg',title:'外业记录 17',desc:'测绘现场实录'},
+    {src:'images/18.jpg',title:'外业记录 18',desc:'测绘现场实录'},
+    {src:'images/19.jpg',title:'外业记录 19',desc:'测绘现场实录'},
+    {src:'images/20.jpg',title:'外业记录 20',desc:'测绘现场实录'},
+    {src:'images/21.jpg',title:'外业记录 21',desc:'测绘现场实录'},
+    {src:'images/22.jpg',title:'外业记录 22',desc:'测绘现场实录'},
+    {src:'images/23.jpg',title:'外业记录 23',desc:'测绘现场实录'},
+    {src:'images/a1.jpg',title:'特别记录',desc:'珍贵瞬间'}
   ];
-
-  var catNames = {control:'控制测量',leveling:'水准测量',rtk:'RTK作业',map:'地形测图'};
-  var currentFilter = 'all';
   var lightboxIdx = 0;
-  var filteredPhotos = photos.slice();
 
   function initPageLoader(){
     var loader = $('#page-loader');
@@ -271,7 +276,7 @@
     var heroContent = $('.hero-content');
     var heroStats = $('.hero-stats');
     var ticking = false;
-    var sectionIds = ['hero','academy','profile','showcase','equipment','timeline','skills','gallery','roast'];
+    var sectionIds = ['hero','academy','profile','equipment','timeline','skills','roast'];
 
     function onScroll(){
       if(ticking) return;
@@ -332,29 +337,47 @@
     });
   }
 
-  function initMasonry(){
-    var container = $('#masonry');
-    if(!container) return;
-    renderPhotos(container);
-  }
-
-  function renderPhotos(container){
-    container.innerHTML = '';
-    filteredPhotos = currentFilter === 'all' ? photos.slice() : photos.filter(function(p){return p.cat===currentFilter});
-    filteredPhotos.forEach(function(photo,idx){
-      var item = document.createElement('div');
-      item.className = 'masonry-item';
-      item.innerHTML = '<img data-src="'+photo.src+'" alt="'+photo.title+'" style="aspect-ratio:600/'+photo.h+';background:#1a1a26">' +
-        '<div class="masonry-overlay"><h4>'+photo.title+'</h4><p>'+photo.desc+'</p></div>';
-      item.addEventListener('click',function(){openLightbox(idx)});
-      container.appendChild(item);
+  function initProfileTabs(){
+    var tabs = $$('.profile-tab');
+    var panels = $$('.profile-tab-panel');
+    if(!tabs.length) return;
+    tabs.forEach(function(tab){
+      tab.addEventListener('click', function(){
+        var target = tab.getAttribute('data-tab');
+        tabs.forEach(function(t){t.classList.remove('active')});
+        tab.classList.add('active');
+        panels.forEach(function(p){
+          if(p.getAttribute('data-panel') === target){
+            p.classList.add('active');
+          }else{
+            p.classList.remove('active');
+          }
+        });
+        if(target === 'photowall') initPhotoWall();
+      });
     });
-    observeLazy();
-    observeReveal();
   }
 
-  function observeLazy(){
-    var imgs = $$('.masonry-item img[data-src]');
+  function initPhotoWall(){
+    var grid = $('#photowall-grid');
+    if(!grid || grid.children.length > 0) return;
+    photowallImages.forEach(function(photo, idx){
+      var item = document.createElement('div');
+      var cls = 'photowall-item';
+      if(idx % 5 === 2) cls += ' tall';
+      if(idx % 7 === 4) cls += ' wide';
+      item.className = cls;
+      item.innerHTML = '<img data-src="'+photo.src+'" alt="'+photo.title+'">' +
+        '<div class="photowall-overlay"><h4>'+photo.title+'</h4><p>'+photo.desc+'</p></div>';
+      item.addEventListener('click',function(){openPhotoLightbox(idx)});
+      grid.appendChild(item);
+    });
+    observePhotoWallLazy();
+    observePhotoWallReveal();
+  }
+
+  function observePhotoWallLazy(){
+    var imgs = $$('#photowall-grid .photowall-item img[data-src]');
     if(!imgs.length) return;
     if(!('IntersectionObserver' in window)){
       imgs.forEach(function(img){img.src=img.getAttribute('data-src');img.removeAttribute('data-src')});
@@ -369,86 +392,97 @@
           obs.unobserve(img);
         }
       });
-    },{rootMargin:'200px'});
+    },{rootMargin:'300px'});
     imgs.forEach(function(img){obs.observe(img)});
   }
 
-  function initFilter(){
-    $$('.filter-btn').forEach(function(btn){
-      btn.addEventListener('click', function(){
-        $$('.filter-btn').forEach(function(b){b.classList.remove('active')});
-        btn.classList.add('active');
-        currentFilter = btn.getAttribute('data-filter');
-        renderPhotos($('#masonry'));
+  function observePhotoWallReveal(){
+    var els = $$('#photowall-grid .photowall-item:not(.visible)');
+    if(!els.length) return;
+    if(!('IntersectionObserver' in window)){
+      els.forEach(function(el){el.classList.add('visible')});
+      return;
+    }
+    var obs = new IntersectionObserver(function(entries){
+      var revealed = [];
+      entries.forEach(function(e){
+        if(e.isIntersecting){
+          revealed.push(e.target);
+          obs.unobserve(e.target);
+        }
       });
-    });
+      revealed.forEach(function(el,i){
+        setTimeout(function(){el.classList.add('visible')},i*80);
+      });
+    },{threshold:.06,rootMargin:'0px 0px -20px 0px'});
+    els.forEach(function(el){obs.observe(el)});
   }
 
-  function openLightbox(idx){
+  function openPhotoLightbox(idx){
     lightboxIdx = idx;
-    var lb = $('#lightbox');
+    var lb = $('#profile-lightbox');
     if(!lb) return;
-    updateLightbox();
+    updatePhotoLightbox();
     lb.classList.add('open');
     document.body.style.overflow = 'hidden';
   }
 
-  function updateLightbox(){
-    var photo = filteredPhotos[lightboxIdx];
+  function updatePhotoLightbox(){
+    var photo = photowallImages[lightboxIdx];
     if(!photo) return;
-    var img = $('#lightbox-img');
-    var caption = $('#lightbox-caption');
-    var counter = $('#lightbox-counter');
+    var img = $('#profile-lightbox-img');
+    var caption = $('#profile-lightbox-caption');
+    var counter = $('#profile-lightbox-counter');
     if(img) img.src = photo.src;
     if(caption) caption.textContent = photo.title + ' — ' + photo.desc;
-    if(counter) counter.textContent = (lightboxIdx+1)+' / '+filteredPhotos.length;
+    if(counter) counter.textContent = (lightboxIdx+1)+' / '+photowallImages.length;
   }
 
-  function closeLightbox(){
-    var lb = $('#lightbox');
+  function closePhotoLightbox(){
+    var lb = $('#profile-lightbox');
     if(!lb) return;
     lb.classList.remove('open');
     document.body.style.overflow = '';
   }
 
-  function initLightbox(){
-    var lb = $('#lightbox');
+  function initProfileLightbox(){
+    var lb = $('#profile-lightbox');
     if(!lb) return;
-    var closeBtn = $('#lightbox-close');
-    var prevBtn = $('#lightbox-prev');
-    var nextBtn = $('#lightbox-next');
-    if(closeBtn) closeBtn.addEventListener('click', closeLightbox);
+    var closeBtn = $('#profile-lightbox-close');
+    var prevBtn = $('#profile-lightbox-prev');
+    var nextBtn = $('#profile-lightbox-next');
+    if(closeBtn) closeBtn.addEventListener('click', closePhotoLightbox);
     if(prevBtn) prevBtn.addEventListener('click', function(){
-      lightboxIdx = (lightboxIdx - 1 + filteredPhotos.length) % filteredPhotos.length;
-      updateLightbox();
+      lightboxIdx = (lightboxIdx - 1 + photowallImages.length) % photowallImages.length;
+      updatePhotoLightbox();
     });
     if(nextBtn) nextBtn.addEventListener('click', function(){
-      lightboxIdx = (lightboxIdx + 1) % filteredPhotos.length;
-      updateLightbox();
+      lightboxIdx = (lightboxIdx + 1) % photowallImages.length;
+      updatePhotoLightbox();
     });
     lb.addEventListener('click', function(e){
-      if(e.target === lb) closeLightbox();
+      if(e.target === lb) closePhotoLightbox();
     });
     document.addEventListener('keydown', function(e){
       if(!lb.classList.contains('open')) return;
-      if(e.key==='Escape') closeLightbox();
-      if(e.key==='ArrowLeft'){lightboxIdx=(lightboxIdx-1+filteredPhotos.length)%filteredPhotos.length;updateLightbox()}
-      if(e.key==='ArrowRight'){lightboxIdx=(lightboxIdx+1)%filteredPhotos.length;updateLightbox()}
+      if(e.key==='Escape') closePhotoLightbox();
+      if(e.key==='ArrowLeft'){lightboxIdx=(lightboxIdx-1+photowallImages.length)%photowallImages.length;updatePhotoLightbox()}
+      if(e.key==='ArrowRight'){lightboxIdx=(lightboxIdx+1)%photowallImages.length;updatePhotoLightbox()}
     });
     var startX=0;
     lb.addEventListener('touchstart',function(e){startX=e.touches[0].clientX},{passive:true});
     lb.addEventListener('touchend',function(e){
       var diff=e.changedTouches[0].clientX-startX;
       if(Math.abs(diff)>50){
-        if(diff>0){lightboxIdx=(lightboxIdx-1+filteredPhotos.length)%filteredPhotos.length}
-        else{lightboxIdx=(lightboxIdx+1)%filteredPhotos.length}
-        updateLightbox();
+        if(diff>0){lightboxIdx=(lightboxIdx-1+photowallImages.length)%photowallImages.length}
+        else{lightboxIdx=(lightboxIdx+1)%photowallImages.length}
+        updatePhotoLightbox();
       }
     },{passive:true});
   }
 
   function observeReveal(){
-    var els = $$('.masonry-item:not(.visible),.roast-card:not(.visible),.academy-card:not(.visible),.section-header:not(.visible),.profile-text-col:not(.visible),.profile-photo-col:not(.visible),.showcase-card:not(.visible),.wave-divider:not(.visible)');
+    var els = $$('.roast-card:not(.visible),.academy-card:not(.visible),.section-header:not(.visible),.profile-text-col:not(.visible),.profile-photo-col:not(.visible),.showcase-card:not(.visible),.wave-divider:not(.visible)');
     if(!els.length) return;
     if(!('IntersectionObserver' in window)){
       els.forEach(function(el){el.classList.add('visible')});
@@ -1452,9 +1486,8 @@
     initTagSparks();
     initScroll();
     initMobileNav();
-    initMasonry();
-    initFilter();
-    initLightbox();
+    initProfileTabs();
+    initProfileLightbox();
     initEquipment();
     initSkillTree();
     initHellScroller();
