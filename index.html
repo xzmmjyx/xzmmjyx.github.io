@@ -57,14 +57,15 @@
 
   <!-- ==================== Hero ==================== -->
   <section id="hero">
-    <canvas id="hero-particles"></canvas>
-    <div class="hero-bg"></div>
-    <div class="hero-overlay"></div>
-    <div class="hero-grid-lines"></div>
+    <canvas id="hero-contour" class="hero-layer"></canvas>
+    <canvas id="hero-orbit" class="hero-layer"></canvas>
+    <canvas id="hero-particles" class="hero-layer"></canvas>
+    <div class="hero-glow"></div>
+    <div class="hero-glow gold"></div>
     <div class="hero-content">
       <div class="hero-badge">⛏ 辽宁工程技术大学 · 测绘与地理科学学院</div>
       <h1 id="hero-title" class="hero-title" data-text="工大小矿工"></h1>
-      <p class="hero-subtitle">外业跑断腿 · 内业画瞎眼 · 闭合差永远超限</p>
+      <p id="hero-subtitle" class="hero-subtitle" data-text="外业跑断腿 · 内业画瞎眼 · 闭合差永远超限"></p>
       <div class="hero-tags">
         <span class="hero-tag">控制测量</span>
         <span class="hero-tag">RTK</span>
@@ -73,7 +74,7 @@
         <span class="hero-tag">CASS</span>
       </div>
       <div class="hero-btns">
-        <a href="#academy" class="btn btn-primary">探索学院</a>
+        <a href="#academy" class="btn btn-primary" id="btn-explore">探索学院</a>
         <a href="#gallery" class="btn btn-outline">翻车现场</a>
       </div>
     </div>
@@ -99,9 +100,9 @@
       </div>
     </div>
     <div class="scroll-indicator">
-      <span>往下滑</span>
+      <span>Scroll</span>
       <div class="scroll-arrow">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
       </div>
     </div>
   </section>
