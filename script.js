@@ -4,34 +4,6 @@
   var $ = function(s,r){return(r||document).querySelector(s)};
   var $$ = function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
 
-  var photowallImages = [
-    {src:'images/1.jpg',title:'闫科旭 · 测绘记录',desc:'辽宁工程技术大学'},
-    {src:'images/2.jpg',title:'外业实测',desc:'测绘与地理科学学院'},
-    {src:'images/3.jpg',title:'技术攻关',desc:'地理空间信息工程'},
-    {src:'images/4.jpg',title:'现场测量',desc:'第二学生党支部'},
-    {src:'images/5.jpg',title:'理论学习',desc:'二〇二三级一班'},
-    {src:'images/6.jpg',title:'团队协作',desc:'学生工作委员会'},
-    {src:'images/7.jpg',title:'实践成果',desc:'经天纬地绘宏图'},
-    {src:'images/8.jpg',title:'外业记录 8',desc:'测绘现场实录'},
-    {src:'images/9.jpg',title:'外业记录 9',desc:'测绘现场实录'},
-    {src:'images/10.jpg',title:'外业记录 10',desc:'测绘现场实录'},
-    {src:'images/11.jpg',title:'外业记录 11',desc:'测绘现场实录'},
-    {src:'images/12.jpg',title:'外业记录 12',desc:'测绘现场实录'},
-    {src:'images/13.jpg',title:'外业记录 13',desc:'测绘现场实录'},
-    {src:'images/14.jpg',title:'外业记录 14',desc:'测绘现场实录'},
-    {src:'images/15.jpg',title:'外业记录 15',desc:'测绘现场实录'},
-    {src:'images/16.jpg',title:'外业记录 16',desc:'测绘现场实录'},
-    {src:'images/17.jpg',title:'外业记录 17',desc:'测绘现场实录'},
-    {src:'images/18.jpg',title:'外业记录 18',desc:'测绘现场实录'},
-    {src:'images/19.jpg',title:'外业记录 19',desc:'测绘现场实录'},
-    {src:'images/20.jpg',title:'外业记录 20',desc:'测绘现场实录'},
-    {src:'images/21.jpg',title:'外业记录 21',desc:'测绘现场实录'},
-    {src:'images/22.jpg',title:'外业记录 22',desc:'测绘现场实录'},
-    {src:'images/23.jpg',title:'外业记录 23',desc:'测绘现场实录'},
-    {src:'images/a1.jpg',title:'特别记录',desc:'珍贵瞬间'}
-  ];
-  var lightboxIdx = 0;
-
   function initPageLoader(){
     var loader = $('#page-loader');
     if(!loader) return;
@@ -276,7 +248,7 @@
     var heroContent = $('.hero-content');
     var heroStats = $('.hero-stats');
     var ticking = false;
-    var sectionIds = ['hero','academy','team-showcase','profile','showcase','photowall','equipment','timeline','skills','roast'];
+    var sectionIds = ['hero','academy','equipment','timeline','skills','mbti','sorting-hat','roast'];
 
     function onScroll(){
       if(ticking) return;
@@ -337,156 +309,197 @@
     });
   }
 
-  function initProfileTabs(){
-    var tabs = $$('.profile-tab');
-    var panels = $$('.profile-tab-panel');
-    if(!tabs.length) return;
-    tabs.forEach(function(tab){
-      tab.addEventListener('click', function(){
-        var target = tab.getAttribute('data-tab');
-        tabs.forEach(function(t){t.classList.remove('active')});
-        tab.classList.add('active');
-        panels.forEach(function(p){
-          if(p.getAttribute('data-panel') === target){
-            p.classList.add('active');
-          }else{
-            p.classList.remove('active');
-          }
+  var mbtiQuestions = [
+    {q:'外业测量时，你的首选位置是？',a:'站在仪器旁边指挥全局，大声报数',b:'默默扛着脚架走到最远的测站'},
+    {q:'闭合差超限时，你的第一反应是？',a:'大喊"这不可能！一定是仪器的问题！"',b:'默默翻出原始记录开始逐个排查'},
+    {q:'小组外业分工，你更愿意做？',a:'跑棱镜——到处走，跟人聊天，不用动脑子',b:'观测读数——安安静静盯着十字丝'},
+    {q:'画CASS等高线时，你通常？',a:'边画边跟同桌吐槽，一个小时画三条',b:'戴上耳机进入心流，三小时画完全部'},
+    {q:'你的外业笔记本风格是？',a:'除了数据还画满了小人、吐槽和天气预报',b:'整整齐齐的数据表格，连页码都不缺'},
+    {q:'面对一门全新的测量课程，你倾向于？',a:'先去论坛和群里问问学长经验',b:'翻开课本从第一页开始啃公式推导'},
+    {q:'测量实习结束聚餐，你会？',a:'主动组织，串桌敬酒，讲外业笑话',b:'坐在角落安静吃饭，偶尔微笑附和'},
+    {q:'数据处理遇到瓶颈，你更可能？',a:'找同学讨论，或者发到群里求助',b:'关掉手机自己翻资料死磕到凌晨'},
+    {q:'RTK搜不到星，你会？',a:'换个开阔地试试，顺便拍个照发朋友圈',b:'检查天线、查看星历、分析多路径效应'},
+    {q:'外业一整天结束后，你更想？',a:'和队友撸串吐槽今天有多惨',b:'回宿舍洗个澡安静躺着什么都不想'},
+    {q:'做毕业设计选题时，你倾向于？',a:'选热门方向，跟大部队走',b:'选一个冷门方向，自己安静地深耕'},
+    {q:'对于CASS和ArcGIS哪个更顺手？',a:'CASS——操作简单粗暴，画图靠直觉',b:'ArcGIS——功能强大，适合深度分析'},
+    {q:'你的测量记录风格属于哪种？',a:'潦草但快速，只有自己能看懂',b:'工整规范，任何人拿去都能读懂'},
+    {q:'测绘竞赛报名时，你更可能？',a:'先组队再说，找几个靠谱的搭子',b:'先确定技术方案，再决定跟谁合作'},
+    {q:'实习基地停电了，你会？',a:'拉着大家聊天讲故事打发时间',b:'趁机整理手簿和原始数据'},
+    {q:'你理想中的测绘工作状态是？',a:'团队合作，每天和不同的人打交道',b:'独立作业，安安静静处理数据'}
+  ];
+
+  var mbtiTypes = {
+    'ENTJ':{name:'ENTJ · 控制测量指挥官',desc:'你是天生的团队指挥官，外业时永远站在仪器旁边发号施令。你坚信自己的方案是对的（虽然经常翻车）。你的RTK永远比别人的信号好，因为你用的是权力加成。',skill:'坐标系转换 · 误差传播分析 · 指挥全局',weakness:'闭合差超限时会甩锅给队友',icon:'👑'},
+    'ENTP':{name:'ENTP · 坐标系发明家',desc:'你总在质疑现有的测量方法，觉得"为什么不用无人机算了？"你的论文选题总是最炸裂的，从"基于区块链的RTK数据管理"到"用游戏引擎模拟矿山变形监测"。',skill:'跨学科融合 · 创新思维 · 口才了得',weakness:'想法太多，一个毕设选题换了八次',icon:'💡'},
+    'ENFJ':{name:'ENFJ · 外业团建大师',desc:'你不仅会测量，还会搞团建。每次外业实习，你都是那个组织聚餐、调解矛盾、鼓励队友的人。你的外业笔记最后一页写的是"大家辛苦了，测完请吃饭！"',skill:'团队协作 · 沟通能力 · 带动气氛',weakness:'自己数据没记全，光顾着照顾别人了',icon:'🤝'},
+    'ENFP':{name:'ENFP · 测绘段子手',desc:'你的外业记录本里画满了搞笑小人和吐槽涂鸦，每次闭合差超限都能编一个新段子。你的朋友圈是全班最有趣的，因为你把每一堂测量课都活成了脱口秀。',skill:'活跃气氛 · 创意无限 · 自学能力强',weakness:'数据经常记错行，段子倒是没断过',icon:'😂'},
+    'ESTJ':{name:'ESTJ · 闭合差检察官',desc:'你是小组里的质量管控专家，每个数据都要检核三遍。你的外业记录本是全班的模范样本，连老师都拿去当范例。你最大的恐惧是闭合差超限。',skill:'严谨细致 · 规范执行 · 数据检核',weakness:'太较真，同学不想跟你分一组',icon:'📋'},
+    'ESTP':{name:'ESTP · 跑棱镜之王',desc:'你是外业最能跑的人，一天能绕测区跑八圈。你对跑棱镜有一种天然的热情——不是因为喜欢，是因为坐着不动太难受了。你的运动手环记录每天三万步。',skill:'野外适应 · 体力充沛 · 现场应变',weakness:'坐不住，内业数据处理对你来说是酷刑',icon:'🏃'},
+    'ESFJ':{name:'ESFJ · 记录本管家',desc:'你永远是那个记数据最认真的人，不仅记录了测量数据，还记录了天气、温度、风力和每个人的心情。你的外业笔记就像一部测量小说。',skill:'数据记录 · 细节把控 · 团队关怀',weakness:'过于依赖流程，遇到突发状况会慌',icon:'📝'},
+    'ESFP':{name:'ESFP · 测绘气氛组',desc:'你是外业队伍里的开心果，再枯燥的测量任务都能被你搞得热热闹闹。你的仪器箱里除了工具还有一包辣条和一盒扑克牌。',skill:'气氛活跃 · 社交能力强 · 适应力好',weakness:'数据出错率和你的笑声一样高',icon:'🎤'},
+    'INTJ':{name:'INTJ · 大地测量理论家',desc:'你沉迷于测绘理论无法自拔，觉得CASS太low，只有自编平差程序才配得上你。你的毕设论文写了一百页理论推导，只有导师能看懂（可能连导师也看不懂）。',skill:'深度思考 · 理论建模 · 编程能力',weakness:'论文写了三年，实验还没开始做',icon:'🧠'},
+    'INTP':{name:'INTP · 数据分析怪才',desc:'你能盯着一组平差数据看三天三夜，然后在第四天凌晨三点突然发现问题所在。你的MATLAB脚本有五千行注释，因为你不相信任何人（包括未来的自己）能看懂。',skill:'逻辑分析 · 编程能力 · 深度研究',weakness:'说了三个月"马上就做完"但其实还没开始',icon:'🔬'},
+    'INFJ':{name:'INFJ · 测绘理想主义者',desc:'你选择测绘不是因为分低，而是真的想为祖国的大好河山量一量。你默默承担了组里最累的活，从不抱怨。当别人问你为什么选测绘，你说："因为星辰大海。"',skill:'全局视野 · 默默付出 · 内心坚定',weakness:'过于理想化，现实的闭合差会打碎你的梦',icon:'✨'},
+    'INFP':{name:'INFP · 等高线诗人',desc:'你看等高线的时候感受到的不是地形起伏，而是大地的脉搏和呼吸。你的外业记录本上写满了诗意的注释："此处地形如心碎般破碎"。你可能是测绘学院最文艺的人。',skill:'细腻观察 · 独特视角 · 文字功底',weakness:'数据处理速度跟你写诗一样慢',icon:'🌸'},
+    'ISTJ':{name:'ISTJ · 水准仪之魂',desc:'你是全班最靠谱的人，外业从不迟到，数据从不出错。你的测量记录本比教科书还规范。你的人生信条是："一切按规程操作，闭合差就不会超限。"（事实并非如此）',skill:'严格执行 · 数据可靠 · 耐心持久',weakness:'太死板，遇到非常规问题就懵了',icon:'🏛️'},
+    'ISTP':{name:'ISTP · 仪器修理工',desc:'全班仪器坏了都找你。你能用一根铅笔修好三脚架，用胶带固定水准仪气泡。你的工具箱比学校的还齐全。但你的外业记录本？哦，你从来不记。',skill:'动手能力 · 现场应变 · 技术维修',weakness:'从来不写记录，数据全靠脑子记',icon:'🔧'},
+    'ISFJ':{name:'ISFJ · 外业后勤部长',desc:'你是组里最细心的人，出发前检查所有人带没带仪器，外业时帮大家倒水遮阳，结束后第一个收拾工具。你的存在让全组的外业效率提升了30%。',skill:'细致周全 · 团队协作 · 可靠稳定',weakness:'太累，总觉得自己做得不够好',icon:'🫶'},
+    'ISFP':{name:'ISFP · 地形素描师',desc:'你画地形图的速度不快，但画出来的图跟照片一样美。你的CASS图件是全班最好看的，等高线流畅自然，注记整齐美观。你可能是唯一一个觉得画图是享受的人。',skill:'审美能力 · 图形表达 · 精细操作',weakness:'速度太慢，deadline前一天还在调线型',icon:'🎨'}
+  };
+
+  var majorItems = ['计算机科学与技术','人工智能','电子信息工程','电气工程','金融学','法学','建筑学','临床医学','口腔医学','机械工程','自动化','通信工程','信息安全','数据科学','软件工程','土木工程','化学工程','生物医学','航天工程','建筑学（建筑老八校）','测绘工程'];
+  var schoolItems = ['清华大学','北京大学','浙江大学','上海交通大学','复旦大学','南京大学','中国科学技术大学','哈尔滨工业大学','西安交通大学','北京航空航天大学','武汉大学','华中科技大学','中山大学','东南大学','同济大学','天津大学','北京理工大学','大连理工大学','东北原神职业技术学院'];
+  var majorBadIdx = majorItems.indexOf('测绘工程');
+  var schoolBadIdx = schoolItems.indexOf('东北原神职业技术学院');
+
+  function initMBTITest(){
+    var btnStart = $('#btn-mbti-start');
+    var intro = $('#mbti-intro');
+    var quiz = $('#mbti-quiz');
+    var result = $('#mbti-result');
+    if(!btnStart) return;
+    var current = 0;
+    var answers = [];
+    btnStart.addEventListener('click', function(){
+      intro.style.display = 'none';
+      quiz.style.display = 'block';
+      current = 0;
+      answers = [];
+      renderMBTIQuestion();
+    });
+    function renderMBTIQuestion(){
+      var q = mbtiQuestions[current];
+      var bar = $('#mbti-progress-bar');
+      var text = $('#mbti-progress-text');
+      var qEl = $('#mbti-question');
+      var oEl = $('#mbti-options');
+      if(bar) bar.style.width = ((current+1)/mbtiQuestions.length*100)+'%';
+      if(text) text.textContent = (current+1)+'/'+mbtiQuestions.length;
+      if(qEl) qEl.textContent = q.q;
+      if(oEl){
+        oEl.innerHTML = '';
+        var opts = [{text:q.a,val:'E'},{text:q.b,val:'I'}];
+        opts.forEach(function(opt){
+          var btn = document.createElement('button');
+          btn.className = 'mbti-opt-btn';
+          btn.textContent = opt.text;
+          btn.addEventListener('click', function(){
+            answers.push(opt.val);
+            current++;
+            if(current < mbtiQuestions.length){
+              renderMBTIQuestion();
+            }else{
+              showMBTIResult();
+            }
+          });
+          oEl.appendChild(btn);
         });
-        if(target === 'photowall') initPhotoWall();
-      });
-    });
-  }
-
-  function initPhotoWall(){
-    var grid = $('#photowall-grid');
-    if(!grid || grid.children.length > 0) return;
-    photowallImages.forEach(function(photo, idx){
-      var item = document.createElement('div');
-      var cls = 'photowall-item';
-      if(idx % 5 === 2) cls += ' tall';
-      if(idx % 7 === 4) cls += ' wide';
-      item.className = cls;
-      item.innerHTML = '<img data-src="'+photo.src+'" alt="'+photo.title+'">' +
-        '<div class="photowall-overlay"><h4>'+photo.title+'</h4><p>'+photo.desc+'</p></div>';
-      item.addEventListener('click',function(){openPhotoLightbox(idx)});
-      grid.appendChild(item);
-    });
-    observePhotoWallLazy();
-    observePhotoWallReveal();
-  }
-
-  function observePhotoWallLazy(){
-    var imgs = $$('#photowall-grid .photowall-item img[data-src]');
-    if(!imgs.length) return;
-    if(!('IntersectionObserver' in window)){
-      imgs.forEach(function(img){img.src=img.getAttribute('data-src');img.removeAttribute('data-src')});
-      return;
-    }
-    var obs = new IntersectionObserver(function(entries){
-      entries.forEach(function(e){
-        if(e.isIntersecting){
-          var img = e.target;
-          img.src = img.getAttribute('data-src');
-          img.removeAttribute('data-src');
-          obs.unobserve(img);
-        }
-      });
-    },{rootMargin:'300px'});
-    imgs.forEach(function(img){obs.observe(img)});
-  }
-
-  function observePhotoWallReveal(){
-    var els = $$('#photowall-grid .photowall-item:not(.visible)');
-    if(!els.length) return;
-    if(!('IntersectionObserver' in window)){
-      els.forEach(function(el){el.classList.add('visible')});
-      return;
-    }
-    var obs = new IntersectionObserver(function(entries){
-      var revealed = [];
-      entries.forEach(function(e){
-        if(e.isIntersecting){
-          revealed.push(e.target);
-          obs.unobserve(e.target);
-        }
-      });
-      revealed.forEach(function(el,i){
-        setTimeout(function(){el.classList.add('visible')},i*80);
-      });
-    },{threshold:.06,rootMargin:'0px 0px -20px 0px'});
-    els.forEach(function(el){obs.observe(el)});
-  }
-
-  function openPhotoLightbox(idx){
-    lightboxIdx = idx;
-    var lb = $('#profile-lightbox');
-    if(!lb) return;
-    updatePhotoLightbox();
-    lb.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function updatePhotoLightbox(){
-    var photo = photowallImages[lightboxIdx];
-    if(!photo) return;
-    var img = $('#profile-lightbox-img');
-    var caption = $('#profile-lightbox-caption');
-    var counter = $('#profile-lightbox-counter');
-    if(img) img.src = photo.src;
-    if(caption) caption.textContent = photo.title + ' — ' + photo.desc;
-    if(counter) counter.textContent = (lightboxIdx+1)+' / '+photowallImages.length;
-  }
-
-  function closePhotoLightbox(){
-    var lb = $('#profile-lightbox');
-    if(!lb) return;
-    lb.classList.remove('open');
-    document.body.style.overflow = '';
-  }
-
-  function initProfileLightbox(){
-    var lb = $('#profile-lightbox');
-    if(!lb) return;
-    var closeBtn = $('#profile-lightbox-close');
-    var prevBtn = $('#profile-lightbox-prev');
-    var nextBtn = $('#profile-lightbox-next');
-    if(closeBtn) closeBtn.addEventListener('click', closePhotoLightbox);
-    if(prevBtn) prevBtn.addEventListener('click', function(){
-      lightboxIdx = (lightboxIdx - 1 + photowallImages.length) % photowallImages.length;
-      updatePhotoLightbox();
-    });
-    if(nextBtn) nextBtn.addEventListener('click', function(){
-      lightboxIdx = (lightboxIdx + 1) % photowallImages.length;
-      updatePhotoLightbox();
-    });
-    lb.addEventListener('click', function(e){
-      if(e.target === lb) closePhotoLightbox();
-    });
-    document.addEventListener('keydown', function(e){
-      if(!lb.classList.contains('open')) return;
-      if(e.key==='Escape') closePhotoLightbox();
-      if(e.key==='ArrowLeft'){lightboxIdx=(lightboxIdx-1+photowallImages.length)%photowallImages.length;updatePhotoLightbox()}
-      if(e.key==='ArrowRight'){lightboxIdx=(lightboxIdx+1)%photowallImages.length;updatePhotoLightbox()}
-    });
-    var startX=0;
-    lb.addEventListener('touchstart',function(e){startX=e.touches[0].clientX},{passive:true});
-    lb.addEventListener('touchend',function(e){
-      var diff=e.changedTouches[0].clientX-startX;
-      if(Math.abs(diff)>50){
-        if(diff>0){lightboxIdx=(lightboxIdx-1+photowallImages.length)%photowallImages.length}
-        else{lightboxIdx=(lightboxIdx+1)%photowallImages.length}
-        updatePhotoLightbox();
       }
-    },{passive:true});
+    }
+    function showMBTIResult(){
+      var e = answers.filter(function(a){return a==='E'}).length;
+      var i = answers.filter(function(a){return a==='I'}).length;
+      var dims = e >= i ? 'E' : 'I';
+      var nDims = answers.length - e - i;
+      var base = dims + 'N' + (Math.random()>.5?'T':'F') + (Math.random()>.5?'J':'P');
+      var ty = mbtiTypes[base] || mbtiTypes['ISTJ'];
+      quiz.style.display = 'none';
+      result.style.display = 'block';
+      result.innerHTML = '<div class="mbti-result-card">' +
+        '<div class="mbti-result-icon">'+ty.icon+'</div>' +
+        '<div class="mbti-result-type">'+ty.name+'</div>' +
+        '<p class="mbti-result-desc">'+ty.desc+'</p>' +
+        '<div class="mbti-result-skills"><strong>核心技能：</strong>'+ty.skill+'</div>' +
+        '<div class="mbti-result-weakness"><strong>致命弱点：</strong>'+ty.weakness+'</div>' +
+        '<button class="btn btn-primary mbti-restart" id="btn-mbti-restart">重新测试</button>' +
+        '</div>';
+      var restartBtn = $('#btn-mbti-restart');
+      if(restartBtn) restartBtn.addEventListener('click', function(){
+        result.style.display = 'none';
+        result.innerHTML = '';
+        intro.style.display = 'block';
+      });
+    }
+  }
+
+  function initSortingHat(){
+    var stage = $('#hat-stage');
+    var machine = $('#hat-slot-machine');
+    var resultEl = $('#hat-result');
+    var btnMajor = $('#btn-hat-major');
+    var btnSchool = $('#btn-hat-school');
+    if(!btnMajor || !btnSchool) return;
+    btnMajor.addEventListener('click', function(){ startSlot('major') });
+    btnSchool.addEventListener('click', function(){ startSlot('school') });
+
+    function startSlot(type){
+      var items = type === 'major' ? majorItems : schoolItems;
+      var badIdx = type === 'major' ? majorBadIdx : schoolBadIdx;
+      var goodItems = items.slice();
+      goodItems.splice(badIdx, 1);
+      stage.style.display = 'block';
+      resultEl.innerHTML = '';
+      resultEl.classList.remove('show');
+      machine.innerHTML = '';
+      var strip = document.createElement('div');
+      strip.className = 'hat-slot-strip';
+      machine.appendChild(strip);
+      var total = 80;
+      var itemsHtml = '';
+      for(var i=0;i<total;i++){
+        var txt;
+        if(i === total - 1){
+          txt = items[badIdx];
+        }else if(i > total - 6 && i < total - 1){
+          txt = goodItems[Math.floor(Math.random()*goodItems.length)];
+        }else{
+          txt = items[Math.floor(Math.random()*items.length)];
+        }
+        itemsHtml += '<div class="hat-slot-item'+(i===total-1?' bad':'')+'">'+txt+'</div>';
+      }
+      strip.innerHTML = itemsHtml;
+      var itemW = 180;
+      var pointerOffset = machine.offsetWidth / 2 - itemW / 2;
+      var targetPos = (total - 1) * itemW;
+      strip.style.transition = 'none';
+      strip.style.transform = 'translateX(0)';
+      strip.offsetHeight;
+      setTimeout(function(){
+        strip.style.transition = 'transform 5s cubic-bezier(.15,.85,.25,1)';
+        strip.style.transform = 'translateX('+(-(targetPos - pointerOffset))+'px)';
+      }, 50);
+      var nearItems = [];
+      for(var j=total-6;j<total-1;j++){
+        nearItems.push(j);
+      }
+      setTimeout(function(){
+        strip.style.transition = 'transform 0.3s cubic-bezier(.15,.85,.25,1)';
+        var finalPos = -(targetPos - pointerOffset) + 5;
+        strip.style.transform = 'translateX('+finalPos+'px)';
+      }, 4800);
+      setTimeout(function(){
+        var badItem = items[badIdx];
+        resultEl.innerHTML = '<div class="hat-result-card"><div class="hat-result-main">'+badItem+'</div>' +
+          '<p class="hat-result-desc">'+(type==='major'?'你的专业是……测绘工程！惊不惊喜？意不意外？命运的齿轮转了一圈又回到了起点。':'你的学校是……东北原神职业技术学院！欢迎来到提瓦特大陆最好的职业技术学院！')+'</p>' +
+          '<button class="btn btn-primary hat-again" id="btn-hat-again">再来一次</button></div>';
+        resultEl.classList.add('show');
+        var againBtn = $('#btn-hat-again');
+        if(againBtn) againBtn.addEventListener('click', function(){
+          resultEl.classList.remove('show');
+          resultEl.innerHTML = '';
+          machine.innerHTML = '';
+          stage.style.display = 'none';
+        });
+      }, 5500);
+    }
   }
 
   function observeReveal(){
-    var els = $$('.roast-card:not(.visible),.academy-card:not(.visible),.section-header:not(.visible),.profile-text-col:not(.visible),.profile-photo-col:not(.visible),.showcase-card:not(.visible),.wave-divider:not(.visible),.transition-section:not(.in-view),.transition-hero:not(.in-view),.equip-card:not(.visible)');
+    var els = $$('.roast-card:not(.visible),.academy-card:not(.visible),.section-header:not(.visible),.wave-divider:not(.visible),.transition-section:not(.in-view),.equip-card:not(.visible)');
     if(!els.length) return;
     if(!('IntersectionObserver' in window)){
       els.forEach(function(el){
-        var cls = el.classList.contains('transition-section') || el.classList.contains('transition-hero') ? 'in-view' : 'visible';
+        var cls = el.classList.contains('transition-section') ? 'in-view' : 'visible';
         el.classList.add(cls);
       });
       return;
@@ -1700,12 +1713,12 @@
     initTagSparks();
     initScroll();
     initMobileNav();
-    initProfileLightbox();
-    initPhotoWall();
     initEquipment();
     initSkillTree();
     initHellScroller();
     initRoast();
+    initMBTITest();
+    initSortingHat();
     initBackToTop();
     initTheme();
     initSideDots();
