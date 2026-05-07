@@ -3,619 +3,85 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>工大小矿工 · 测绘日志</title>
+  <title>XZMMJYX · 个人导航</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <canvas id="cursor-canvas"></canvas>
+  <canvas id="bg-canvas"></canvas>
 
   <div id="page-loader">
     <div class="loader-inner">
       <div class="loader-ring"></div>
-      <span class="loader-text">正在架设基站...</span>
+      <span class="loader-text">正在连接...</span>
     </div>
   </div>
 
   <div class="grain-overlay"></div>
-  <div class="scroll-progress"></div>
-
-  <div class="side-dots" id="side-dots">
-    <a class="dot active" data-section="hero"><span>首页</span></a>
-    <a class="dot" data-section="academy"><span>学院</span></a>
-    <a class="dot" data-section="equipment"><span>装备</span></a>
-    <a class="dot" data-section="timeline"><span>笑话</span></a>
-    <a class="dot" data-section="skills"><span>技能</span></a>
-    <a class="dot" data-section="sbti"><span>SBTI</span></a>
-    <a class="dot" data-section="sorting-hat"><span>分院帽</span></a>
-    <a class="dot" data-section="roast"><span>吐槽</span></a>
-  </div>
 
   <nav id="navbar">
     <div class="nav-inner">
-      <a href="#hero" class="nav-logo">
-        <span class="logo-icon">⛏</span>
-        <span class="logo-text">工大小矿工</span>
+      <a href="#" class="nav-logo">
+        <span class="logo-icon">⚡</span>
+        <span class="logo-text">XZMMJYX</span>
       </a>
-      <ul id="nav-links" class="nav-links">
-        <li><a href="#hero" class="nav-link active" data-section="hero">首页</a></li>
-        <li><a href="#academy" class="nav-link" data-section="academy">学院</a></li>
-        <li><a href="#equipment" class="nav-link" data-section="equipment">装备</a></li>
-        <li><a href="#timeline" class="nav-link" data-section="timeline">地狱笑话</a></li>
-        <li><a href="#skills" class="nav-link" data-section="skills">技能</a></li>
-        <li><a href="#sbti" class="nav-link" data-section="sbti">SBTI</a></li>
-        <li><a href="#sorting-hat" class="nav-link" data-section="sorting-hat">分院帽</a></li>
-        <li><a href="#roast" class="nav-link" data-section="roast">吐槽</a></li>
-      </ul>
-      <button id="nav-toggle" class="nav-toggle" aria-label="菜单">
-        <span></span><span></span><span></span>
-      </button>
+      <div class="nav-right">
+        <button id="theme-toggle" class="theme-toggle" aria-label="切换主题">
+          <span class="theme-icon sun">☀</span>
+          <span class="theme-icon moon">☾</span>
+        </button>
+      </div>
     </div>
   </nav>
 
-  <!-- ==================== Hero ==================== -->
-  <section id="hero">
-    <canvas id="hero-contour" class="hero-layer"></canvas>
-    <canvas id="hero-orbit" class="hero-layer"></canvas>
-    <canvas id="hero-particles" class="hero-layer"></canvas>
-    <div class="hero-glow"></div>
-    <div class="hero-glow gold"></div>
-    <div class="hero-content">
-      <div class="hero-badge">⛏ 东北原神职业技术学院 · 测绘与地理科学学院</div>
-      <h1 id="hero-title" class="hero-title" data-text="工大小矿工"></h1>
-      <p id="hero-subtitle" class="hero-subtitle" data-text="外业跑断腿 · 内业画瞎眼 · 闭合差永远超限"></p>
-      <div class="hero-tags">
-        <span class="hero-tag">控制测量</span>
-        <span class="hero-tag">RTK</span>
-        <span class="hero-tag">水准仪</span>
-        <span class="hero-tag">全站仪</span>
-        <span class="hero-tag">CASS</span>
+  <main>
+    <section class="hero">
+      <div class="hero-content">
+        <div class="hero-badge">xzmmjyx.github.io</div>
+        <h1 class="hero-title">个人项目导航</h1>
+        <p class="hero-subtitle">汇集所有项目入口，一站直达</p>
       </div>
-      <div class="hero-btns">
-        <a href="#academy" class="btn btn-primary" id="btn-explore">探索学院</a>
-        <a href="#sbti" class="btn btn-outline">测绘SBTI</a>
-      </div>
-    </div>
-    <div class="hero-stats">
-      <div class="hero-stat-item">
-        <span class="hero-stat-num" data-count="9">0</span>
-        <span class="hero-stat-label">原神学院</span>
-      </div>
-      <div class="hero-stat-divider"></div>
-      <div class="hero-stat-item">
-        <span class="hero-stat-num" data-count="51">0</span>
-        <span class="hero-stat-label">装备图鉴</span>
-      </div>
-      <div class="hero-stat-divider"></div>
-      <div class="hero-stat-item">
-        <span class="hero-stat-num" data-count="30">0</span>
-        <span class="hero-stat-label">SBTI题数</span>
-      </div>
-      <div class="hero-stat-divider"></div>
-      <div class="hero-stat-item">
-        <span class="hero-stat-num" data-count="34">0</span>
-        <span class="hero-stat-label">血泪吐槽</span>
-      </div>
-    </div>
-    <div class="scroll-indicator">
-      <span>Scroll</span>
-      <div class="scroll-arrow">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- 跑马灯 -->
-  <div class="marquee-bar">
-    <div class="marquee-track">
-      <span>⚠️ 坐标闭合差超限 ≠ 我的错 · 是风太大了</span>
-      <span>📐 外业三分钟 · 内业一整天 · 导师一句话全部重来</span>
-      <span>🌡️ 38度高温跑外业 · 晒脱皮了还得继续测</span>
-      <span>📐 全站仪对中整平半小时 · 一看气泡又跑偏了</span>
-      <span>⚠️ 坐标闭合差超限 ≠ 我的错 · 是风太大了</span>
-      <span>📐 外业三分钟 · 内业一整天 · 导师一句话全部重来</span>
-      <span>🌡️ 38度高温跑外业 · 晒脱皮了还得继续测</span>
-      <span>📐 全站仪对中整平半小时 · 一看气泡又跑偏了</span>
-    </div>
-  </div>
-
-  <!-- ==================== 衔接页：学院过渡 ==================== -->
-  <section class="transition-section transition-dark" id="transition-academy">
-    <div class="transition-section-inner">
-      <div class="transition-section-icon">🏫</div>
-      <h3 class="transition-section-title">探索学院 · 原神化解读</h3>
-      <p class="transition-section-desc">每个学院都有属于自己的元素之力</p>
-    </div>
-  </section>
-
-  <!-- ==================== 东北原神职业技术学院 ==================== -->
-  <section id="academy">
-    <div class="section-header">
-      <span class="section-tag">ACADEMY</span>
-      <h2>东北原神职业技术学院</h2>
-      <p>各学院原神化对号入座 · 点击跳转对应学院官网</p>
-    </div>
-    <div class="academy-grid">
-      <a href="https://www.lntu.edu.cn/" target="_blank" rel="noopener" class="academy-card academy-main">
-        <div class="academy-icon">🏫</div>
-        <div class="academy-info">
-          <h4>东北原神职业技术学院</h4>
-          <p>官网入口 · 提瓦特分校</p>
-          <span class="academy-url">lntu.edu.cn</span>
-        </div>
-        <div class="academy-arrow">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-        </div>
-      </a>
-      <a href="https://chxy.lntu.edu.cn/" target="_blank" rel="noopener" class="academy-card">
-        <div class="academy-icon">🌿</div>
-        <div class="academy-info">
-          <h4>纳西妲学院</h4>
-          <p>草元素 · 智慧之神的领域</p>
-          <span class="academy-url">chxy.lntu.edu.cn</span>
-        </div>
-        <div class="academy-arrow">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-        </div>
-      </a>
-      <a href="https://dkxy.lntu.edu.cn/" target="_blank" rel="noopener" class="academy-card">
-        <div class="academy-icon">⚡</div>
-        <div class="academy-info">
-          <h4>雷电将军学院</h4>
-          <p>雷元素 · 永恒之雷的裁决</p>
-          <span class="academy-url">dkxy.lntu.edu.cn</span>
-        </div>
-        <div class="academy-arrow">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-        </div>
-      </a>
-      <a href="https://aqxy.lntu.edu.cn/" target="_blank" rel="noopener" class="academy-card">
-        <div class="academy-icon">🔥</div>
-        <div class="academy-info">
-          <h4>胡桃学院</h4>
-          <p>火元素 · 往生堂七十七代传人</p>
-          <span class="academy-url">aqxy.lntu.edu.cn</span>
-        </div>
-        <div class="academy-arrow">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-        </div>
-      </a>
-      <a href="https://kyxy.lntu.edu.cn/" target="_blank" rel="noopener" class="academy-card">
-        <div class="academy-icon">🪨</div>
-        <div class="academy-info">
-          <h4>钟离学院</h4>
-          <p>岩元素 · 岩王帝君的契约</p>
-          <span class="academy-url">kyxy.lntu.edu.cn</span>
-        </div>
-        <div class="academy-arrow">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-        </div>
-      </a>
-      <a href="https://gsxy.lntu.edu.cn/" target="_blank" rel="noopener" class="academy-card">
-        <div class="academy-icon">💎</div>
-        <div class="academy-info">
-          <h4>凝光学院</h4>
-          <p>岩元素 · 天权星的商道智慧</p>
-          <span class="academy-url">gsxy.lntu.edu.cn</span>
-        </div>
-        <div class="academy-arrow">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-        </div>
-      </a>
-      <a href="https://tmxy.lntu.edu.cn/" target="_blank" rel="noopener" class="academy-card">
-        <div class="academy-icon">❄️</div>
-        <div class="academy-info">
-          <h4>甘雨学院</h4>
-          <p>冰元素 · 月海亭的千年秘书</p>
-          <span class="academy-url">tmxy.lntu.edu.cn</span>
-        </div>
-        <div class="academy-arrow">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-        </div>
-      </a>
-      <a href="https://jxxy.lntu.edu.cn/" target="_blank" rel="noopener" class="academy-card">
-        <div class="academy-icon">⚔️</div>
-        <div class="academy-info">
-          <h4>刻晴学院</h4>
-          <p>雷元素 · 霆霓快雨的效率至上</p>
-          <span class="academy-url">jxxy.lntu.edu.cn</span>
-        </div>
-        <div class="academy-arrow">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-        </div>
-      </a>
-      <a href="https://rjxy.lntu.edu.cn/" target="_blank" rel="noopener" class="academy-card">
-        <div class="academy-icon">🔮</div>
-        <div class="academy-info">
-          <h4>丽莎学院</h4>
-          <p>雷元素 · 须弥教令院毕业生</p>
-          <span class="academy-url">rjxy.lntu.edu.cn</span>
-        </div>
-        <div class="academy-arrow">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-        </div>
-      </a>
-    </div>
-  </section>
-
-  <!-- ==================== 衔接页：装备库过渡 ==================== -->
-  <section class="transition-section transition-blue" id="transition-equipment">
-    <div class="transition-section-inner">
-      <div class="transition-section-icon">🎒</div>
-      <h3 class="transition-section-title">工欲善其事 · 必先利其器</h3>
-      <p class="transition-section-desc">测绘装备图鉴 · 全面盘点</p>
-    </div>
-  </section>
-
-  <!-- ==================== 装备库 ==================== -->
-  <section id="equipment">
-    <div class="section-header">
-      <span class="section-tag">EQUIPMENT</span>
-      <h2>装备库</h2>
-      <p>工欲善其事 · 先看看装备够不够格</p>
-    </div>
-    <div class="equip-inventory">
-      <div class="equip-inventory-left">
-        <div class="equip-player-card">
-          <div class="equip-player-avatar">⛏</div>
-          <div class="equip-player-info">
-            <h3 class="equip-player-name">工大小矿工</h3>
-            <span class="equip-player-class">测绘与地理科学学院</span>
-          </div>
-          <div class="equip-player-level">Lv.3</div>
-        </div>
-        <div class="equip-sort-wrap">
-          <span class="equip-sort-label">排序方式</span>
-          <div class="equip-sort-btns" id="equip-sort">
-            <button class="equip-sort-btn active" data-sort="default">默认</button>
-            <button class="equip-sort-btn" data-sort="tier">品质</button>
-            <button class="equip-sort-btn" data-sort="power">威力</button>
-            <button class="equip-sort-btn" data-sort="accuracy">精度</button>
-          </div>
-        </div>
-        <div class="equip-filter-wrap">
-          <span class="equip-sort-label">装备筛选</span>
-          <div class="equip-filter" id="equip-filter">
-            <button class="equip-filter-btn active" data-filter="all">全部</button>
-            <button class="equip-filter-btn" data-filter="outdoor">外业</button>
-            <button class="equip-filter-btn" data-filter="office">内业</button>
-            <button class="equip-filter-btn" data-filter="survival">生存</button>
-          </div>
-        </div>
-        <div class="equip-stat-pills" id="equip-stat-pills"></div>
+    <section class="projects" id="projects">
+      <div class="section-header">
+        <span class="section-tag">PROJECTS</span>
+        <h2>我的项目</h2>
+        <p>点击卡片进入对应项目</p>
       </div>
-      <div class="equip-inventory-center">
-        <div class="equip-grid-header">
-          <span class="equip-grid-title">背包物品</span>
-          <span class="equip-grid-count" id="equip-count"></span>
-        </div>
-        <div class="equip-grid" id="equip-grid"></div>
-      </div>
-      <div class="equip-inventory-right">
-        <div class="equip-detail" id="equip-detail">
-          <div class="equip-detail-empty">
-            <div class="equip-detail-empty-icon">🎒</div>
-            <p>选择一件装备查看详情</p>
-          </div>
-          <div class="equip-detail-content" style="display:none">
-            <div class="equip-detail-banner" id="equip-detail-banner"></div>
-            <div class="equip-detail-icon-wrap">
-              <span class="equip-detail-icon" id="equip-detail-icon"></span>
-            </div>
-            <h3 class="equip-detail-name" id="equip-detail-name"></h3>
-            <span class="equip-detail-brand" id="equip-detail-brand"></span>
-            <div class="equip-detail-tier-wrap">
-              <span class="equip-detail-tier" id="equip-detail-tier"></span>
-              <span class="equip-detail-status" id="equip-detail-status"></span>
-            </div>
-            <div class="equip-detail-stats" id="equip-detail-stats"></div>
-            <div class="equip-detail-bar-group" id="equip-detail-bars"></div>
-            <p class="equip-detail-desc" id="equip-detail-desc"></p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="equip-modal-overlay" id="equip-modal-overlay">
-      <div class="equip-modal" id="equip-modal">
-        <button class="equip-modal-close" id="equip-modal-close">&times;</button>
-        <div class="equip-detail-banner" id="equip-modal-banner"></div>
-        <div class="equip-detail-icon-wrap">
-          <span class="equip-detail-icon" id="equip-modal-icon"></span>
-        </div>
-        <h3 class="equip-detail-name" id="equip-modal-name"></h3>
-        <span class="equip-detail-brand" id="equip-modal-brand"></span>
-        <div class="equip-detail-tier-wrap">
-          <span class="equip-detail-tier" id="equip-modal-tier"></span>
-          <span class="equip-detail-status" id="equip-modal-status"></span>
-        </div>
-        <div class="equip-detail-stats" id="equip-modal-stats"></div>
-        <div class="equip-detail-bar-group" id="equip-modal-bars"></div>
-        <p class="equip-detail-desc" id="equip-modal-desc"></p>
-      </div>
-    </div>
-  </section>
+      <div class="project-grid" id="project-grid">
 
-  <!-- ==================== 衔接页：地狱笑话过渡 ==================== -->
-  <section class="transition-section transition-purple" id="transition-timeline">
-    <div class="transition-section-inner">
-      <div class="transition-section-icon">😂</div>
-      <h3 class="transition-section-title">笑着笑着就哭了</h3>
-      <p class="transition-section-desc">测绘人的黑色幽默 · 只有经历过才懂</p>
-    </div>
-  </section>
-
-  <!-- ==================== 翻车时间线 ==================== -->
-  <section id="timeline">
-    <div class="section-header">
-      <span class="section-tag">DARK HUMOR</span>
-      <h2>测绘地狱笑话</h2>
-      <p>悬停暂停 · 点击展开 · 笑着笑着就哭了</p>
-    </div>
-    <div class="hell-scroller" id="hell-scroller">
-      <div class="hell-row hell-row-left">
-        <div class="hell-track" id="hell-track-1"></div>
-      </div>
-      <div class="hell-row hell-row-right">
-        <div class="hell-track" id="hell-track-2"></div>
-      </div>
-      <div class="hell-row hell-row-left">
-        <div class="hell-track" id="hell-track-3"></div>
-      </div>
-    </div>
-    <div class="hell-expanded" id="hell-expanded">
-      <div class="hell-expanded-inner">
-        <div class="hell-expanded-tag" id="hell-expanded-tag"></div>
-        <h3 class="hell-expanded-title" id="hell-expanded-title"></h3>
-        <p class="hell-expanded-body" id="hell-expanded-body"></p>
-        <button class="hell-expanded-close" id="hell-expanded-close">收起</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- ==================== 衔接页：技能树过渡 ==================== -->
-  <section class="transition-section transition-green" id="transition-skills">
-    <div class="transition-section-inner">
-      <div class="transition-section-icon">🌳</div>
-      <h3 class="transition-section-title">技能觉醒 · 解锁天赋树</h3>
-      <p class="transition-section-desc">每个测绘人都有一棵独特的技能树</p>
-    </div>
-  </section>
-
-  <!-- ==================== 技能树 ==================== -->
-  <section id="skills">
-    <div class="section-header">
-      <span class="section-tag">SKILLS</span>
-      <h2>技能树</h2>
-      <p>点击展开各分支 · 大部分技能都是半吊子</p>
-    </div>
-    <div class="skill-summary-bar" id="skill-summary"></div>
-    <div class="skill-radar-wrap">
-      <canvas id="skill-radar" width="320" height="320"></canvas>
-      <div class="skill-radar-legend" id="skill-radar-legend"></div>
-    </div>
-    <div id="skill-tree">
-      <canvas id="skill-canvas" class="skill-canvas"></canvas>
-    </div>
-  </section>
-
-  <!-- ==================== 衔接页：SBTI过渡 ==================== -->
-  <section class="transition-section transition-purple" id="transition-sbti">
-    <div class="transition-section-inner">
-      <div class="transition-section-icon">🧭</div>
-      <h3 class="transition-section-title">测绘人格 · 认识真正的自己</h3>
-      <p class="transition-section-desc">7道题测出你的测绘SBTI</p>
-    </div>
-  </section>
-
-  <!-- ==================== 测绘SBTI测试 ==================== -->
-  <section id="sbti">
-    <div class="section-header">
-      <span class="section-tag">SURVEYING SBTI</span>
-      <h2>测绘SBTI测试</h2>
-      <p>测绘人专属性格测试 · 看看你是哪种测绘人格</p>
-    </div>
-    <div class="sbti-container" id="sbti-container">
-      <div class="sbti-intro" id="sbti-intro">
-              <div class="sbti-intro-icon">🧭</div>
-              <h3>测绘版SBTI人格测试</h3>
-              <p>30题题库随机抽取7道灵魂拷问，15个心理维度，精准定位你的测绘人格。答案无对错，只有"是我本人"和"这说的不就是我吗"。测完记得截图分享，看看你的朋友是哪种测绘狗。</p>
-              <button class="btn btn-primary" id="btn-sbti-start">开始测试（随机7题）</button>
-            </div>
-      <div class="sbti-quiz" id="sbti-quiz" style="display:none">
-        <div class="sbti-progress">
-          <div class="sbti-progress-bar" id="sbti-progress-bar"></div>
-          <span class="sbti-progress-text" id="sbti-progress-text">1/7</span>
-        </div>
-        <div class="sbti-question" id="sbti-question"></div>
-        <div class="sbti-options" id="sbti-options"></div>
-      </div>
-      <div class="sbti-result" id="sbti-result" style="display:none"></div>
-    </div>
-  </section>
-
-  <!-- ==================== 衔接页：分院帽过渡 ==================== -->
-  <section class="transition-section transition-warm" id="transition-hat">
-    <div class="transition-section-inner">
-      <div class="transition-section-icon">🎩</div>
-      <h3 class="transition-section-title">命运的选择 · 分院时刻</h3>
-      <p class="transition-section-desc">专业也好学校也好，都是命</p>
-    </div>
-  </section>
-
-  <!-- ==================== 分院帽 ==================== -->
-  <section id="sorting-hat">
-    <div class="section-header">
-      <span class="section-tag">SORTING HAT</span>
-      <h2>分院帽</h2>
-      <p>专业分院帽 · 学校分院帽 · 命运的齿轮开始转动</p>
-    </div>
-    <div class="hat-container">
-      <div class="hat-choice">
-        <button class="btn btn-hat" id="btn-hat-major" data-hat="major">🎓 专业分院帽</button>
-        <button class="btn btn-hat" id="btn-hat-school" data-hat="school">🏫 学校分院帽</button>
-      </div>
-      <div class="hat-stage" id="hat-stage" style="display:none">
-        <div class="hat-machine-frame">
-          <div class="hat-lights">
-            <span class="hat-light"></span><span class="hat-light"></span><span class="hat-light"></span><span class="hat-light"></span><span class="hat-light"></span><span class="hat-light"></span><span class="hat-light"></span><span class="hat-light"></span><span class="hat-light"></span><span class="hat-light"></span>
-          </div>
-          <div class="hat-machine-display">
-            <div class="hat-slot-machine" id="hat-slot-machine">
-              <div class="hat-mask-left"></div>
-              <div class="hat-mask-right"></div>
-              <div class="hat-glare"></div>
-            </div>
-            <div class="hat-window-frame">
-              <span class="hat-corner tl"></span><span class="hat-corner tr"></span><span class="hat-corner bl"></span><span class="hat-corner br"></span>
+        <a href="./blog/index.html" class="project-card" data-index="0">
+          <div class="card-icon">⛏</div>
+          <div class="card-body">
+            <h3 class="card-title">工大小矿工 · 测绘日志</h3>
+            <p class="card-desc">外业跑断腿 · 内业画瞎眼 · 闭合差永远超限 —— 东北原神职业技术学院测绘与地理科学学院的趣味百科</p>
+            <div class="card-tags">
+              <span class="card-tag">测绘</span>
+              <span class="card-tag">趣味百科</span>
+              <span class="card-tag">SBTI</span>
             </div>
           </div>
-          <div class="hat-lights bottom">
-            <span class="hat-light"></span><span class="hat-light"></span><span class="hat-light"></span><span class="hat-light"></span><span class="hat-light"></span><span class="hat-light"></span><span class="hat-light"></span><span class="hat-light"></span><span class="hat-light"></span><span class="hat-light"></span>
+          <div class="card-arrow">→</div>
+        </a>
+
+        <div class="project-card placeholder" data-index="1">
+          <div class="card-icon">＋</div>
+          <div class="card-body">
+            <h3 class="card-title">更多项目即将到来</h3>
+            <p class="card-desc">新项目正在开发中，敬请期待…</p>
           </div>
         </div>
-        <div class="hat-result" id="hat-result"></div>
-      </div>
-    </div>
-  </section>
 
-  <!-- ==================== 衔接页：吐槽墙过渡 ==================== -->
-  <section class="transition-section transition-warm" id="transition-roast">
-    <div class="transition-section-inner">
-      <div class="transition-section-icon">🔥</div>
-      <h3 class="transition-section-title">不吐不快 · 真情实感</h3>
-      <p class="transition-section-desc">工大学子的心声 · 字字扎心</p>
-    </div>
-  </section>
-
-  <!-- ==================== 吐槽墙 ==================== -->
-  <section id="roast">
-    <div class="section-header">
-      <span class="section-tag">COMPLAINTS</span>
-      <h2>吐槽墙</h2>
-      <p>工大学生的血泪控诉 · 字字珠玑 · 句句扎心</p>
-    </div>
-    <div class="roast-controls">
-      <button class="roast-filter-btn active" data-roast="all">全部</button>
-      <button class="roast-filter-btn" data-roast="school">学校</button>
-      <button class="roast-filter-btn" data-roast="life">生活</button>
-      <button class="roast-filter-btn" data-roast="study">学习</button>
-    </div>
-    <div class="roast-grid" id="roast-grid">
-    </div>
-    <div class="roast-actions">
-      <button class="btn btn-roast-prank" id="btn-roast-prank">🔥 我也要吐槽</button>
-    </div>
-  </section>
-
-  <!-- 吐槽恶搞弹窗 -->
-  <div class="roast-modal-overlay" id="roast-modal-overlay">
-    <div class="roast-modal">
-      <button class="roast-modal-close" id="roast-modal-close">&times;</button>
-      <div class="roast-modal-header">
-        <div class="roast-modal-icon">📝</div>
-        <h3>实名吐槽通道</h3>
-        <p>为了更好地处理您的意见，请完善以下信息</p>
       </div>
-      <div class="roast-modal-step" id="roast-step-1">
-        <div class="roast-form-group">
-          <label>姓名 <span class="roast-required">*</span></label>
-          <input type="text" id="roast-name" placeholder="请输入您的真实姓名">
-        </div>
-        <div class="roast-form-group">
-          <label>学号 <span class="roast-required">*</span></label>
-          <input type="text" id="roast-student-id" placeholder="请输入您的学号">
-        </div>
-        <div class="roast-form-group">
-          <label>身份证号 <span class="roast-required">*</span></label>
-          <input type="text" id="roast-id-card" placeholder="请输入18位身份证号码">
-        </div>
-        <button class="btn btn-roast-next" id="roast-next-1">下一步</button>
-      </div>
-      <div class="roast-modal-step" id="roast-step-2" style="display:none">
-        <div class="roast-form-group">
-          <label>专业 <span class="roast-required">*</span></label>
-          <input type="text" id="roast-major" placeholder="请输入您的专业">
-        </div>
-        <div class="roast-form-group">
-          <label>年级 <span class="roast-required">*</span></label>
-          <select id="roast-grade">
-            <option value="">请选择年级</option>
-            <option>2022级</option>
-            <option>2023级</option>
-            <option>2024级</option>
-            <option>2025级</option>
-          </select>
-        </div>
-        <div class="roast-form-group">
-          <label>班级 <span class="roast-required">*</span></label>
-          <input type="text" id="roast-class" placeholder="请输入您的班级，如：测绘24-1班">
-        </div>
-        <div class="roast-form-group">
-          <label>宿舍号 <span class="roast-required">*</span></label>
-          <input type="text" id="roast-dorm" placeholder="请输入宿舍号，如：3号楼511">
-        </div>
-        <div class="roast-form-group">
-          <label>班导师姓名 <span class="roast-required">*</span></label>
-          <input type="text" id="roast-advisor-name" placeholder="请输入班导师姓名">
-        </div>
-        <div class="roast-form-group">
-          <label>班导师电话号 <span class="roast-required">*</span></label>
-          <input type="text" id="roast-advisor-phone" placeholder="请输入班导师手机号码">
-        </div>
-        <div class="roast-form-actions">
-          <button class="btn btn-roast-back" id="roast-back-2">上一步</button>
-          <button class="btn btn-roast-submit" id="roast-submit-real">提交吐槽</button>
-        </div>
-      </div>
-    </div>
-  </div>
+    </section>
+  </main>
 
-  <!-- ==================== 页脚 ==================== -->
-  <footer id="footer">
+  <footer class="footer">
     <div class="footer-inner">
-      <div class="footer-top">
-        <div class="footer-brand">
-          <span class="logo-icon">⛏</span>
-          <span>工大小矿工</span>
-        </div>
-        <div class="footer-nav">
-          <a href="#academy">学院</a>
-          <a href="#equipment">装备库</a>
-          <a href="#sbti">SBTI</a>
-          <a href="#sorting-hat">分院帽</a>
-          <a href="#timeline">地狱笑话</a>
-        </div>
-      </div>
-      <div class="footer-divider"></div>
-      <div class="footer-bottom">
-        <div class="footer-social">
-          <a href="#" class="social-icon" aria-label="微博" title="微博">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.194 14.197c0 3.96-4.673 7.165-10.438 7.165-5.766 0-10.438-3.205-10.438-7.165 0-3.96 4.672-7.166 10.438-7.166 5.765 0 10.438 3.206 10.438 7.166zm-3.284-.403c-.188-2.657-3.318-4.484-6.986-4.076-3.668.408-6.408 2.89-6.122 5.547.286 2.657 3.416 4.484 7.084 4.076 3.669-.408 6.412-2.89 6.024-5.547z"/></svg>
-          </a>
-          <a href="#" class="social-icon" aria-label="B站" title="B站">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.56 3.76v7.36c-.036 1.51-.556 2.769-1.56 3.773s-2.262 1.524-3.773 1.56H5.333c-1.51-.036-2.769-.556-3.773-1.56S.036 18.858 0 17.347v-7.36c.036-1.511.556-2.765 1.56-3.76 1.004-.996 2.262-1.52 3.773-1.574h.774l-1.174-1.12a1.234 1.234 0 0 1-.373-.906c0-.356.124-.658.373-.907l.027-.027c.267-.249.573-.373.92-.373.347 0 .653.124.92.373L9.653 4.44c.071.071.134.142.187.213h4.267a.836.836 0 0 1 .16-.213l2.853-2.747c.267-.249.573-.373.92-.373.347 0 .662.151.929.4.267.249.391.551.391.907 0 .355-.124.657-.373.906zM5.333 7.24c-.746.018-1.373.276-1.88.773-.506.498-.769 1.13-.786 1.894v7.52c.017.764.28 1.395.786 1.893.507.498 1.134.756 1.88.773h13.334c.746-.017 1.373-.275 1.88-.773.506-.498.769-1.129.786-1.893v-7.52c-.017-.765-.28-1.396-.786-1.894-.507-.497-1.134-.755-1.88-.773zM8 11.107c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c.017-.391.15-.711.4-.96.249-.254.56-.378.933-.378zm8 0c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c.017-.391.15-.711.4-.96.249-.254.56-.378.933-.378z"/></svg>
-          </a>
-          <a href="#" class="social-icon" aria-label="邮箱" title="邮箱">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-          </a>
-        </div>
-        <p class="footer-copy">&copy; 2026 工大小矿工 · 跑点不忘摸鱼 · 摸鱼不忘跑点</p>
-      </div>
+      <span class="footer-text">© 2026 XZMMJYX · Hosted on GitHub Pages</span>
     </div>
   </footer>
-
-  <button id="back-to-top" aria-label="回到顶部">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
-  </button>
-
-  <button id="theme-toggle" aria-label="切换深色模式">
-    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
-    </svg>
-    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z"/>
-    </svg>
-  </button>
 
   <script src="script.js"></script>
 </body>
