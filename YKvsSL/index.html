@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>闫科旭大战司令 - 格斗之王</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        :root{
+            --crimson:#ff1744;--crimson-dark:#c4001d;
+            --cyan:#00e5ff;--cyan-dark:#0097a7;
+            --gold:#ffd740;--gold-dark:#c8a600;
+            --bg-deep:#05050f;--bg-mid:#0c1024;
+            --glass:rgba(255,255,255,0.04);
+            --glass-border:rgba(255,255,255,0.08);
+            --font-display:'华文新魏','STXinwei','Orbitron',sans-serif;
+            --font-kai:'楷体','KaiTi','STKaiti',sans-serif;
+            --font-song:'宋体','SimSun','STSong',sans-serif;
+            --font-fang:'仿宋','FangSong','STFangsong',sans-serif;
+            --font-body:'仿宋','FangSong','Microsoft YaHei',sans-serif;
+            --text-strong:#fff;
+            --text-main:rgba(255,255,255,0.85);
+            --text-sub:rgba(255,255,255,0.6);
+            --text-weak:rgba(255,255,255,0.4);
+            --text-hint:rgba(255,255,255,0.3);
+            --text-muted:rgba(255,255,255,0.22);
+            --surface:rgba(255,255,255,0.04);
+            --surface-border:rgba(255,255,255,0.08);
+        }
+        html[data-theme="eye"]{
+            --bg-deep:#1a1510;--bg-mid:#2a2010;
+            --text-strong:#ffe8c0;
+            --text-main:rgba(255,230,190,0.9);
+            --text-sub:rgba(255,220,170,0.7);
+            --text-weak:rgba(255,210,150,0.5);
+            --text-hint:rgba(255,200,130,0.38);
+            --text-muted:rgba(255,190,110,0.28);
+            --glass:rgba(255,200,130,0.06);
+            --glass-border:rgba(255,200,130,0.12);
+            --surface:rgba(255,200,130,0.04);
+            --surface-border:rgba(255,200,130,0.1);
+        }
+        html[data-theme="bright"]{
+            --bg-deep:#141824;--bg-mid:#1c2236;
+            --text-strong:#fff;
+            --text-main:rgba(255,255,255,0.95);
+            --text-sub:rgba(255,255,255,0.78);
+            --text-weak:rgba(255,255,255,0.6);
+            --text-hint:rgba(255,255,255,0.48);
+            --text-muted:rgba(255,255,255,0.35);
+            --glass:rgba(255,255,255,0.1);
+            --glass-border:rgba(255,255,255,0.18);
+            --surface:rgba(255,255,255,0.07);
+            --surface-border:rgba(255,255,255,0.12);
+        }
+        html,body{height:100%;overflow:hidden}
+        body{
+            background:var(--bg-deep);
+            font-family:var(--font-body);
+            color:var(--text-strong);
+        }
+
+        canvas#bgCanvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0}
+
+        .brightness-toggle{
+            position:fixed;top:20px;right:20px;z-index:60;
+            display:flex;align-items:center;gap:6px;
+            padding:8px 16px;border-radius:24px;
+            background:rgba(0,0,0,0.45);border:1px solid rgba(255,255,255,0.12);
+            backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+            cursor:pointer;transition:all .3s;
+            font-family:var(--font-song);font-size:13px;color:var(--text-sub);
+            letter-spacing:2px;
+        }
+        .brightness-toggle:hover{background:rgba(0,0,0,0.65);border-color:rgba(255,255,255,0.3);color:var(--text-strong);transform:scale(1.05)}
+        .brightness-icon{font-size:18px;transition:transform .3s}
+        .brightness-toggle:hover .brightness-icon{transform:rotate(30deg)}
+
+        .page{position:relative;z-index:10;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px}
+
+        .back-btn{
+            position:fixed;top:20px;left:20px;z-index:50;
+            display:flex;align-items:center;gap:8px;
+            padding:10px 22px;border-radius:40px;
+            background:rgba(255,255,255,0.06);
+            border:1px solid var(--glass-border);
+            color:var(--text-sub);text-decoration:none;
+            font-family:var(--font-song);font-size:13px;letter-spacing:2px;
+            backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+            transition:all .3s;cursor:pointer;
+        }
+        .back-btn:hover{background:rgba(255,255,255,0.12);color:var(--text-strong);border-color:rgba(255,255,255,0.25)}
+
+        .header{text-align:center;margin-bottom:40px}
+        .title-wrapper{
+            position:relative;display:inline-block;
+            animation:fadeSlideUp .8s ease-out both;
+        }
+        .game-title{
+            font-family:var(--font-display);
+            font-size:clamp(32px,7vw,76px);font-weight:900;
+            background:linear-gradient(135deg,var(--crimson),#ff6e40,var(--gold));
+            -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+            background-clip:text;
+            letter-spacing:6px;line-height:1.2;
+            filter:drop-shadow(0 0 30px rgba(255,23,68,0.4));
+        }
+        .title-underline{
+            height:3px;border-radius:3px;margin-top:8px;
+            background:linear-gradient(90deg,transparent,var(--crimson),var(--gold),transparent);
+            animation:expandWidth 1s ease-out .4s both;
+        }
+        .game-subtitle{
+            margin-top:14px;
+            font-family:var(--font-song);
+            font-size:clamp(14px,2.5vw,22px);font-weight:700;
+            color:var(--text-hint);letter-spacing:12px;
+            animation:fadeSlideUp .8s ease-out .3s both;
+        }
+        .tagline{
+            margin-top:8px;font-size:12px;color:rgba(255,255,255,0.2);
+            letter-spacing:3px;animation:fadeSlideUp .8s ease-out .5s both;
+        }
+
+        .vs-divider{
+            font-family:var(--font-display);
+            font-size:clamp(40px,6vw,90px);font-weight:900;
+            background:linear-gradient(180deg,var(--gold),#ff9100);
+            -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+            background-clip:text;
+            margin:20px 0;
+            animation:pulseGlow 2s ease-in-out infinite,fadeSlideUp .8s ease-out .6s both;
+            filter:drop-shadow(0 0 20px rgba(255,215,64,0.3));
+        }
+
+        .characters{
+            display:flex;gap:clamp(20px,4vw,60px);
+            margin-bottom:40px;flex-wrap:wrap;justify-content:center;
+        }
+        .char-card{
+            width:clamp(160px,22vw,220px);
+            background:var(--glass);
+            border:1px solid var(--glass-border);
+            border-radius:16px;padding:24px 18px;text-align:center;
+            backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+            transition:all .4s cubic-bezier(.34,1.56,.64,1);
+            opacity:0;transform:translateY(30px);
+        }
+        .char-card.show{opacity:1;transform:translateY(0)}
+        .char-card:hover{transform:translateY(-8px) scale(1.03);border-color:rgba(255,255,255,0.2)}
+        .char-card.p1{border-color:rgba(0,229,255,0.15)}
+        .char-card.p1:hover{box-shadow:0 15px 40px rgba(0,229,255,0.15);border-color:rgba(0,229,255,0.4)}
+        .char-card.p2{border-color:rgba(255,23,68,0.15)}
+        .char-card.p2:hover{box-shadow:0 15px 40px rgba(255,23,68,0.15);border-color:rgba(255,23,68,0.4)}
+
+        .char-avatar{
+            width:80px;height:80px;border-radius:50%;margin:0 auto 16px;
+            display:flex;align-items:center;justify-content:center;
+            font-size:38px;position:relative;
+        }
+        .p1 .char-avatar{
+            background:radial-gradient(circle,rgba(0,229,255,0.2),transparent);
+            box-shadow:0 0 30px rgba(0,229,255,0.15);
+        }
+        .p2 .char-avatar{
+            background:radial-gradient(circle,rgba(255,23,68,0.2),transparent);
+            box-shadow:0 0 30px rgba(255,23,68,0.15);
+        }
+        .char-name{
+            font-size:18px;font-weight:900;letter-spacing:3px;margin-bottom:6px;
+        }
+        .p1 .char-name{color:var(--cyan)}
+        .p2 .char-name{color:var(--crimson)}
+        .char-title{
+            font-size:11px;color:var(--text-hint);letter-spacing:2px;margin-bottom:14px;
+        }
+        .char-stats{display:flex;flex-direction:column;gap:8px}
+        .stat-row{
+            display:flex;align-items:center;gap:8px;font-size:11px;
+        }
+        .stat-label{color:var(--text-hint);width:36px;text-align:right;flex-shrink:0}
+        .stat-bar-bg{
+            flex:1;height:6px;border-radius:3px;
+            background:rgba(255,255,255,0.06);overflow:hidden;
+        }
+        .stat-bar-fill{height:100%;border-radius:3px;transition:width 1.2s ease-out;width:0}
+        .stat-bar-fill.atk{background:linear-gradient(90deg,#ff6e40,var(--crimson))}
+        .stat-bar-fill.def{background:linear-gradient(90deg,#42a5f5,#1565c0)}
+        .stat-bar-fill.spd{background:linear-gradient(90deg,#69f0ae,#00c853)}
+        .stat-bar-fill.spl{background:linear-gradient(90deg,#ffd740,#ff6d00)}
+
+        .version-select{
+            display:flex;gap:clamp(16px,3vw,30px);
+            margin-top:10px;flex-wrap:wrap;justify-content:center;
+        }
+        .version-card{
+            width:clamp(200px,22vw,260px);
+            padding:28px 20px;
+            background:var(--glass);
+            border:1px solid var(--glass-border);
+            border-radius:16px;
+            cursor:pointer;text-align:center;text-decoration:none;color:#fff;
+            backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+            transition:all .4s cubic-bezier(.34,1.56,.64,1);
+            position:relative;overflow:hidden;
+            opacity:0;transform:translateY(30px);
+        }
+        .version-card.show{opacity:1;transform:translateY(0)}
+        .version-card::after{
+            content:'';position:absolute;inset:0;
+            background:radial-gradient(circle at 50% 120%,rgba(255,215,64,0.1),transparent 70%);
+            opacity:0;transition:opacity .4s;pointer-events:none;
+        }
+        .version-card:hover::after{opacity:1}
+        .version-card:hover{transform:translateY(-6px) scale(1.04);border-color:rgba(255,215,64,0.3)}
+        .version-card.pc:hover{box-shadow:0 12px 35px rgba(0,229,255,0.12)}
+        .version-card.mobile:hover{box-shadow:0 12px 35px rgba(255,23,68,0.12)}
+
+        .v-icon{font-size:44px;margin-bottom:12px;display:block}
+        .v-name{font-family:var(--font-kai);font-size:18px;font-weight:900;letter-spacing:4px;margin-bottom:8px}
+        .v-desc{font-family:var(--font-fang);font-size:12px;color:var(--text-weak);line-height:1.7;letter-spacing:1px}
+        .v-keys{
+            display:inline-flex;gap:4px;margin-top:12px;flex-wrap:wrap;justify-content:center;
+        }
+        .v-key{
+            padding:3px 8px;border-radius:4px;font-size:10px;font-weight:700;
+            background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);
+            color:var(--text-sub);letter-spacing:1px;
+        }
+
+        .features{
+            display:flex;gap:clamp(10px,2vw,20px);flex-wrap:wrap;justify-content:center;
+            margin-bottom:28px;max-width:700px;
+            opacity:0;transform:translateY(20px);
+            animation:fadeSlideUp .8s ease-out .8s both;
+        }
+        .feat{
+            display:flex;align-items:center;gap:8px;
+            padding:8px 16px;border-radius:10px;
+            background:var(--surface);border:1px solid var(--surface-border);
+            font-family:var(--font-fang);font-size:11px;color:var(--text-weak);letter-spacing:1px;
+            white-space:nowrap;
+        }
+        .feat .fi{font-size:16px}
+
+        .footer-note{
+            margin-top:30px;font-family:var(--font-song);font-size:11px;color:var(--text-muted);
+            letter-spacing:3px;animation:fadeSlideUp .8s ease-out 1.4s both;
+        }
+
+        @keyframes fadeSlideUp{
+            from{opacity:0;transform:translateY(25px)}
+            to{opacity:1;transform:translateY(0)}
+        }
+        @keyframes expandWidth{
+            from{width:0;opacity:0}
+            to{width:100%;opacity:1}
+        }
+        @keyframes pulseGlow{
+            0%,100%{opacity:1;filter:drop-shadow(0 0 20px rgba(255,215,64,0.3))}
+            50%{opacity:.7;filter:drop-shadow(0 0 40px rgba(255,215,64,0.5))}
+        }
+
+        @media(max-width:600px){
+            .characters{gap:12px}
+            .char-card{padding:16px 12px;width:45%}
+            .char-avatar{width:56px;height:56px;font-size:28px}
+            .char-name{font-size:15px}
+            .version-card{width:80%}
+            .back-btn{top:10px;left:10px;padding:8px 16px;font-size:12px}
+        }
+    </style>
+</head>
+<body>
+    <canvas id="bgCanvas"></canvas>
+
+    <a href="../index.html" class="back-btn">← 返回主页</a>
+
+    <div class="brightness-toggle" id="brightnessToggle">
+        <span class="brightness-icon" id="brightnessIcon">🌙</span>
+        <span id="brightnessLabel">暗色</span>
+    </div>
+
+    <div class="page">
+        <div class="header">
+            <div class="title-wrapper">
+                <h1 class="game-title">闫科旭大战司令</h1>
+                <div class="title-underline"></div>
+            </div>
+            <p class="game-subtitle">终 极 格 斗</p>
+            <p class="tagline">BATTLE OF THE TITANS — 谁能称霸擂台？</p>
+        </div>
+
+        <div class="vs-divider">VS</div>
+
+        <div class="characters">
+            <div class="char-card p1" data-delay="0">
+                <div class="char-avatar">🧑‍💻</div>
+                <div class="char-name">闫科旭</div>
+                <div class="char-title">代码战神 · 闪电突击</div>
+                <div class="char-stats">
+                    <div class="stat-row">
+                        <span class="stat-label">攻击</span>
+                        <div class="stat-bar-bg"><div class="stat-bar-fill atk" data-width="70"></div></div>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">防御</span>
+                        <div class="stat-bar-bg"><div class="stat-bar-fill def" data-width="60"></div></div>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">速度</span>
+                        <div class="stat-bar-bg"><div class="stat-bar-fill spd" data-width="85"></div></div>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">必杀</span>
+                        <div class="stat-bar-bg"><div class="stat-bar-fill spl" data-width="80"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="char-card p2" data-delay="150">
+                <div class="char-avatar">🎖️</div>
+                <div class="char-name">司令</div>
+                <div class="char-title">铁血统帅 · 重炮轰击</div>
+                <div class="char-stats">
+                    <div class="stat-row">
+                        <span class="stat-label">攻击</span>
+                        <div class="stat-bar-bg"><div class="stat-bar-fill atk" data-width="85"></div></div>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">防御</span>
+                        <div class="stat-bar-bg"><div class="stat-bar-fill def" data-width="75"></div></div>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">速度</span>
+                        <div class="stat-bar-bg"><div class="stat-bar-fill spd" data-width="55"></div></div>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">必杀</span>
+                        <div class="stat-bar-bg"><div class="stat-bar-fill spl" data-width="90"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="features">
+            <div class="feat"><span class="fi">🤖</span> AI 对战</div>
+            <div class="feat"><span class="fi">👥</span> 双人对战</div>
+            <div class="feat"><span class="fi">🌆</span> 3 种战场</div>
+            <div class="feat"><span class="fi">💥</span> 连招系统</div>
+            <div class="feat"><span class="fi">⚡</span> 冲刺闪避</div>
+            <div class="feat"><span class="fi">🔥</span> 必杀技</div>
+            <div class="feat"><span class="fi">📊</span> 战斗统计</div>
+            <div class="feat"><span class="fi">✨</span> 粒子特效</div>
+            <div class="feat"><span class="fi">🔊</span> 合成音效</div>
+            <div class="feat"><span class="fi">🎯</span> 3级难度</div>
+            <div class="feat"><span class="fi">⏸️</span> 暂停功能</div>
+        </div>
+
+        <div class="version-select">
+            <div class="version-card pc" onclick="startGame('pc')" data-delay="300">
+                <span class="v-icon">⌨️</span>
+                <div class="v-name">电脑版</div>
+                <div class="v-desc">双人键盘对战，操控精准，连招华丽</div>
+                <div class="v-keys">
+                    <span class="v-key">WASD</span>
+                    <span class="v-key">JKL</span>
+                    <span class="v-key">方向键</span>
+                    <span class="v-key">123</span>
+                </div>
+            </div>
+
+            <div class="version-card mobile" onclick="startGame('mobile')" data-delay="450">
+                <span class="v-icon">📱</span>
+                <div class="v-name">手机版</div>
+                <div class="v-desc">虚拟摇杆触屏对战，随时随地开战</div>
+                <div class="v-keys">
+                    <span class="v-key">摇杆移动</span>
+                    <span class="v-key">按钮攻击</span>
+                    <span class="v-key">必杀技</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-note">ALL RIGHTS RESERVED · MADE WITH ❤️</div>
+    </div>
+
+    <script>
+    (function(){
+        const canvas=document.getElementById('bgCanvas');
+        const c=canvas.getContext('2d');
+        let W,H;
+        const particles=[];
+        const lines=[];
+        const PARTICLE_COUNT=80;
+
+        function resize(){
+            W=canvas.width=innerWidth;
+            H=canvas.height=innerHeight;
+        }
+        resize();
+        addEventListener('resize',resize);
+
+        class Particle{
+            constructor(){this.reset(true)}
+            reset(init){
+                this.x=Math.random()*W;
+                this.y=init?Math.random()*H:H+10;
+                this.vx=(Math.random()-.5)*.4;
+                this.vy=-(Math.random()*.6+.2);
+                this.r=Math.random()*2+.5;
+                this.life=1;
+                this.decay=Math.random()*.002+.001;
+                const colors=[
+                    [255,23,68],[0,229,255],[255,215,64],
+                    [255,110,64],[105,240,174]
+                ];
+                this.color=colors[Math.floor(Math.random()*colors.length)];
+            }
+            update(){
+                this.x+=this.vx;
+                this.y+=this.vy;
+                this.life-=this.decay;
+                if(this.life<=0||this.y<-20)this.reset(false);
+            }
+            draw(){
+                c.beginPath();
+                c.arc(this.x,this.y,this.r,0,Math.PI*2);
+                c.fillStyle=`rgba(${this.color[0]},${this.color[1]},${this.color[2]},${this.life*.5})`;
+                c.fill();
+            }
+        }
+
+        for(let i=0;i<PARTICLE_COUNT;i++)particles.push(new Particle());
+
+        function drawGrid(){
+            c.strokeStyle='rgba(255,255,255,0.015)';
+            c.lineWidth=1;
+            const step=60;
+            for(let x=0;x<W;x+=step){c.beginPath();c.moveTo(x,0);c.lineTo(x,H);c.stroke()}
+            for(let y=0;y<H;y+=step){c.beginPath();c.moveTo(0,y);c.lineTo(W,y);c.stroke()}
+        }
+
+        function connectParticles(){
+            for(let i=0;i<particles.length;i++){
+                for(let j=i+1;j<particles.length;j++){
+                    const dx=particles[i].x-particles[j].x;
+                    const dy=particles[i].y-particles[j].y;
+                    const d=dx*dx+dy*dy;
+                    if(d<12000){
+                        const a=(1-d/12000)*.15*Math.min(particles[i].life,particles[j].life);
+                        c.beginPath();
+                        c.moveTo(particles[i].x,particles[i].y);
+                        c.lineTo(particles[j].x,particles[j].y);
+                        c.strokeStyle=`rgba(255,255,255,${a})`;
+                        c.lineWidth=.5;
+                        c.stroke();
+                    }
+                }
+            }
+        }
+
+        function loop(){
+            c.clearRect(0,0,W,H);
+            const grd=c.createRadialGradient(W*.5,H*.4,0,W*.5,H*.4,Math.max(W,H)*.7);
+            grd.addColorStop(0,'rgba(12,16,36,1)');
+            grd.addColorStop(1,'rgba(5,5,15,1)');
+            c.fillStyle=grd;
+            c.fillRect(0,0,W,H);
+            drawGrid();
+            particles.forEach(p=>{p.update();p.draw()});
+            connectParticles();
+            requestAnimationFrame(loop);
+        }
+        loop();
+
+        function animateCards(){
+            document.querySelectorAll('.char-card,.version-card').forEach((el,i)=>{
+                const d=parseInt(el.dataset.delay||0);
+                setTimeout(()=>el.classList.add('show'),600+d);
+            });
+            setTimeout(()=>{
+                document.querySelectorAll('.stat-bar-fill').forEach(bar=>{
+                    bar.style.width=bar.dataset.width+'%';
+                });
+            },1000);
+        }
+        if(document.readyState==='loading'){
+            document.addEventListener('DOMContentLoaded',animateCards);
+        }else{
+            animateCards();
+        }
+    })();
+
+    function startGame(version){
+        document.body.style.transition='opacity .3s';
+        document.body.style.opacity='0';
+        setTimeout(()=>{location.href='game.html?version='+version},300);
+    }
+
+    (function(){
+        const themes=['dark','eye','bright'];
+        const themeLabels={dark:'暗色',eye:'护眼',bright:'明亮'};
+        const themeIcons={dark:'🌙',eye:'🔆',bright:'☀️'};
+        let currentTheme=localStorage.getItem('yk_theme')||'dark';
+
+        function applyTheme(t){
+            currentTheme=t;
+            localStorage.setItem('yk_theme',t);
+            if(t==='dark'){document.documentElement.removeAttribute('data-theme')}else{document.documentElement.setAttribute('data-theme',t)}
+            document.getElementById('brightnessIcon').textContent=themeIcons[t];
+            document.getElementById('brightnessLabel').textContent=themeLabels[t];
+        }
+        applyTheme(currentTheme);
+
+        document.getElementById('brightnessToggle').addEventListener('click',()=>{
+            const idx=themes.indexOf(currentTheme);
+            applyTheme(themes[(idx+1)%themes.length]);
+        });
+    })();
+    </script>
+</body>
+</html>
