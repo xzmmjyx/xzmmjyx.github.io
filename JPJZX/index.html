@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>集装箱竞拍模拟器 - 主控室</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 背景动画 -->
+    <div class="bg-animation">
+        <div class="grid-overlay"></div>
+        <div class="particles"></div>
+    </div>
+
+    <!-- 顶部导航栏 -->
+    <nav class="top-nav">
+        <div class="nav-brand">
+            <span class="logo">📦</span>
+            <h1>集装箱竞拍模拟器</h1>
+        </div>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link active">🎮 主控室</a>
+            <a href="warehouse.html" class="nav-link">📦 仓库</a>
+            <a href="shop.html" class="nav-link">🏪 商店</a>
+            <a href="synthesis.html" class="nav-link">⚗️ 合成</a>
+        </div>
+    </nav>
+
+    <!-- 主内容区 -->
+    <main class="main-container">
+        <!-- 左侧：状态面板 -->
+        <aside class="sidebar left-sidebar">
+            <div class="panel status-panel">
+                <h2 class="panel-title">📊 状态监控</h2>
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <span class="stat-icon">💰</span>
+                        <span class="stat-label">资金</span>
+                        <span class="stat-value" id="money">15000</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-icon">⭐</span>
+                        <span class="stat-label">声望</span>
+                        <span class="stat-value" id="reputation">0</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-icon">📊</span>
+                        <span class="stat-label">回合</span>
+                        <span class="stat-value" id="round">1/8</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-icon">🏆</span>
+                        <span class="stat-label">排名</span>
+                        <span class="stat-value" id="ranking">1/4</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel backpack-panel">
+                <h2 class="panel-title">🎒 背包状态</h2>
+                <div class="backpack-info">
+                    <span class="backpack-usage" id="backpack-space">0/81</span>
+                    <div class="backpack-bar">
+                        <div class="backpack-fill" id="backpack-fill"></div>
+                    </div>
+                </div>
+                <div class="backpack-preview" id="backpackPreview"></div>
+                <a href="warehouse.html" class="btn btn-secondary btn-full">管理仓库 →</a>
+            </div>
+        </aside>
+
+        <!-- 中间：游戏主区 -->
+        <section class="game-area">
+            <!-- 地图选择 -->
+            <div class="panel map-panel">
+                <h2 class="panel-title">🗺️ 选择目标区域</h2>
+                <div class="map-grid" id="mapSelector"></div>
+            </div>
+
+            <!-- 集装箱展示 -->
+            <div class="panel container-panel">
+                <div class="container-display">
+                    <div class="container-visual">
+                        <div class="container-box" id="containerBox">
+                            <div class="container-glow"></div>
+                            <div class="container-icon">📦</div>
+                            <div class="container-label">待竞拍集装箱</div>
+                        </div>
+                    </div>
+                    <div class="container-info">
+                        <p id="containerDesc">请选择一个地图开始竞拍</p>
+                    </div>
+                </div>
+
+                <!-- 竞拍控制 -->
+                <div class="auction-section">
+                    <div class="bid-display">
+                        <span class="bid-label">当前出价</span>
+                        <span class="bid-amount" id="currentBid">0</span>
+                    </div>
+                    
+                    <div class="auction-controls">
+                        <button class="btn btn-primary btn-large" id="startAuctionBtn" onclick="game.startAuction()">
+                            <span class="btn-icon">🎯</span>
+                            <span>开始竞拍</span>
+                        </button>
+                        <button class="btn btn-success" id="bidBtn" onclick="game.playerBid()" disabled>
+                            <span>💰 出价</span>
+                        </button>
+                        <button class="btn btn-danger" id="passBtn" onclick="game.playerPass()" disabled>
+                            <span>🚫 放弃</span>
+                        </button>
+                    </div>
+
+                    <div class="special-actions" id="specialActions">
+                        <button class="btn btn-special" onclick="game.specialAction('scout')">
+                            <span class="action-icon">🔍</span>
+                            <span class="action-name">侦察</span>
+                            <span class="action-cost">500</span>
+                        </button>
+                        <button class="btn btn-special" onclick="game.specialAction('suppress')">
+                            <span class="action-icon">📉</span>
+                            <span class="action-name">压价</span>
+                            <span class="action-cost">800</span>
+                        </button>
+                        <button class="btn btn-special" onclick="game.specialAction('interfere')">
+                            <span class="action-icon">👊</span>
+                            <span class="action-name">干扰</span>
+                            <span class="action-cost">1000</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 右侧：AI 对手 -->
+        <aside class="sidebar right-sidebar">
+            <div class="panel ai-panel">
+                <h2 class="panel-title">🤖 竞争对手</h2>
+                <div class="ai-list" id="aiPlayers"></div>
+            </div>
+
+            <div class="panel log-panel">
+                <h2 class="panel-title">📜 战斗日志</h2>
+                <div class="log-content" id="gameLog">
+                    <p class="log-entry">游戏开始！初始资金 15000</p>
+                </div>
+            </div>
+
+            <div class="panel action-panel">
+                <h2 class="panel-title">⚙️ 系统</h2>
+                <div class="action-buttons">
+                    <button class="btn btn-info btn-full" onclick="game.saveGame()">💾 保存进度</button>
+                    <button class="btn btn-warning btn-full" onclick="game.loadGame()">📂 读取进度</button>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <!-- 底部信息栏 -->
+    <footer class="bottom-bar">
+        <div class="footer-info">
+            <span>📦 集装箱竞拍模拟器 v2.0</span>
+            <span>💎 385 种物品 | 🔴 50 种红色品质</span>
+            <span>🎮 当前回合: <span id="footerRound">1</span>/8</span>
+        </div>
+    </footer>
+
+    <script src="items.js"></script>
+    <script src="grid.js"></script>
+    <script src="ui.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>

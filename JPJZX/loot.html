@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>集装箱竞拍模拟器 - 搜刮战利品</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="loot-page">
+    <!-- 背景动画 -->
+    <div class="bg-animation">
+        <div class="grid-overlay"></div>
+        <div class="particles"></div>
+    </div>
+
+    <!-- 顶部导航栏 -->
+    <nav class="top-nav">
+        <div class="nav-brand">
+            <span class="logo">📦</span>
+            <h1>集装箱竞拍模拟器</h1>
+        </div>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">🎮 主控室</a>
+            <a href="warehouse.html" class="nav-link">📦 仓库</a>
+            <a href="shop.html" class="nav-link">🏪 商店</a>
+            <a href="synthesis.html" class="nav-link">⚗️ 合成</a>
+        </div>
+    </nav>
+
+    <!-- 主内容区 -->
+    <main class="loot-main">
+        <!-- 左侧：搜刮统计 -->
+        <aside class="loot-sidebar left">
+            <div class="panel loot-stats-panel">
+                <h2 class="panel-title">📊 搜刮进度</h2>
+                <div class="loot-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">已发现</span>
+                        <span class="stat-value" id="lootFound">0</span>
+                        <span class="stat-total">/ <span id="lootTotal">0</span></span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">总价值</span>
+                        <span class="stat-value gold" id="lootValue">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">剩余扫描</span>
+                        <span class="stat-value" id="remainingScans">81</span>
+                    </div>
+                </div>
+                <div class="progress-ring">
+                    <svg viewBox="0 0 100 100">
+                        <circle class="progress-bg" cx="50" cy="50" r="45"/>
+                        <circle class="progress-fill" cx="50" cy="50" r="45" id="progressCircle"/>
+                    </svg>
+                    <div class="progress-text">
+                        <span id="progressPercent">0%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel quick-actions-panel">
+                <h2 class="panel-title">⚡ 快速操作</h2>
+                <div class="quick-actions">
+                    <button class="btn btn-primary btn-full" onclick="lootManager.autoScan()">
+                        <span>🔍 自动扫描</span>
+                    </button>
+                    <button class="btn btn-success btn-full" onclick="lootManager.collectAll()">
+                        <span>📦 全部收取</span>
+                    </button>
+                    <a href="index.html" class="btn btn-secondary btn-full">
+                        <span>← 返回主控室</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="panel found-items-panel">
+                <h2 class="panel-title">💎 已发现物品</h2>
+                <div class="found-items-list" id="foundItemsList">
+                    <p class="empty-tip">点击网格揭示物品</p>
+                </div>
+            </div>
+        </aside>
+
+        <!-- 中间：81格网格 -->
+        <section class="loot-grid-section">
+            <div class="panel grid-panel">
+                <div class="grid-header">
+                    <h2 class="panel-title">🔍 集装箱扫描界面</h2>
+                    <div class="grid-controls">
+                        <button class="btn btn-small" onclick="lootManager.resetGrid()">🔄 重置</button>
+                        <button class="btn btn-small" onclick="lootManager.toggleFog()">👁️ 切换迷雾</button>
+                    </div>
+                </div>
+                <div class="loot-grid-container">
+                    <div class="loot-grid" id="lootGrid"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 右侧：物品详情 -->
+        <aside class="loot-sidebar right">
+            <div class="panel item-detail-panel" id="itemDetailPanel">
+                <h2 class="panel-title">📋 物品详情</h2>
+                <div class="item-detail-content" id="itemDetailContent">
+                    <div class="empty-state">
+                        <span class="empty-icon">📦</span>
+                        <p>点击网格查看物品详情</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel rarity-guide-panel">
+                <h2 class="panel-title">🎨 品质图鉴</h2>
+                <div class="rarity-list">
+                    <div class="rarity-item quality-green">
+                        <span class="rarity-dot"></span>
+                        <span class="rarity-name">普通</span>
+                        <span class="rarity-chance">60%</span>
+                    </div>
+                    <div class="rarity-item quality-blue">
+                        <span class="rarity-dot"></span>
+                        <span class="rarity-name">稀有</span>
+                        <span class="rarity-chance">25%</span>
+                    </div>
+                    <div class="rarity-item quality-purple">
+                        <span class="rarity-dot"></span>
+                        <span class="rarity-name">史诗</span>
+                        <span class="rarity-chance">10%</span>
+                    </div>
+                    <div class="rarity-item quality-gold">
+                        <span class="rarity-dot"></span>
+                        <span class="rarity-name">传说</span>
+                        <span class="rarity-chance">4%</span>
+                    </div>
+                    <div class="rarity-item quality-red">
+                        <span class="rarity-dot"></span>
+                        <span class="rarity-name">神话</span>
+                        <span class="rarity-chance">1%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel tips-panel">
+                <h2 class="panel-title">💡 提示</h2>
+                <ul class="tips-list">
+                    <li>🔍 点击迷雾格子揭示物品</li>
+                    <li>💎 高品质物品价值更高</li>
+                    <li>📦 收集的物品会自动存入背包</li>
+                    <li>⚡ 使用自动扫描快速发现</li>
+                </ul>
+            </div>
+        </aside>
+    </main>
+
+    <!-- 底部操作栏 -->
+    <footer class="loot-footer">
+        <div class="footer-actions">
+            <button class="btn btn-large btn-primary" onclick="lootManager.finishLooting()">
+                <span>✅ 完成搜刮</span>
+            </button>
+            <a href="warehouse.html" class="btn btn-large btn-secondary">
+                <span>📦 查看仓库</span>
+            </a>
+        </div>
+    </footer>
+
+    <script src="items.js"></script>
+    <script src="grid.js"></script>
+    <script src="loot.js"></script>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>集装箱竞拍模拟器 - 仓库管理</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="warehouse-page">
+    <!-- 背景动画 -->
+    <div class="bg-animation">
+        <div class="grid-overlay"></div>
+        <div class="particles"></div>
+    </div>
+
+    <!-- 顶部导航栏 -->
+    <nav class="top-nav">
+        <div class="nav-brand">
+            <span class="logo">📦</span>
+            <h1>集装箱竞拍模拟器</h1>
+        </div>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">🎮 主控室</a>
+            <a href="warehouse.html" class="nav-link active">📦 仓库</a>
+            <a href="shop.html" class="nav-link">🏪 商店</a>
+            <a href="synthesis.html" class="nav-link">⚗️ 合成</a>
+        </div>
+    </nav>
+
+    <!-- 主内容区 -->
+    <main class="warehouse-main">
+        <!-- 左侧：背包 -->
+        <aside class="warehouse-sidebar left">
+            <div class="panel backpack-detail-panel">
+                <h2 class="panel-title">🎒 背包</h2>
+                <div class="storage-info">
+                    <span class="storage-usage" id="backpackUsage">0/81</span>
+                    <div class="storage-bar">
+                        <div class="storage-fill" id="backpackFill"></div>
+                    </div>
+                </div>
+                <div class="inventory-grid" id="backpackGrid"></div>
+            </div>
+
+            <div class="panel inventory-actions">
+                <h2 class="panel-title">⚡ 背包操作</h2>
+                <div class="action-grid">
+                    <button class="btn btn-primary" onclick="warehouse.sortItems('backpack')">
+                        <span>📊 排序</span>
+                    </button>
+                    <button class="btn btn-warning" onclick="warehouse.autoOrganize('backpack')">
+                        <span>🔄 整理</span>
+                    </button>
+                    <button class="btn btn-danger" onclick="warehouse.sellAll('backpack')">
+                        <span>💰 全卖</span>
+                    </button>
+                    <button class="btn btn-info" onclick="warehouse.moveAllToWarehouse()">
+                        <span>📦 入库</span>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- 中间：仓库 -->
+        <section class="warehouse-center">
+            <div class="panel warehouse-detail-panel">
+                <div class="warehouse-header">
+                    <h2 class="panel-title">🏭 仓库</h2>
+                    <div class="warehouse-tabs">
+                        <button class="tab-btn active" data-tab="all">全部</button>
+                        <button class="tab-btn" data-tab="weapon">武器</button>
+                        <button class="tab-btn" data-tab="armor">护甲</button>
+                        <button class="tab-btn" data-tab="medical">医疗</button>
+                        <button class="tab-btn" data-tab="electronic">电子</button>
+                        <button class="tab-btn" data-tab="valuable">贵重</button>
+                        <button class="tab-btn" data-tab="material">材料</button>
+                    </div>
+                </div>
+                <div class="storage-info large">
+                    <span class="storage-usage" id="warehouseUsage">0/243</span>
+                    <div class="storage-bar">
+                        <div class="storage-fill" id="warehouseFill"></div>
+                    </div>
+                </div>
+                <div class="warehouse-grid-container">
+                    <div class="warehouse-grid" id="warehouseGrid"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 右侧：物品详情和操作 -->
+        <aside class="warehouse-sidebar right">
+            <div class="panel item-info-panel" id="itemInfoPanel">
+                <h2 class="panel-title">📋 物品信息</h2>
+                <div class="item-info-content" id="itemInfoContent">
+                    <div class="empty-state">
+                        <span class="empty-icon">📦</span>
+                        <p>选择物品查看详情</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel quick-stats-panel">
+                <h2 class="panel-title">📊 资产统计</h2>
+                <div class="asset-stats">
+                    <div class="asset-item">
+                        <span class="asset-label">背包价值</span>
+                        <span class="asset-value" id="backpackValue">0</span>
+                    </div>
+                    <div class="asset-item">
+                        <span class="asset-label">仓库价值</span>
+                        <span class="asset-value" id="warehouseValue">0</span>
+                    </div>
+                    <div class="asset-item">
+                        <span class="asset-label">总资产</span>
+                        <span class="asset-value gold" id="totalAssets">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel selected-actions" id="selectedActions" style="display: none;">
+                <h2 class="panel-title">⚡ 选中操作</h2>
+                <div class="action-buttons">
+                    <button class="btn btn-success btn-full" onclick="warehouse.sellSelected()">
+                        <span>💰 出售</span>
+                    </button>
+                    <button class="btn btn-primary btn-full" onclick="warehouse.moveSelected()">
+                        <span>📦 转移</span>
+                    </button>
+                    <button class="btn btn-danger btn-full" onclick="warehouse.destroySelected()">
+                        <span>🗑️ 销毁</span>
+                    </button>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <!-- 底部信息栏 -->
+    <footer class="bottom-bar">
+        <div class="footer-info">
+            <span>📦 集装箱竞拍模拟器 v2.0</span>
+            <span id="totalItemsCount">物品总数: 0</span>
+            <a href="index.html" class="footer-link">← 返回主控室</a>
+        </div>
+    </footer>
+
+    <script src="items.js"></script>
+    <script src="grid.js"></script>
+    <script src="warehouse.js"></script>
+</body>
+</html>

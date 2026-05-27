@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>集装箱竞拍模拟器 - 合成实验室</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="synthesis-page">
+    <!-- 背景动画 -->
+    <div class="bg-animation">
+        <div class="grid-overlay"></div>
+        <div class="particles"></div>
+    </div>
+
+    <!-- 顶部导航栏 -->
+    <nav class="top-nav">
+        <div class="nav-brand">
+            <span class="logo">📦</span>
+            <h1>集装箱竞拍模拟器</h1>
+        </div>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">🎮 主控室</a>
+            <a href="warehouse.html" class="nav-link">📦 仓库</a>
+            <a href="shop.html" class="nav-link">🏪 商店</a>
+            <a href="synthesis.html" class="nav-link active">⚗️ 合成</a>
+        </div>
+    </nav>
+
+    <!-- 主内容区 -->
+    <main class="synthesis-main">
+        <!-- 左侧：配方列表 -->
+        <aside class="synthesis-sidebar left">
+            <div class="panel recipes-panel">
+                <h2 class="panel-title">📜 合成配方</h2>
+                <div class="recipe-filters">
+                    <button class="filter-btn active" data-filter="all">全部</button>
+                    <button class="filter-btn" data-filter="available">可合成</button>
+                    <button class="filter-btn" data-filter="weapon">武器</button>
+                    <button class="filter-btn" data-filter="armor">护甲</button>
+                    <button class="filter-btn" data-filter="special">特殊</button>
+                </div>
+                <div class="recipes-list" id="recipesList">
+                    <!-- 动态生成 -->
+                </div>
+            </div>
+        </aside>
+
+        <!-- 中间：合成台 -->
+        <section class="synthesis-center">
+            <div class="panel synthesis-station">
+                <h2 class="panel-title">⚗️ 合成台</h2>
+                <div class="synthesis-area">
+                    <!-- 材料槽 -->
+                    <div class="material-slots">
+                        <div class="slot-label">材料槽</div>
+                        <div class="slots-grid">
+                            <div class="material-slot" data-slot="0" onclick="synthesis.selectSlot(0)">
+                                <span class="slot-empty">+</span>
+                            </div>
+                            <div class="material-slot" data-slot="1" onclick="synthesis.selectSlot(1)">
+                                <span class="slot-empty">+</span>
+                            </div>
+                            <div class="material-slot" data-slot="2" onclick="synthesis.selectSlot(2)">
+                                <span class="slot-empty">+</span>
+                            </div>
+                            <div class="material-slot" data-slot="3" onclick="synthesis.selectSlot(3)">
+                                <span class="slot-empty">+</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 合成箭头 -->
+                    <div class="synthesis-arrow">
+                        <span class="arrow-icon">➡️</span>
+                        <div class="success-rate" id="successRate">成功率: --</div>
+                    </div>
+
+                    <!-- 结果槽 -->
+                    <div class="result-slot">
+                        <div class="slot-label">结果</div>
+                        <div class="result-display" id="resultDisplay">
+                            <span class="slot-empty">?</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 合成按钮 -->
+                <div class="synthesis-actions">
+                    <button class="btn btn-primary btn-large" onclick="synthesis.craft()">
+                        <span>⚗️ 开始合成</span>
+                    </button>
+                    <button class="btn btn-secondary" onclick="synthesis.clearSlots()">
+                        <span>🔄 清空</span>
+                    </button>
+                    <button class="btn btn-info" onclick="synthesis.autoFill()">
+                        <span>🎯 自动填充</span>
+                    </button>
+                </div>
+
+                <!-- 合成动画区域 -->
+                <div class="synthesis-animation" id="synthesisAnimation">
+                    <div class="alchemy-circle">
+                        <div class="circle-ring ring-1"></div>
+                        <div class="circle-ring ring-2"></div>
+                        <div class="circle-ring ring-3"></div>
+                        <div class="circle-core"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 合成历史 -->
+            <div class="panel synthesis-history">
+                <h2 class="panel-title">📜 合成记录</h2>
+                <div class="history-list" id="historyList">
+                    <p class="empty-tip">暂无合成记录</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 右侧：材料选择 -->
+        <aside class="synthesis-sidebar right">
+            <div class="panel materials-panel">
+                <h2 class="panel-title">🎒 选择材料</h2>
+                <div class="materials-tabs">
+                    <button class="tab-btn active" data-tab="backpack">背包</button>
+                    <button class="tab-btn" data-tab="warehouse">仓库</button>
+                </div>
+                <div class="materials-filter">
+                    <select id="materialQuality" onchange="synthesis.filterMaterials()">
+                        <option value="all">全部品质</option>
+                        <option value="green">🟢 普通</option>
+                        <option value="blue">🔵 稀有</option>
+                        <option value="purple">🟣 史诗</option>
+                        <option value="gold">🟡 传说</option>
+                    </select>
+                </div>
+                <div class="materials-grid" id="materialsGrid">
+                    <!-- 动态生成 -->
+                </div>
+            </div>
+
+            <div class="panel synthesis-tips">
+                <h2 class="panel-title">💡 合成提示</h2>
+                <ul class="tips-list">
+                    <li>🔸 相同品质物品合成成功率更高</li>
+                    <li>🔸 高品质材料可能合成出稀有物品</li>
+                    <li>🔸 特殊配方需要特定材料组合</li>
+                    <li>🔸 合成失败材料不会消失</li>
+                </ul>
+            </div>
+        </aside>
+    </main>
+
+    <!-- 底部信息栏 -->
+    <footer class="bottom-bar">
+        <div class="footer-info">
+            <span>📦 集装箱竞拍模拟器 v2.0</span>
+            <span>⚗️ 合成实验室 - 创造无限可能</span>
+            <a href="index.html" class="footer-link">← 返回主控室</a>
+        </div>
+    </footer>
+
+    <script src="items.js"></script>
+    <script src="synthesis.js"></script>
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>集装箱竞拍模拟器 - 黑市商店</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="shop-page">
+    <!-- 背景动画 -->
+    <div class="bg-animation">
+        <div class="grid-overlay"></div>
+        <div class="particles"></div>
+    </div>
+
+    <!-- 顶部导航栏 -->
+    <nav class="top-nav">
+        <div class="nav-brand">
+            <span class="logo">📦</span>
+            <h1>集装箱竞拍模拟器</h1>
+        </div>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">🎮 主控室</a>
+            <a href="warehouse.html" class="nav-link">📦 仓库</a>
+            <a href="shop.html" class="nav-link active">🏪 商店</a>
+            <a href="synthesis.html" class="nav-link">⚗️ 合成</a>
+        </div>
+    </nav>
+
+    <!-- 主内容区 -->
+    <main class="shop-main">
+        <!-- 左侧：商店分类 -->
+        <aside class="shop-sidebar left">
+            <div class="panel shop-categories">
+                <h2 class="panel-title">🏪 商店分类</h2>
+                <div class="category-list">
+                    <button class="category-btn active" data-category="all">
+                        <span class="category-icon">📦</span>
+                        <span class="category-name">全部商品</span>
+                    </button>
+                    <button class="category-btn" data-category="weapon">
+                        <span class="category-icon">🔫</span>
+                        <span class="category-name">武器</span>
+                    </button>
+                    <button class="category-btn" data-category="armor">
+                        <span class="category-icon">🛡️</span>
+                        <span class="category-name">护甲</span>
+                    </button>
+                    <button class="category-btn" data-category="medical">
+                        <span class="category-icon">💊</span>
+                        <span class="category-name">医疗</span>
+                    </button>
+                    <button class="category-btn" data-category="electronic">
+                        <span class="category-icon">📱</span>
+                        <span class="category-name">电子</span>
+                    </button>
+                    <button class="category-btn" data-category="container">
+                        <span class="category-icon">🎒</span>
+                        <span class="category-name">容器</span>
+                    </button>
+                    <button class="category-btn" data-category="special">
+                        <span class="category-icon">✨</span>
+                        <span class="category-name">特殊</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="panel daily-deals">
+                <h2 class="panel-title">🔥 今日特惠</h2>
+                <div class="deals-list" id="dailyDeals">
+                    <!-- 动态生成 -->
+                </div>
+            </div>
+        </aside>
+
+        <!-- 中间：商品列表 -->
+        <section class="shop-center">
+            <div class="panel shop-items-panel">
+                <div class="shop-header">
+                    <h2 class="panel-title">🛒 商品列表</h2>
+                    <div class="shop-filters">
+                        <select id="qualityFilter" onchange="shop.filterByQuality()">
+                            <option value="all">全部品质</option>
+                            <option value="green">🟢 普通</option>
+                            <option value="blue">🔵 稀有</option>
+                            <option value="purple">🟣 史诗</option>
+                            <option value="gold">🟡 传说</option>
+                            <option value="red">🔴 神话</option>
+                        </select>
+                        <select id="sortFilter" onchange="shop.sortItems()">
+                            <option value="default">默认排序</option>
+                            <option value="price-asc">价格 ↑</option>
+                            <option value="price-desc">价格 ↓</option>
+                            <option value="quality">品质</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="shop-items-grid" id="shopItemsGrid">
+                    <!-- 动态生成 -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 右侧：购物车和个人信息 -->
+        <aside class="shop-sidebar right">
+            <div class="panel player-info-panel">
+                <h2 class="panel-title">💰 我的资产</h2>
+                <div class="player-balance">
+                    <span class="balance-label">可用资金</span>
+                    <span class="balance-value" id="playerMoney">15000</span>
+                </div>
+                <div class="player-reputation">
+                    <span class="reputation-label">声望等级</span>
+                    <span class="reputation-value" id="playerReputation">⭐ 新手</span>
+                </div>
+                <div class="reputation-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="reputationFill"></div>
+                    </div>
+                    <span class="progress-text" id="reputationText">0/100</span>
+                </div>
+            </div>
+
+            <div class="panel cart-panel">
+                <h2 class="panel-title">🛒 购物车</h2>
+                <div class="cart-items" id="cartItems">
+                    <p class="empty-tip">购物车是空的</p>
+                </div>
+                <div class="cart-summary">
+                    <div class="cart-total">
+                        <span>总计:</span>
+                        <span class="total-price" id="cartTotal">0</span>
+                    </div>
+                    <button class="btn btn-success btn-full" onclick="shop.checkout()">
+                        <span>💳 结算</span>
+                    </button>
+                    <button class="btn btn-secondary btn-full" onclick="shop.clearCart()">
+                        <span>🗑️ 清空</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="panel sell-panel">
+                <h2 class="panel-title">💱 快速出售</h2>
+                <p class="sell-tip">将背包物品快速出售给商店</p>
+                <a href="warehouse.html" class="btn btn-primary btn-full">
+                    <span>📦 去仓库出售</span>
+                </a>
+            </div>
+        </aside>
+    </main>
+
+    <!-- 底部信息栏 -->
+    <footer class="bottom-bar">
+        <div class="footer-info">
+            <span>📦 集装箱竞拍模拟器 v2.0</span>
+            <span>🏪 黑市商店 - 每日刷新</span>
+            <a href="index.html" class="footer-link">← 返回主控室</a>
+        </div>
+    </footer>
+
+    <script src="items.js"></script>
+    <script src="shop.js"></script>
+</body>
+</html>
