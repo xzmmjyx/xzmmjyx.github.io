@@ -167,6 +167,13 @@
 
     <script src="items.js"></script>
     <script src="grid.js"></script>
-    <script src="loot.js"></script>
+    <script src="state.js"></script>
+    <script src="modules.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            GameState.init();
+            ModuleManager.register('loot', LootModule);
+        });
+    </script>
 </body>
 </html>

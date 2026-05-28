@@ -1,13 +1,7 @@
 // ==================== 主游戏逻辑 - 完整版 ====================
 
 // 合并物品数据库
-const ALL_ITEMS = [
-    ...ITEMS_DATABASE.green,
-    ...ITEMS_DATABASE.blue,
-    ...ITEMS_DATABASE.purple,
-    ...ITEMS_DATABASE.gold,
-    ...ITEMS_DATABASE.red
-];
+const ALL_ITEMS = ItemUtils.getAll();
 
 // 游戏配置
 const GAME_CONFIG = {
@@ -42,7 +36,7 @@ const RANDOM_EVENTS = [
         options: [
             { text: '花费 1000 参与', effect: () => {
                 const reward = Math.random() > 0.5 ? 3000 : 0;
-                game.state.money += reward - 1000;
+                GameState.update({ money: GameState.data.money + reward - 1000 });
                 if (reward > 0) {
                     ui.showToast(`获得 ${reward}！`);
                 } else {
@@ -57,7 +51,8 @@ const RANDOM_EVENTS = [
         description: '一个匿名包裹出现在你的仓库！',
         options: [
             { text: '打开', effect: () => {
-                const item = game.randomItem(80);
+                const item = ItemUtils.randomByDropRate(80);
+                GameState.autoStoreItem(item);
                 ui.showToast(`获得 ${item.name}！`);
             }},
             { text: '检查', effect: () => ui.showToast('包裹很安全，但你决定不打开') }
@@ -70,10 +65,10 @@ const RANDOM_EVENTS = [
             { text: '投资 5000', effect: () => {
                 const success = Math.random() > 0.4;
                 if (success) {
-                    game.state.money += 8000;
+                    GameState.update({ money: GameState.data.money + 8000 });
                     ui.showToast('投资成功！获得 8000');
                 } else {
-                    game.state.money -= 5000;
+                    GameState.update({ money: GameState.data.money - 5000 });
                     ui.showToast('投资失败...损失 5000');
                 }
             }},
@@ -85,26 +80,13 @@ const RANDOM_EVENTS = [
 // 游戏主类
 class Game {
     constructor() {
-        this.state = {
-            money: GAME_CONFIG.initialMoney,
-            reputation: 0,
-            round: 1,
-            ranking: 1,
-            backpack: new GridManager(9),
-            warehouse: new GridManager(9),
-            selectedMap: null,
-            currentItems: [],
-            currentBid: 0,
-            currentPlayerIndex: 0,
-            gameOver: false,
-            itemsSold: 0,
-            totalValue: 0
-        };
-        
+        // 初始化状态管理器
+        GameState.init();
+
         this.aiPlayers = [];
         this.lootRevealed = 0;
         this.lootValue = 0;
-        
+
         this.init();
     }
 
@@ -113,7 +95,10 @@ class Game {
         this.initAIPlayers();
         this.updateUI();
         this.renderMaps();
-        this.saveGame();
+
+        // 注册状态监听
+        GameState.on('stateChange', () => this.updateUI());
+
         ui.showToast('🎮 游戏开始！初始资金 15000');
     }
 
@@ -127,12 +112,13 @@ class Game {
             personality: AI_PERSONALITIES[index],
             active: true
         }));
+        GameState.aiPlayers = this.aiPlayers;
     }
 
     // 渲染地图
     renderMaps() {
-        ui.renderMapSelector(MAPS, this.state.selectedMap, (index) => {
-            this.state.selectedMap = index;
+        ui.renderMapSelector(MAPS, GameState.data.selectedMap, (index) => {
+            GameState.update({ selectedMap: index });
             this.renderMaps();
             this.updateContainerDesc();
         });
@@ -140,31 +126,35 @@ class Game {
 
     // 更新集装箱描述
     updateContainerDesc() {
-        const map = MAPS[this.state.selectedMap];
-        document.getElementById('containerDesc').textContent = 
-            `🗺️ ${map.name} | ⭐${'⭐'.repeat(map.difficulty)} | 📊${map.dropRate}% | 🎁 ${map.bonus}`;
+        const map = MAPS[GameState.data.selectedMap];
+        if (map) {
+            document.getElementById('containerDesc').textContent =
+                `🗺️ ${map.name} | ⭐${'⭐'.repeat(map.difficulty)} | 📊${map.dropRate}% | 🎁 ${map.bonus}`;
+        }
     }
 
     // 开始竞拍
     startAuction() {
-        if (this.state.selectedMap === null) {
+        if (GameState.data.selectedMap === null) {
             ui.showToast('请先选择地图！');
             return;
         }
-        
-        this.state.currentBid = 1000;
-        this.state.currentPlayerIndex = 0;
-        this.state.currentItems = this.generateLoot();
-        
-        document.getElementById('currentBid').textContent = this.state.currentBid;
+
+        GameState.update({
+            currentBid: 1000,
+            currentPlayerIndex: 0
+        });
+        GameState.currentItems = this.generateLoot();
+
+        document.getElementById('currentBid').textContent = GameState.data.currentBid;
         document.getElementById('startAuctionBtn').disabled = true;
         document.getElementById('bidBtn').disabled = false;
         document.getElementById('passBtn').disabled = false;
         document.getElementById('specialActions').style.display = 'flex';
-        
+
         ui.showToast('🔔 竞拍开始！');
         this.updateAIPlayersUI();
-        
+
         // 随机触发事件
         if (Math.random() < 0.2) {
             setTimeout(() => {
@@ -176,71 +166,49 @@ class Game {
 
     // 生成战利品
     generateLoot() {
-        const map = MAPS[this.state.selectedMap];
-        const itemCount = 6 + Math.floor(Math.random() * 6); // 6-11 个物品（爽点：更多物品）
+        const map = MAPS[GameState.data.selectedMap];
+        const itemCount = 6 + Math.floor(Math.random() * 6);
         const items = [];
-        
-        for (let i = 0; i < itemCount; i++) {
-            const item = this.randomItem(map.dropRate);
-            items.push(item);
-        }
-        
-        return items;
-    }
 
-    // 随机生成物品
-    randomItem(dropRate) {
-        const roll = Math.random() * 100;
-        let qualityPool;
-        
-        // 调整概率，增加高品率（爽点）
-        if (roll < dropRate * 0.08) qualityPool = 'red';      // 8% 红色
-        else if (roll < dropRate * 0.18) qualityPool = 'gold';   // 10% 金色
-        else if (roll < dropRate * 0.35) qualityPool = 'purple'; // 17% 紫色
-        else if (roll < dropRate * 0.55) qualityPool = 'blue';   // 20% 蓝色
-        else qualityPool = 'green';                              // 45% 绿色
-        
-        const pool = ITEMS_DATABASE[qualityPool];
-        const item = pool[Math.floor(Math.random() * pool.length)];
-        
-        return {
-            ...item,
-            id: item.id + '_' + Date.now() + '_' + Math.random(),
-            height: item.height || 1,
-            width: item.width || 1
-        };
+        for (let i = 0; i < itemCount; i++) {
+            items.push(ItemUtils.randomByDropRate(map.dropRate));
+        }
+
+        return items;
     }
 
     // 玩家出价
     playerBid() {
-        if (this.state.money < this.state.currentBid) {
+        if (GameState.data.money < GameState.data.currentBid) {
             ui.showToast('💸 资金不足！');
             return;
         }
-        
-        this.state.money -= this.state.currentBid;
-        this.state.currentBid += 500;
-        document.getElementById('currentBid').textContent = this.state.currentBid;
-        this.updateUI();
-        
-        ui.showToast(`💰 你出价 ${this.state.currentBid - 500}`);
+
+        GameState.update({
+            money: GameState.data.money - GameState.data.currentBid,
+            currentBid: GameState.data.currentBid + 500
+        });
+
+        document.getElementById('currentBid').textContent = GameState.data.currentBid;
+        ui.showToast(`💰 你出价 ${GameState.data.currentBid - 500}`);
         this.nextPlayer();
     }
 
     // 玩家放弃
     playerPass() {
-        const aiIndex = this.state.currentPlayerIndex;
-        this.state.currentPlayerIndex = (this.state.currentPlayerIndex + 1) % (this.aiPlayers.length + 1);
-        
-        if (this.state.currentPlayerIndex !== 0) {
+        GameState.update({
+            currentPlayerIndex: (GameState.data.currentPlayerIndex + 1) % (this.aiPlayers.length + 1)
+        });
+
+        if (GameState.data.currentPlayerIndex !== 0) {
             this.updateAIPlayersUI();
         }
-        
+
         // 检查是否只剩一个玩家
         const activePlayers = [this, ...this.aiPlayers.filter(p => p.active)];
         if (activePlayers.length <= 1) {
             this.wonAuction();
-        } else if (this.state.currentPlayerIndex === 0) {
+        } else if (GameState.data.currentPlayerIndex === 0) {
             document.getElementById('bidBtn').disabled = false;
             document.getElementById('passBtn').disabled = false;
         }
@@ -250,14 +218,14 @@ class Game {
     specialAction(type) {
         const costs = { scout: 500, suppress: 800, interfere: 1000 };
         const cost = costs[type];
-        
-        if (this.state.money < cost) {
+
+        if (GameState.data.money < cost) {
             ui.showToast('💸 资金不足！');
             return;
         }
-        
-        this.state.money -= cost;
-        
+
+        GameState.update({ money: GameState.data.money - cost });
+
         switch(type) {
             case 'scout':
                 this.scoutContainer();
@@ -269,21 +237,19 @@ class Game {
                 this.interfereAI();
                 break;
         }
-        
-        this.updateUI();
     }
 
     // 侦察集装箱
     scoutContainer() {
-        const revealed = Math.min(3, this.state.currentItems.length);
-        const highValueItems = this.state.currentItems
+        const revealed = Math.min(3, GameState.currentItems.length);
+        const highValueItems = GameState.currentItems
             .filter(item => ['purple', 'gold', 'red'].includes(item.quality))
             .slice(0, revealed);
-        
+
         if (highValueItems.length > 0) {
             let msg = '🔍 侦察结果：';
             highValueItems.forEach(item => {
-                msg += `${item.name}(${item.quality}) `;
+                msg += `${item.name}(${ItemUtils.getQualityName(item.quality)}) `;
             });
             ui.showToast(msg);
         } else {
@@ -294,8 +260,9 @@ class Game {
     // 压价
     suppressPrice() {
         const reduction = 1000 + Math.floor(Math.random() * 500);
-        this.state.currentBid = Math.max(500, this.state.currentBid - reduction);
-        document.getElementById('currentBid').textContent = this.state.currentBid;
+        const newBid = Math.max(500, GameState.data.currentBid - reduction);
+        GameState.update({ currentBid: newBid });
+        document.getElementById('currentBid').textContent = GameState.data.currentBid;
         ui.showToast('📉 成功压价！');
     }
 
@@ -306,8 +273,8 @@ class Game {
             const target = activeAI[Math.floor(Math.random() * activeAI.length)];
             target.active = false;
             ui.showToast(`👊 干扰成功！${target.name} 暂时退出`);
-            setTimeout(() => { 
-                target.active = true; 
+            setTimeout(() => {
+                target.active = true;
                 ui.showToast(`${target.name} 恢复竞拍`);
             }, 3000);
         }
@@ -315,62 +282,60 @@ class Game {
 
     // 下一个玩家
     nextPlayer() {
-        this.state.currentPlayerIndex = (this.state.currentPlayerIndex + 1) % (this.aiPlayers.length + 1);
-        
-        if (this.state.currentPlayerIndex === 0) {
-            // 轮到玩家
+        GameState.update({
+            currentPlayerIndex: (GameState.data.currentPlayerIndex + 1) % (this.aiPlayers.length + 1)
+        });
+
+        if (GameState.data.currentPlayerIndex === 0) {
             document.getElementById('bidBtn').disabled = false;
             document.getElementById('passBtn').disabled = false;
             ui.showToast('🎯 轮到你决策');
         } else {
-            // AI 回合
             document.getElementById('bidBtn').disabled = true;
             document.getElementById('passBtn').disabled = true;
             setTimeout(() => this.aiBid(), 800);
         }
-        
+
         this.updateAIPlayersUI();
     }
 
     // AI 出价逻辑
     aiBid() {
-        const aiIndex = this.state.currentPlayerIndex - 1;
+        const aiIndex = GameState.data.currentPlayerIndex - 1;
         const ai = this.aiPlayers[aiIndex];
-        
-        if (!ai || !ai.active || ai.money < this.state.currentBid) {
-            ai.active = false;
+
+        if (!ai || !ai.active || ai.money < GameState.data.currentBid) {
+            if (ai) ai.active = false;
             ui.showToast(`${ai ? ai.name : 'AI'} 放弃`);
             this.nextPlayer();
             return;
         }
-        
-        // 根据性格决定
+
         const shouldBid = this.shouldAIBid(ai);
         if (shouldBid) {
-            ai.money -= this.state.currentBid;
-            this.state.currentBid += 500;
-            document.getElementById('currentBid').textContent = this.state.currentBid;
+            ai.money -= GameState.data.currentBid;
+            GameState.update({ currentBid: GameState.data.currentBid + 500 });
             ui.showToast(`${ai.name} 出价！💰`);
         } else {
             ai.active = false;
             ui.showToast(`${ai.name} 放弃`);
         }
-        
+
         this.nextPlayer();
     }
 
     // AI 是否出价
     shouldAIBid(ai) {
-        const totalValue = this.state.currentItems.reduce((sum, item) => sum + item.baseValue, 0);
+        const totalValue = GameState.currentItems.reduce((sum, item) => sum + item.baseValue, 0);
         const estimatedValue = totalValue * 0.7;
-        
+
         switch(ai.personality) {
             case 'aggressive':
-                return ai.money >= this.state.currentBid && Math.random() > 0.25;
+                return ai.money >= GameState.data.currentBid && Math.random() > 0.25;
             case 'cautious':
-                return ai.money >= this.state.currentBid && this.state.currentBid < estimatedValue * 0.8;
+                return ai.money >= GameState.data.currentBid && GameState.data.currentBid < estimatedValue * 0.8;
             case 'balanced':
-                return ai.money >= this.state.currentBid && Math.random() > 0.4;
+                return ai.money >= GameState.data.currentBid && Math.random() > 0.4;
             default:
                 return Math.random() > 0.5;
         }
@@ -387,10 +352,10 @@ class Game {
         this.lootRevealed = 0;
         this.lootValue = 0;
         document.getElementById('lootFound').textContent = '0';
-        document.getElementById('lootTotal').textContent = this.state.currentItems.length;
+        document.getElementById('lootTotal').textContent = GameState.currentItems.length;
         document.getElementById('lootValue').textContent = '0';
-        
-        ui.renderLootGrid(this.state.currentItems);
+
+        ui.renderLootGrid(GameState.currentItems);
         ui.openModal('lootModal');
     }
 
@@ -399,27 +364,23 @@ class Game {
         let added = 0;
         let warehouseAdded = 0;
         let totalValue = 0;
-        
-        for (const item of this.state.currentItems) {
-            const space = this.state.backpack.findSpace(item.width, item.height);
-            if (space) {
-                this.state.backpack.placeItem(item, space.x, space.y);
+
+        for (const item of GameState.currentItems) {
+            const location = GameState.autoStoreItem(item);
+            if (location === 'backpack') {
                 added++;
                 totalValue += item.baseValue;
-            } else {
-                // 背包放不下，放入仓库
-                const warehouseSpace = this.state.warehouse.findSpace(item.width, item.height);
-                if (warehouseSpace) {
-                    this.state.warehouse.placeItem(item, warehouseSpace.x, warehouseSpace.y);
-                    warehouseAdded++;
-                    totalValue += item.baseValue;
-                }
+            } else if (location === 'warehouse') {
+                warehouseAdded++;
+                totalValue += item.baseValue;
             }
         }
-        
-        this.state.itemsSold += added + warehouseAdded;
-        this.state.totalValue += totalValue;
-        
+
+        GameState.update({
+            itemsSold: GameState.data.itemsSold + added + warehouseAdded,
+            totalValue: GameState.data.totalValue + totalValue
+        });
+
         // 爽点反馈
         if (added > 0) {
             ui.showToast(`🎒 背包获得 ${added} 个物品 | 价值 ${totalValue}`);
@@ -427,9 +388,9 @@ class Game {
         if (warehouseAdded > 0) {
             ui.showToast(`📦 仓库获得 ${warehouseAdded} 个物品`);
         }
-        
+
         // 检查是否有高价值物品
-        const highValueItems = this.state.currentItems.filter(item => 
+        const highValueItems = GameState.currentItems.filter(item =>
             ['gold', 'red'].includes(item.quality)
         );
         if (highValueItems.length > 0) {
@@ -437,16 +398,14 @@ class Game {
                 ui.showToast(`🔥🔥 获得稀有物品：${highValueItems.map(i => i.name).join(', ')}！`);
             }, 1000);
         }
-        
-        this.updateUI();
+
         this.resetAuctionState();
-        
+
         // 进入下一回合
         setTimeout(() => {
-            if (this.state.round < 8) {
-                this.state.round++;
-                this.updateUI();
-                ui.showToast(`📊 第 ${this.state.round} 回合`);
+            if (GameState.data.round < 8) {
+                GameState.update({ round: GameState.data.round + 1 });
+                ui.showToast(`📊 第 ${GameState.data.round} 回合`);
             } else {
                 this.endGame();
             }
@@ -455,93 +414,57 @@ class Game {
 
     // 重置竞拍状态
     resetAuctionState() {
-        this.state.currentBid = 0;
-        this.state.currentPlayerIndex = 0;
-        this.state.currentItems = [];
-        
+        GameState.update({
+            currentBid: 0,
+            currentPlayerIndex: 0
+        });
+        GameState.currentItems = [];
+
         document.getElementById('startAuctionBtn').disabled = false;
         document.getElementById('bidBtn').disabled = true;
         document.getElementById('passBtn').disabled = true;
         document.getElementById('specialActions').style.display = 'none';
-        
+
         // AI 恢复活跃
         this.aiPlayers.forEach(ai => ai.active = true);
     }
 
     // 更新 AI 玩家显示
     updateAIPlayersUI() {
-        ui.renderAIPlayers(this.aiPlayers, this.state.currentPlayerIndex);
+        ui.renderAIPlayers(this.aiPlayers, GameState.data.currentPlayerIndex);
     }
 
     // 更新 UI
     updateUI() {
-        // 计算背包使用
-        this.state.backpackUsed = this.state.backpack.getUsedCells();
-        ui.updateStats(this.state);
-        ui.renderBackpackPreview(this.state.backpack.getGrid());
-    }
-
-    // 根据 ID 获取物品
-    getItemById(id) {
-        // 先从所有物品数据库中查找
-        for (const pool of Object.values(ITEMS_DATABASE)) {
-            const item = pool.find(i => i.id === id);
-            if (item) return item;
-        }
-        // 再从当前物品中查找
-        return this.state.currentItems.find(item => item.id === id);
+        GameState.data.backpackUsed = GameState.getBackpack().getUsedCells();
+        ui.updateStats(GameState.data);
+        ui.renderBackpackPreview(GameState.getBackpack().getGrid());
     }
 
     // 打开仓库
     openWarehouse() {
-        ui.renderWarehouseGrid(this.state.warehouse.getGrid());
-        ui.openModal('warehouseModal');
+        window.location.href = 'warehouse.html';
     }
 
     // 打开合成
     openSynthesis() {
-        ui.openModal('synthesisModal');
-        // TODO: 实现合成逻辑
-        ui.showToast('⚗️ 合成功能开发中...');
+        window.location.href = 'synthesis.html';
     }
 
     // 打开商店
     openShop() {
-        ui.openModal('shopModal');
-        // TODO: 实现商店逻辑
-        ui.showToast('🏪 商店功能开发中...');
+        window.location.href = 'shop.html';
     }
 
     // 保存游戏
     saveGame() {
-        const saveData = {
-            state: {
-                money: this.state.money,
-                reputation: this.state.reputation,
-                round: this.state.round,
-                ranking: this.state.ranking,
-                itemsSold: this.state.itemsSold,
-                totalValue: this.state.totalValue
-            },
-            backpack: this.state.backpack.getGrid(),
-            warehouse: this.state.warehouse.getGrid()
-        };
-        localStorage.setItem('containerAuctionSave', JSON.stringify(saveData));
+        GameState.save();
         ui.showToast('💾 游戏已保存！');
     }
 
     // 读取游戏
     loadGame() {
-        const saveData = localStorage.getItem('containerAuctionSave');
-        if (saveData) {
-            const data = JSON.parse(saveData);
-            this.state.money = data.state.money;
-            this.state.reputation = data.state.reputation;
-            this.state.round = data.state.round;
-            this.state.ranking = data.state.ranking;
-            this.state.itemsSold = data.state.itemsSold;
-            this.state.totalValue = data.state.totalValue;
-            // TODO: 恢复网格数据
+        if (GameState.load()) {
             this.updateUI();
             ui.showToast('📂 游戏已读取！');
         } else {
@@ -551,37 +474,21 @@ class Game {
 
     // 结束游戏
     endGame() {
-        this.state.gameOver = true;
-        
-        // 计算总价值
-        const totalAssets = this.state.money + this.state.totalValue;
-        let rating = 'D';
-        if (totalAssets > 50000) rating = 'S';
-        else if (totalAssets > 30000) rating = 'A';
-        else if (totalAssets > 20000) rating = 'B';
-        else if (totalAssets > 10000) rating = 'C';
-        
+        GameState.update({ gameOver: true });
+
         const stats = {
-            ranking: this.state.ranking,
-            money: this.state.money,
-            reputation: this.state.reputation,
-            rating,
-            itemsSold: this.state.itemsSold,
-            totalValue: this.state.totalValue,
-            totalAssets
+            ranking: GameState.data.ranking,
+            money: GameState.data.money,
+            reputation: GameState.data.reputation,
+            rating: GameState.getRating(),
+            itemsSold: GameState.data.itemsSold,
+            totalValue: GameState.data.totalValue,
+            totalAssets: GameState.getTotalAssets()
         };
-        
+
         ui.showGameOver(stats);
     }
 }
-
-// 启动游戏
-var game;
-window.game = null;
-document.addEventListener('DOMContentLoaded', () => {
-    game = new Game();
-    window.game = game;
-});
 
 // 导出
 if (typeof module !== 'undefined' && module.exports) {
